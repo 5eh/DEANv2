@@ -24,20 +24,12 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row gap-2 pointer-events-auto">
             {nativeCurrencyPrice > 0 && (
               <div>
-                <div className="btn btn-primary btn-sm font-normal gap-1 cursor-auto">
-                  <CurrencyDollarIcon className="h-4 w-4" />
+                <button className="min-w-fit flex items-center w-fit gap-3 pl-3 pr-3 rounded-md pt-1 pb-1 bg-primary/20 border border-primary hover:border-primary/80 transition hover:ease-in-out hover:bg-primary/40 hover:text-gray-100 dark:border-primary backdrop-blur-md">
+                  {/* <CurrencyDollarIcon className="h-4 w-4 mr-1" /> */}
+                  <span className="text-gray-700 dark:text-gray-300"> ETH to USD</span>
                   <span>{nativeCurrencyPrice.toFixed(2)}</span>
-                </div>
+                </button>
               </div>
-            )}
-            {isLocalNetwork && (
-              <>
-                <Faucet />
-                <Link href="/blockexplorer" passHref className="btn btn-primary btn-sm font-normal gap-1">
-                  <MagnifyingGlassIcon className="h-4 w-4" />
-                  <span>Block Explorer</span>
-                </Link>
-              </>
             )}
           </div>
           <SwitchTheme className={`pointer-events-auto ${isLocalNetwork ? "self-end md:self-auto" : ""}`} />

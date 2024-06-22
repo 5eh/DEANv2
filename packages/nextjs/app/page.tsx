@@ -1,45 +1,9 @@
 "use client";
 
-// import Link from "next/link";
-import {
-  MARKETPLACE_DESCRIPTION,
-  MARKETPLACE_DESCRIPTION_LONG,
-  MARKETPLACE_TITLE,
-} from "../../../configuration/company";
-// import type { NextPage } from "next";
-// import { useAccount } from "wagmi";
-// import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-// import { Address } from "~~/components/scaffold-eth";
-// const Home: NextPage = () => {
-//   const { address: connectedAddress } = useAccount();
-//   return (
-//     <>
-//       <div className="flex items-center flex-col flex-grow pt-10">
-//         <div className="justify-center text-center">
-//           <h1 className="font-extrabold text-6xl">{MARKETPLACE_TITLE.toUpperCase()}</h1>
-//           <h4>{MARKETPLACE_DESCRIPTION}</h4>
-//         </div>
-//         <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
-//           <p className="my-2 font-medium">Welcome back</p>
-//           <Address address={connectedAddress} />
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-// export default Home;
+import { MARKETPLACE_DESCRIPTION_LONG, MARKETPLACE_TITLE } from "../../../configuration/company";
+
 import { useState } from "react";
-import { DialogPanel, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
-import {
-  ArrowPathIcon,
-  CheckIcon,
-  CloudArrowUpIcon,
-  Cog6ToothIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-  ServerIcon,
-} from "@heroicons/react/20/solid";
-import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, CloudArrowUpIcon, LockClosedIcon } from "@heroicons/react/20/solid";
 import { Address } from "~~/components/scaffold-eth";
 import { useAccount } from "wagmi";
 
@@ -77,47 +41,8 @@ const features = [
     icon: ArrowPathIcon,
   },
 ];
-const faqs = [
-  {
-    question: "What's the best thing about Switzerland?",
-    answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
-  },
-  // More questions...
-];
-const footerNavigation = {
-  solutions: [
-    { name: "Marketing", href: "#" },
-    { name: "Analytics", href: "#" },
-    { name: "Commerce", href: "#" },
-    { name: "Insights", href: "#" },
-  ],
-  support: [
-    { name: "Pricing", href: "#" },
-    { name: "Documentation", href: "#" },
-    { name: "Guides", href: "#" },
-    { name: "API Status", href: "#" },
-  ],
-  company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Jobs", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Partners", href: "#" },
-  ],
-  legal: [
-    { name: "Claim", href: "#" },
-    { name: "Privacy", href: "#" },
-    { name: "Terms", href: "#" },
-  ],
-};
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Example() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { address: connectedAddress } = useAccount();
 
   return (
