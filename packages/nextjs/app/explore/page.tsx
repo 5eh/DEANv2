@@ -1,7 +1,13 @@
-export default function Page() {
+"use client";
+
+import Sorting from "./sorting";
+
+const Page = () => {
   return (
-    <>
-      <h1> Explore </h1>
-    </>
+    <div>
+      <Sorting />
+    </div>
   );
-}
+};
+
+export default Page;
