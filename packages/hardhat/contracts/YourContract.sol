@@ -1,87 +1,103 @@
-//SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0 <0.9.0;
+// SPDX-License-Identifier: Apache-2.0
+pragma solidity ^0.8.26;
 
-// Useful for debugging. Remove when deploying to a live network.
-import "hardhat/console.sol";
+contract TwoSidedMarketplace {
+    // Product data
+    struct Product {
+        string title;
+        string description;
+        string[] photos;
+        string category;
+        string location;
+        string shippingMethod;
+        address ownerWallet;
+    }
 
-// Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
-// import "@openzeppelin/contracts/access/Ownable.sol";
+    // Mapping of product IDs to product data
+    mapping(uint256 => Product) public products;
 
-/**
- * A smart contract that allows changing a state variable of the contract and tracking the changes
- * It also allows the owner to withdraw the Ether in the contract
- * @author BuidlGuidl
- */
-contract YourContract {
-	// State Variables
-	address public immutable owner;
-	string public greeting = "Building Unstoppable Apps!!!";
-	bool public premium = false;
-	uint256 public totalCounter = 0;
-	mapping(address => uint) public userGreetingCounter;
+    // Marketplace state
+    mapping(uint256 => bool) public isPaid;
+    mapping(uint256 => bool) public isDelivered;
 
-	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event GreetingChange(
-		address indexed greetingSetter,
-		string newGreeting,
-		bool premium,
-		uint256 value
-	);
+    // Legal terms
+    string public purpose = "This smart contract establishes a legally binding two-sided marketplace for the sale of products. Please refer to the following contract. https://www.target.com/c/terms-conditions/-/N-4sr7l";
+    string public termsAndAgreements = "By interacting with this smart contract, the parties agree to the terms set forth herein. Please refer to the following contract. https://www.target.com/c/terms-conditions/-/N-4sr7l";
 
-	// Constructor: Called once on contract deployment
-	// Check packages/hardhat/deploy/00_deploy_your_contract.ts
-	constructor(address _owner) {
-		owner = _owner;
-	}
+    // Events
+    event ProductListed(uint256 indexed productId, address indexed seller);
+    event ProductPurchased(uint256 indexed productId, address indexed buyer);
+    event ProductDelivered(uint256 indexed productId);
 
-	// Modifier: used to define a set of rules that must be met before or after a function is executed
-	// Check the withdraw() function
-	modifier isOwner() {
-		// msg.sender: predefined variable that represents address of the account that called the current function
-		require(msg.sender == owner, "Not the Owner");
-		_;
-	}
+    // Functions
+    function createProduct(
+        uint256 _productId,
+        string memory _title,
+        string memory _description,
+        string[] memory _photos,
+        string memory _category,
+        string memory _location,
+        string memory _shippingMethod
+    ) public {
+        // Meeting of the mind
+        require(bytes(_title).length > 0, "Product title is required");
+        require(bytes(_description).length > 0, "Product description is required");
+        require(_photos.length > 0, "At least one product photo is required");
+        require(bytes(_category).length > 0, "Product category is required");
+        require(bytes(_location).length > 0, "Product location is required");
+        require(bytes(_shippingMethod).length > 0, "Shipping method is required");
 
-	/**
-	 * Function that allows anyone to change the state variable "greeting" of the contract and increase the counters
-	 *
-	 * @param _newGreeting (string memory) - new greeting to save on the contract
-	 */
-	function setGreeting(string memory _newGreeting) public payable {
-		// Print data to the hardhat chain console. Remove when deploying to a live network.
-		console.log(
-			"Setting new greeting '%s' from %s",
-			_newGreeting,
-			msg.sender
-		);
+        // Consideration
+        require(msg.sender != address(0), "Seller address cannot be zero");
 
-		// Change state variables
-		greeting = _newGreeting;
-		totalCounter += 1;
-		userGreetingCounter[msg.sender] += 1;
+        // Offer
+        products[_productId] = Product({
+            title: _title,
+            description: _description,
+            photos: _photos,
+            category: _category,
+            location: _location,
+            shippingMethod: _shippingMethod,
+            ownerWallet: msg.sender
+        });
 
-		// msg.value: built-in global variable that represents the amount of ether sent with the transaction
-		if (msg.value > 0) {
-			premium = true;
-		} else {
-			premium = false;
-		}
+        // Offer & Acceptance
+        emit ProductListed(_productId, msg.sender);
+    }
 
-		// emit: keyword used to trigger an event
-		emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, msg.value);
-	}
+    function purchaseProduct(uint256 _productId) public payable {
+        // Acceptance
+        require(products[_productId].ownerWallet != msg.sender, "Buyer cannot be the seller");
+        require(!isPaid[_productId], "Product has already been purchased");
 
-	/**
-	 * Function that allows the owner to withdraw all the Ether in the contract
-	 * The function can only be called by the owner of the contract as defined by the isOwner modifier
-	 */
-	function withdraw() public isOwner {
-		(bool success, ) = owner.call{ value: address(this).balance }("");
-		require(success, "Failed to send Ether");
-	}
+        // Capacity
+        require(msg.value > 0, "Payment is required to purchase the product");
 
-	/**
-	 * Function that allows the contract to receive ETH
-	 */
-	receive() external payable {}
+        // Buyer signature
+        isPaid[_productId] = true;
+
+        // Seller signature
+        payable(products[_productId].ownerWallet).transfer(msg.value);
+
+        emit ProductPurchased(_productId, msg.sender);
+    }
+
+    function deliverProduct(uint256 _productId) public {
+        // Seller signature
+        require(msg.sender == products[_productId].ownerWallet, "Only the seller can deliver the product");
+        require(isPaid[_productId], "Product must be paid for before delivery");
+
+        // Acceptance
+        isDelivered[_productId] = true;
+
+        emit ProductDelivered(_productId);
+    }
+
+    function getLegalInformation() public view returns (string memory, string memory) {
+        return (purpose, termsAndAgreements);
+    }
+
+    function callOwnerAddress(uint256 _productId) public view returns (address) {
+        return products[_productId].ownerWallet;
+    }
 }

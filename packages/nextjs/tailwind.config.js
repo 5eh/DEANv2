@@ -1,6 +1,12 @@
 import {
   BACKGROUND_DARK,
   BACKGROUND_LIGHT,
+  BASE_100_DARK,
+  BASE_100_LIGHT,
+  BASE_200_DARK,
+  BASE_200_LIGHT,
+  BASE_300_DARK,
+  BASE_300_LIGHT,
   PRIMARY_TEXT_DARK,
   PRIMARY_TEXT_LIGHT,
   SECONDARY_TEXT_DARK,
@@ -22,9 +28,9 @@ module.exports = {
           secondary: `${SECONDARY_TEXT_LIGHT}`,
           accent: `${SECONDARY_TEXT_LIGHT}`,
           neutral: "#212638",
-          "base-100": "#ffffff",
-          "base-200": "#f4f8ff",
-          "base-300": "#DAE8FF",
+          "base-100": `${BASE_100_LIGHT}`, // Navigation background
+          "base-200": `${BASE_200_LIGHT}`, // App background
+          "base-300": `${BASE_300_LIGHT}`, // Hover color
           "base-content": "#212638",
           info: "#93BBFB",
           success: "#34EEB6",
@@ -51,9 +57,9 @@ module.exports = {
           secondary: `${SECONDARY_TEXT_DARK}`,
           accent: `${SECONDARY_TEXT_DARK}`,
           neutral: "#F9FBFF",
-          "base-100": "#385183",
-          "base-200": "#2A3655",
-          "base-300": "#212638",
+          "base-100": `${BASE_100_DARK}`,
+          "base-200": `${BASE_200_DARK}`,
+          "base-300": `${BASE_300_DARK}`,
           "base-content": "#F9FBFF",
           info: "#385183",
           success: "#34EEB6",
