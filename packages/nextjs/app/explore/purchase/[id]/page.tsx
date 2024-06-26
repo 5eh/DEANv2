@@ -156,21 +156,21 @@ export default function Purchase({ params }: PageProps) {
       const fullDeliveryAddress = `${deliveryInfo.street}, ${deliveryInfo.city}, ${deliveryInfo.state}, ${deliveryInfo.zip}`;
 
       // Set the delivery address on the blockchain
-      await writeYourContractAsync({
+      await writeCommerceContractAsync({
         functionName: "setDeliveryAddress",
         args: [fullDeliveryAddress],
       });
 
       // Set custom instructions if provided
       if (customInstructions) {
-        await writeYourContractAsync({
+        await writeCommerceContractAsync({
           functionName: "setCustomInstructions",
           args: [customInstructions],
         });
       }
 
       // Proceed with the purchase
-      await writeYourContractAsync({
+      await writeCommerceContractAsync({
         functionName: "purchaseProduct",
         args: [listingID, 1], // The quantity is statically set to 1 as per your requirement
         value: listing.price, // This should be the price of the listing converted to Wei if necessary

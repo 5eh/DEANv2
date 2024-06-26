@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.26;
 
-contract TwoSidedMarketplace {
+contract CommerceContract {
     // Product data
     struct Product {
         string title;
         string description;
-        string[] photos;
+        string photos;
         string category;
         string location;
         string shippingMethod;
         address ownerWallet;
     }
+
+    string public greeting = "Functional Connection!";
 
     // Mapping of product IDs to product data
     mapping(uint256 => Product) public products;
@@ -34,7 +36,7 @@ contract TwoSidedMarketplace {
         uint256 _productId,
         string memory _title,
         string memory _description,
-        string[] memory _photos,
+        string memory _photos, // Optional
         string memory _category,
         string memory _location,
         string memory _shippingMethod
@@ -42,7 +44,6 @@ contract TwoSidedMarketplace {
         // Meeting of the mind
         require(bytes(_title).length > 0, "Product title is required");
         require(bytes(_description).length > 0, "Product description is required");
-        require(_photos.length > 0, "At least one product photo is required");
         require(bytes(_category).length > 0, "Product category is required");
         require(bytes(_location).length > 0, "Product location is required");
         require(bytes(_shippingMethod).length > 0, "Shipping method is required");
