@@ -11,7 +11,14 @@ contract CommerceContract {
         string location;
         string shippingMethod;
         address ownerWallet;
+        string[] features;
+        Upcharge[] upcharges;
     }
+
+    struct Upcharge {
+            string upcharge;
+            string value;
+        }
 
     string public greeting = "Functional Connection!";
 
@@ -39,7 +46,9 @@ contract CommerceContract {
         string memory _photos, // Optional
         string memory _category,
         string memory _location,
-        string memory _shippingMethod
+        string memory _shippingMethod,
+        string[] memory _features,
+        Upcharge[] memory _upcharges
     ) public {
         // Meeting of the mind
         require(bytes(_title).length > 0, "Product title is required");
@@ -59,7 +68,9 @@ contract CommerceContract {
             category: _category,
             location: _location,
             shippingMethod: _shippingMethod,
-            ownerWallet: msg.sender
+            ownerWallet: msg.sender,
+            features: _features,
+            upcharges: _upcharges
         });
 
         // Offer & Acceptance
