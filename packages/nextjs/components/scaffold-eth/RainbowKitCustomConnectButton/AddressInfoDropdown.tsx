@@ -62,7 +62,7 @@ export const AddressInfoDropdown = ({
           <NetworkOptions hidden={!selectingNetwork} />
           <li className={selectingNetwork ? "hidden" : ""}>
             {addressCopied ? (
-              <div className="btn-sm flex gap-3 py-3">
+              <div className="btn-sm flex gap-3 ">
                 <CheckCircleIcon
                   className="text-xl font-normal h-6 w-4 cursor-pointer ml-2 sm:ml-0"
                   aria-hidden="true"
@@ -79,7 +79,7 @@ export const AddressInfoDropdown = ({
                   }, 800);
                 }}
               >
-                <div className="btn-sm flex gap-3 py-3">
+                <div className="btn-sm flex gap-3">
                   <DocumentDuplicateIcon
                     className="text-xl font-normal h-6 w-4 cursor-pointer ml-2 sm:ml-0"
                     aria-hidden="true"
@@ -90,7 +90,7 @@ export const AddressInfoDropdown = ({
             )}
           </li>
           <li className={selectingNetwork ? "hidden" : ""}>
-            <label htmlFor="qrcode-modal" className="btn-sm !rounded-xl flex gap-3 py-3">
+            <label htmlFor="qrcode-modal" className="btn-sm  flex gap-3 py-3">
               <QrCodeIcon className="h-6 w-4 ml-2 sm:ml-0" />
               <span className="whitespace-nowrap">View QR Code</span>
             </label>
