@@ -1,6 +1,6 @@
 {
-  "name": "@se-2/hardhat",
-  "version": "0.0.1",
+  "name": "ARTHURLABS/hardhat",
+  "version": "0.2.1",
   "scripts": {
     "account": "hardhat run scripts/listAccount.ts",
     "chain": "hardhat node --network hardhat --no-deploy",
@@ -48,11 +48,12 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^1.1.1",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@openzeppelin/contracts": "^4.8.1",
     "@openzeppelin/contracts-upgradeable": "^5.0.2",
     "@openzeppelin/hardhat-upgrades": "^3.2.0",
     "@typechain/ethers-v6": "^0.5.1",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.4.5",
     "envfile": "^6.18.0",
     "qrcode": "^1.5.1"
   }
