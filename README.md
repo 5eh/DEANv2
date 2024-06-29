@@ -1,7 +1,3 @@
-# DEAN v2.0
-
-My current submission for the HENRY | Movement Labs Hackathon. Alongside being developed for ARTHUR LABS.
-
 ## Idea: 
 
 I would like to build a Smart Contract EIP standard for Commerce products to be sold and distributed through legally binding contracts. 
@@ -39,39 +35,73 @@ More notes:
 
 :::warning
 Information as follows:
-1. Seller creates information abut the product
-2. Buyer views information about the product
-3. Required information to view the product: 
+* Seller creates information abut the product
+* Buyer views information about the product
+
+1. Required information to view the product: 
 * Title
 * Price
 * Ships From
-* Image
+* Image (IPFS)
 * Shipping type
 * Description
 * Creator Wallet
-4. Inputs from the buyer:
-* Shipping method
+
+2. Inputs from the buyer:
+* Name or Alias (ZK)
+* Shipping location (ZK)
 * Quantity 
-* Delivery Method
-5. Optional inputs from the seller:
+* Shipping Method (Standard | Priority | Premium)
+
+3. Optional inputs from the seller:
 * Included features (Additional text boxes)
-* Upcharges (Title & Value)
+* Upcharges (Title & Value) (ZK?)
 * Shipping methods (Standard | Priority | Premium)
-6. Automatic information from the marketplace: 
-* Timestamp of transaction
-* UUID
-* Category
+
+4. Automatic information from the marketplace: 
+* Timestamp of transaction (Optional)
+* UUID (Optional)
+* Category (Optional)
 :::
 
 ```plantuml
 
 actor Buyer
 actor Seller
+entity Marketplace_UI
 entity Smart_Contract
-entity Marketplace
 
 
-Buyer -> Seller:  
 
+Seller -> Marketplace_UI: Fills out requirements for listing
+Marketplace_UI -> Smart_Contract: Converts input into Contract
+Smart_Contract -> Marketplace_UI: Provides Timestamp & ID of initiation
+Marketplace_UI -> Buyer: Displays listings
+Buyer -> Marketplace_UI: Views and selects listing to purchase
+Buyer -> Marketplace_UI: Fills in required + additional information
+Marketplace_UI -> Smart_Contract: Handles purchase agreement
+Smart_Contract -> Marketplace_UI: Handles ZK Proof, and adds booleans
 
 ```
+
+Features:
+1. Upgradable smart contract (Extendable features)
+2. ZK proof
+3. Legally binding (Maybe ZK proof?)
+4. Validity Oracle
+
+Benefits of this:
+1. Anyone can utilize smart contract standard to create ecom platform
+2. Anyone can develop and 
+
+
+## Important considerations:
+1. How can people validate the authenticity/validity of the products that are attached onto the contract?
+2. How can people be legally responsible for the deliverance of the contract?
+3. Is it viable to build a standalone blockchain for this that includes oracle validators?
+4. How should information be updated and accessed for future references?
+
+
+## Important principles
+1. To make it ZK Proof efficient: Soundness, Zero-Knowledge
+2. To make it an upgradable smart contract: Proxy, Implementation, ProxyAdmin
