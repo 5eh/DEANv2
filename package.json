@@ -3,10 +3,7 @@
   "version": "0.2.1",
   "private": true,
   "workspaces": {
-    "packages": [
-      "packages/hardhat",
-      "packages/nextjs"
-    ]
+    "packages": ["packages/hardhat", "packages/nextjs"]
   },
   "scripts": {
     "account": "yarn workspace @se-2/hardhat account",
@@ -30,7 +27,6 @@
     "next:check-types": "yarn workspace @se-2/nextjs check-types",
     "next:build": "yarn workspace @se-2/nextjs build",
     "next:serve": "yarn workspace @se-2/nextjs serve",
-    "postinstall": "husky install",
     "precommit": "lint-staged",
     "vercel": "yarn workspace @se-2/nextjs vercel",
     "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo"
