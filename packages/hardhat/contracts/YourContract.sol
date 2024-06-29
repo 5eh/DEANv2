@@ -1,115 +1,154 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.26;
 
-contract CommerceContract {
-    // Product data
-    struct Product {
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+
+
+contract CommerceContract is Initializable, ChainlinkClient {
+    using Chainlink for Chainlink.Request;
+
+    // Structs
+    struct ProductListing {
+        uint256 productId;  // Optional product ID
         string title;
         string description;
-        string photos;
-        string category;
-        string location;
-        string shippingMethod;
-        address ownerWallet;
-        string[] features;
-        Upcharge[] upcharges;
+        string image;
+        uint256 price;
+        uint256 timestamp;  // Timestamp of the listing creation
     }
 
-    struct Upcharge {
-            string upcharge;
-            string value;
-        }
+    struct Shipping {
+        string location;
+        mapping(string => uint256) methods;  // Method name to cost
+    }
 
-    string public greeting = "Functional Connection!";
+    struct ListingOwner {
+        string nameOrAlias;
+        string businessNameOrDBA;
+        address wallet;
+    }
 
-    // Mapping of product IDs to product data
-    mapping(uint256 => Product) public products;
+    struct LegalInformation {
+        string offer;
+        string consideration;
+        string promiseOfDelivery;
+        string walletSignature;
+        string authenticityGuarantee;
+        string blockchainRiskAcknowledgement;
+    }
 
-    // Marketplace state
-    mapping(uint256 => bool) public isPaid;
+    struct Buyer {
+        string name;
+        uint256 quantity;
+        bool isProductValid;
+        string deliveryLocation;
+    }
+
+    // Mappings
+    mapping(uint256 => ProductListing) public productListings;
+    mapping(uint256 => Shipping) public shippings;
+    mapping(uint256 => ListingOwner) public listingOwners;
+    mapping(uint256 => LegalInformation) public legalInformation;
+    mapping(uint256 => Buyer) public buyers;
+    mapping(uint256 => uint256) public quantities;
+    mapping(uint256 => uint256) public validityEndTimes;
+    mapping(uint256 => uint256) public contractValues;
     mapping(uint256 => bool) public isDelivered;
 
-    // Legal terms
-    string public purpose = "This smart contract establishes a legally binding two-sided marketplace for the sale of products. Please refer to the following contract. https://www.target.com/c/terms-conditions/-/N-4sr7l";
-    string public termsAndAgreements = "By interacting with this smart contract, the parties agree to the terms set forth herein. Please refer to the following contract. https://www.target.com/c/terms-conditions/-/N-4sr7l";
-
     // Events
-    event ProductListed(uint256 indexed productId, address indexed seller);
-    event ProductPurchased(uint256 indexed productId, address indexed buyer);
-    event ProductDelivered(uint256 indexed productId);
+    event ProductListed(uint256 indexed productId, address indexed seller, string title, uint256 price, uint256 timestamp);
+    event ProductAuthenticated(uint256 indexed productId, bool isAuthentic);
+    event QuantitySet(uint256 indexed productId, uint256 quantity);
+    event TimeValiditySet(uint256 indexed productId, uint256 validityEndTime);
+    event BuyerDeclared(uint256 indexed productId, address indexed buyer, uint256 quantity);
+    event ContractValueSet(uint256 indexed productId, uint256 value);
+    event ProductDelivered(uint256 indexed productId, address indexed buyer);
+    event FundsRetrieved(uint256 indexed productId, address indexed seller, uint256 amount);
+
+    // Initializer function (replaces constructor for upgradeable contracts)
+    function initialize() public initializer {
+        setPublicChainlinkToken();
+    }
 
     // Functions
-    function createProduct(
-        uint256 _productId,
-        string memory _title,
-        string memory _description,
-        string memory _photos, // Optional
-        string memory _category,
-        string memory _location,
-        string memory _shippingMethod,
-        string[] memory _features,
-        Upcharge[] memory _upcharges
+    function createProductListing(
+        uint256 productId,
+        string memory title,
+        string memory description,
+        string memory image,
+        uint256 price
     ) public {
-        // Meeting of the mind
-        require(bytes(_title).length > 0, "Product title is required");
-        require(bytes(_description).length > 0, "Product description is required");
-        require(bytes(_category).length > 0, "Product category is required");
-        require(bytes(_location).length > 0, "Product location is required");
-        require(bytes(_shippingMethod).length > 0, "Shipping method is required");
-
-        // Consideration
-        require(msg.sender != address(0), "Seller address cannot be zero");
-
-        // Offer
-        products[_productId] = Product({
-            title: _title,
-            description: _description,
-            photos: _photos,
-            category: _category,
-            location: _location,
-            shippingMethod: _shippingMethod,
-            ownerWallet: msg.sender,
-            features: _features,
-            upcharges: _upcharges
+        productListings[productId] = ProductListing({
+            productId: productId,  // Optional product ID
+            title: title,
+            description: description,
+            image: image,
+            price: price,
+            timestamp: block.timestamp  // Record the current block timestamp
         });
-
-        // Offer & Acceptance
-        emit ProductListed(_productId, msg.sender);
+        emit ProductListed(productId, msg.sender, title, price, block.timestamp);
     }
 
-    function purchaseProduct(uint256 _productId) public payable {
-        // Acceptance
-        require(products[_productId].ownerWallet != msg.sender, "Buyer cannot be the seller");
-        require(!isPaid[_productId], "Product has already been purchased");
-
-        // Capacity
-        require(msg.value > 0, "Payment is required to purchase the product");
-
-        // Buyer signature
-        isPaid[_productId] = true;
-
-        // Seller signature
-        payable(products[_productId].ownerWallet).transfer(msg.value);
-
-        emit ProductPurchased(_productId, msg.sender);
+    function authenticateProduct(uint256 productId) public {
+        // Implement oracle interaction here
+        bool isAuthentic = true;  // Placeholder for oracle result
+        emit ProductAuthenticated(productId, isAuthentic);
     }
 
-    function deliverProduct(uint256 _productId) public {
-        // Seller signature
-        require(msg.sender == products[_productId].ownerWallet, "Only the seller can deliver the product");
-        require(isPaid[_productId], "Product must be paid for before delivery");
-
-        // Acceptance
-        isDelivered[_productId] = true;
-
-        emit ProductDelivered(_productId);
+    function setQuantity(uint256 productId, uint256 quantity) public {
+        quantities[productId] = quantity;
+        emit QuantitySet(productId, quantity);
     }
 
-    function getLegalInformation() public view returns (string memory, string memory) {
-        return (purpose, termsAndAgreements);
+    function setTimeValidity(uint256 productId, uint256 validityEndTime) public {
+        validityEndTimes[productId] = validityEndTime;
+        emit TimeValiditySet(productId, validityEndTime);
     }
 
-    function callOwnerAddress(uint256 _productId) public view returns (address) {
-        return products[_productId].ownerWallet;
+    function declareBuyer(
+        uint256 productId,
+        string memory name,
+        uint256 quantity,
+        string memory deliveryLocation
+    ) public {
+        // Implement ZK Proof verification and upgradable contract instantiation here
+        buyers[productId] = Buyer({
+            name: name,
+            quantity: quantity,
+            isProductValid: true,
+            deliveryLocation: deliveryLocation
+        });
+        emit BuyerDeclared(productId, msg.sender, quantity);
+    }
+
+    function setContractValue(uint256 productId) public {
+        contractValues[productId] = buyers[productId].quantity * productListings[productId].price;
+        emit ContractValueSet(productId, contractValues[productId]);
+    }
+
+    function setDelivered(uint256 productId) public {
+        isDelivered[productId] = true;
+        emit ProductDelivered(productId, msg.sender);
+    }
+
+    function isDelivered(uint256 productId) public view returns (bool) {
+        return isDelivered[productId];
+    }
+
+    function retrieveFunding(uint256 productId) public {
+        // Ensure only the seller can retrieve funds and product is delivered
+        require(msg.sender == listingOwners[productId].wallet, "Only the seller can retrieve funds");
+        require(isDelivered[productId], "Product must be delivered before funds can be retrieved");
+
+        uint256 amount = contractValues[productId];
+        payable(msg.sender).transfer(amount);
+        emit FundsRetrieved(productId, msg.sender, amount);
+    }
+
+    // Placeholder function for zero-knowledge proof verification
+    function verifyZKProof(uint256 zkProof) internal view returns (bool) {
+        // Implement zk-SNARKs verification logic here
+        return true;  // Placeholder, should integrate actual zk-SNARKs verification
     }
 }
