@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Commerce.sol": {
+      "content": "// SPDX-License-Identifier: Apache-2.0\npragma solidity ^0.8.26;\n\ncontract CommerceContract {\n    address private owner;\n    address private deployer;\n\n    mapping(string => ProductData) public products;\n    mapping(string => address) private productBuyers;\n    mapping(address => string) private deliveryAddresses;  // Storing unhashed delivery addresses\n    mapping(address => string) private customInstructions;\n\n    event ProductListed(string listingID, address owner, uint32 price, uint32 quantity);\n    event ProductPurchased(string listingID, address buyer, uint32 quantity);\n    event DeliveryConfirmed(string listingID, address owner);\n    event DeliveryAddressUpdated(address user, string deliveryAddress);\n    event CustomInstructionsUpdated(address user, string instructions);\n\n    struct ProductData {\n        string title;\n        string description;\n        uint32 price;\n        uint32 quantity;\n        string formSelectionType;\n        string image;\n        address payable creatorWallet;\n        bool isDelivered;\n    }\n\n    string private listingTitle;\n\n    // Remove the constructor\n    // constructor() {\n    //     owner = msg.sender;\n    //     deployer = msg.sender;\n    // }\n\n    // Add an initializer function\n    function initialize(address _deployer) public {\n        owner = msg.sender;\n        deployer = _deployer;\n    }\n\n    modifier onlyOwnerOrDeployer() {\n        require(msg.sender == owner || msg.sender == deployer, \"Not authorized\");\n        _;\n    }\n\n    /**\n     * @notice Create a new product listing.\n     * @param _title Listing title.\n     * @param _description Product description.\n     * @param _price Price.\n     * @param _quantity Initial quantity.\n     * @param _formSelectionType Type of selection form.\n     * @param _image Product's image URL.\n     * @param _listingID Listing ID.\n     */\n    function createProduct(\n        string memory _title,\n        string memory _description,\n        uint32 _price,\n        uint32 _quantity,\n        string memory _formSelectionType,\n        string memory _image,\n        string memory _listingID\n    ) public {\n        require(products[_listingID].creatorWallet == address(0), \"Listing ID already exists\");\n        products[_listingID] = ProductData({\n            title: _title,\n            description: _description,\n            price: _price,\n            quantity: _quantity,\n            formSelectionType: _formSelectionType,\n            image: _image,\n            creatorWallet: payable(msg.sender),\n            isDelivered: false\n        });\n        emit ProductListed(_listingID, msg.sender, _price, _quantity);\n    }\n\n    /**\n     * @notice Allows a user to purchase a product.\n     * @param _listingID Listing ID.\n     * @param _quantity Purchase quantity.\n     */\n    function purchaseProduct(string memory _listingID, uint32 _quantity) public payable {\n        ProductData storage product = products[_listingID];\n        require(_quantity <= product.quantity, \"Not enough items in stock\");\n        require(msg.value == product.price * _quantity, \"Incorrect amount of Ether sent\");\n        product.quantity -= _quantity;\n        productBuyers[_listingID] = msg.sender;\n        emit ProductPurchased(_listingID, msg.sender, _quantity);\n    }\n\n    function confirmDelivery(string memory _listingID) public {\n        require(msg.sender == products[_listingID].creatorWallet, \"Only the seller can confirm delivery\");\n        require(!products[_listingID].isDelivered, \"Product already delivered\");\n\n        products[_listingID].isDelivered = true;\n        products[_listingID].creatorWallet.transfer(address(this).balance);\n\n        emit DeliveryConfirmed(_listingID, msg.sender);\n    }\n\n    /**\n     * @notice Allows a user to set own delivery address against their ETH address.\n     * @param _deliveryAddress New delivery address.\n     */\n    function setDeliveryAddress(string memory _deliveryAddress) public {\n        deliveryAddresses[msg.sender] = _deliveryAddress;\n        emit DeliveryAddressUpdated(msg.sender, _deliveryAddress);\n    }\n\n    /**\n     * @notice Retrieves delivery address of a user.\n     * @param user User's ETH address.\n     * @return Physcial delivery address of the user.\n     */\n    function getDeliveryAddress(address user) public view returns (string memory) {\n        require(bytes(deliveryAddresses[user]).length > 0, \"No delivery address set by this user. Are you sure they have purchased?\");\n        return deliveryAddresses[user];\n    }\n\n    function setCustomInstructions(string memory _instructions) public {\n        customInstructions[msg.sender] = _instructions;\n        emit CustomInstructionsUpdated(msg.sender, _instructions);\n    }\n\n    function getCustomInstructions(address user) public view returns (string memory) {\n        require(bytes(customInstructions[user]).length > 0, \"No custom instructions set for this user. Are you sure they have purchased?\");\n        return customInstructions[user];\n    }\n\n    function getListingTitle() public view returns (string memory) {\n        return listingTitle;\n    }\n\n    function getProductData(string memory listingID) public view returns (ProductData memory) {\n        require(products[listingID].creatorWallet != address(0), \"Product does not exist\");\n        return products[listingID];\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

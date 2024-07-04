@@ -1,0 +1,657 @@
+{
+  "address": "0x4821b8c6B10a12933bF790823eb992cBCb563639",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "instructions",
+          "type": "string"
+        }
+      ],
+      "name": "CustomInstructionsUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "deliveryAddress",
+          "type": "string"
+        }
+      ],
+      "name": "DeliveryAddressUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "listingID",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "DeliveryConfirmed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "listingID",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "price",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "quantity",
+          "type": "uint32"
+        }
+      ],
+      "name": "ProductListed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "listingID",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "quantity",
+          "type": "uint32"
+        }
+      ],
+      "name": "ProductPurchased",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_listingID",
+          "type": "string"
+        }
+      ],
+      "name": "confirmDelivery",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_price",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_quantity",
+          "type": "uint32"
+        },
+        {
+          "internalType": "string",
+          "name": "_formSelectionType",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_image",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_listingID",
+          "type": "string"
+        }
+      ],
+      "name": "createProduct",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getCustomInstructions",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getDeliveryAddress",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getListingTitle",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "listingID",
+          "type": "string"
+        }
+      ],
+      "name": "getProductData",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "uint32",
+              "name": "price",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "quantity",
+              "type": "uint32"
+            },
+            {
+              "internalType": "string",
+              "name": "formSelectionType",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "image",
+              "type": "string"
+            },
+            {
+              "internalType": "address payable",
+              "name": "creatorWallet",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isDelivered",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct CommerceContract.ProductData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_deployer",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "products",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint32",
+          "name": "price",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "quantity",
+          "type": "uint32"
+        },
+        {
+          "internalType": "string",
+          "name": "formSelectionType",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "image",
+          "type": "string"
+        },
+        {
+          "internalType": "address payable",
+          "name": "creatorWallet",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "isDelivered",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_listingID",
+          "type": "string"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_quantity",
+          "type": "uint32"
+        }
+      ],
+      "name": "purchaseProduct",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_instructions",
+          "type": "string"
+        }
+      ],
+      "name": "setCustomInstructions",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_deliveryAddress",
+          "type": "string"
+        }
+      ],
+      "name": "setDeliveryAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xce9fae18b95025511196f752ca0f7dd0d1fd8bf2ab8550a2159783d984c94ec9",
+  "receipt": {
+    "to": null,
+    "from": "0xC3e66BEF1C71FeFf881B0fe55d13A7c7eA06E90c",
+    "contractAddress": "0x4821b8c6B10a12933bF790823eb992cBCb563639",
+    "transactionIndex": 0,
+    "gasUsed": "4921",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x3af5f237d744875c55502bec60eec5d64c751c07aedce6f4f620195d447603ba",
+    "transactionHash": "0xce9fae18b95025511196f752ca0f7dd0d1fd8bf2ab8550a2159783d984c94ec9",
+    "logs": [],
+    "blockNumber": 26964118,
+    "cumulativeGasUsed": "4921",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "69802ce616fa76a08442752cf197ecf6",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.26+commit.8a97fa7a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"instructions\",\"type\":\"string\"}],\"name\":\"CustomInstructionsUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"deliveryAddress\",\"type\":\"string\"}],\"name\":\"DeliveryAddressUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"listingID\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"DeliveryConfirmed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"listingID\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"price\",\"type\":\"uint32\"},{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"quantity\",\"type\":\"uint32\"}],\"name\":\"ProductListed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"listingID\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"buyer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"quantity\",\"type\":\"uint32\"}],\"name\":\"ProductPurchased\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_listingID\",\"type\":\"string\"}],\"name\":\"confirmDelivery\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_description\",\"type\":\"string\"},{\"internalType\":\"uint32\",\"name\":\"_price\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"_quantity\",\"type\":\"uint32\"},{\"internalType\":\"string\",\"name\":\"_formSelectionType\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_image\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_listingID\",\"type\":\"string\"}],\"name\":\"createProduct\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getCustomInstructions\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getDeliveryAddress\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getListingTitle\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"listingID\",\"type\":\"string\"}],\"name\":\"getProductData\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint32\",\"name\":\"price\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"quantity\",\"type\":\"uint32\"},{\"internalType\":\"string\",\"name\":\"formSelectionType\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"image\",\"type\":\"string\"},{\"internalType\":\"address payable\",\"name\":\"creatorWallet\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"isDelivered\",\"type\":\"bool\"}],\"internalType\":\"struct CommerceContract.ProductData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_deployer\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"products\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint32\",\"name\":\"price\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"quantity\",\"type\":\"uint32\"},{\"internalType\":\"string\",\"name\":\"formSelectionType\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"image\",\"type\":\"string\"},{\"internalType\":\"address payable\",\"name\":\"creatorWallet\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"isDelivered\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_listingID\",\"type\":\"string\"},{\"internalType\":\"uint32\",\"name\":\"_quantity\",\"type\":\"uint32\"}],\"name\":\"purchaseProduct\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_instructions\",\"type\":\"string\"}],\"name\":\"setCustomInstructions\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_deliveryAddress\",\"type\":\"string\"}],\"name\":\"setDeliveryAddress\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"createProduct(string,string,uint32,uint32,string,string,string)\":{\"params\":{\"_description\":\"Product description.\",\"_formSelectionType\":\"Type of selection form.\",\"_image\":\"Product's image URL.\",\"_listingID\":\"Listing ID.\",\"_price\":\"Price.\",\"_quantity\":\"Initial quantity.\",\"_title\":\"Listing title.\"}},\"getDeliveryAddress(address)\":{\"params\":{\"user\":\"User's ETH address.\"},\"returns\":{\"_0\":\"Physcial delivery address of the user.\"}},\"purchaseProduct(string,uint32)\":{\"params\":{\"_listingID\":\"Listing ID.\",\"_quantity\":\"Purchase quantity.\"}},\"setDeliveryAddress(string)\":{\"params\":{\"_deliveryAddress\":\"New delivery address.\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"createProduct(string,string,uint32,uint32,string,string,string)\":{\"notice\":\"Create a new product listing.\"},\"getDeliveryAddress(address)\":{\"notice\":\"Retrieves delivery address of a user.\"},\"purchaseProduct(string,uint32)\":{\"notice\":\"Allows a user to purchase a product.\"},\"setDeliveryAddress(string)\":{\"notice\":\"Allows a user to set own delivery address against their ETH address.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Commerce.sol\":\"CommerceContract\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/Commerce.sol\":{\"content\":\"// SPDX-License-Identifier: Apache-2.0\\npragma solidity ^0.8.26;\\n\\ncontract CommerceContract {\\n    address private owner;\\n    address private deployer;\\n\\n    mapping(string => ProductData) public products;\\n    mapping(string => address) private productBuyers;\\n    mapping(address => string) private deliveryAddresses;  // Storing unhashed delivery addresses\\n    mapping(address => string) private customInstructions;\\n\\n    event ProductListed(string listingID, address owner, uint32 price, uint32 quantity);\\n    event ProductPurchased(string listingID, address buyer, uint32 quantity);\\n    event DeliveryConfirmed(string listingID, address owner);\\n    event DeliveryAddressUpdated(address user, string deliveryAddress);\\n    event CustomInstructionsUpdated(address user, string instructions);\\n\\n    struct ProductData {\\n        string title;\\n        string description;\\n        uint32 price;\\n        uint32 quantity;\\n        string formSelectionType;\\n        string image;\\n        address payable creatorWallet;\\n        bool isDelivered;\\n    }\\n\\n    string private listingTitle;\\n\\n    // Remove the constructor\\n    // constructor() {\\n    //     owner = msg.sender;\\n    //     deployer = msg.sender;\\n    // }\\n\\n    // Add an initializer function\\n    function initialize(address _deployer) public {\\n        owner = msg.sender;\\n        deployer = _deployer;\\n    }\\n\\n    modifier onlyOwnerOrDeployer() {\\n        require(msg.sender == owner || msg.sender == deployer, \\\"Not authorized\\\");\\n        _;\\n    }\\n\\n    /**\\n     * @notice Create a new product listing.\\n     * @param _title Listing title.\\n     * @param _description Product description.\\n     * @param _price Price.\\n     * @param _quantity Initial quantity.\\n     * @param _formSelectionType Type of selection form.\\n     * @param _image Product's image URL.\\n     * @param _listingID Listing ID.\\n     */\\n    function createProduct(\\n        string memory _title,\\n        string memory _description,\\n        uint32 _price,\\n        uint32 _quantity,\\n        string memory _formSelectionType,\\n        string memory _image,\\n        string memory _listingID\\n    ) public {\\n        require(products[_listingID].creatorWallet == address(0), \\\"Listing ID already exists\\\");\\n        products[_listingID] = ProductData({\\n            title: _title,\\n            description: _description,\\n            price: _price,\\n            quantity: _quantity,\\n            formSelectionType: _formSelectionType,\\n            image: _image,\\n            creatorWallet: payable(msg.sender),\\n            isDelivered: false\\n        });\\n        emit ProductListed(_listingID, msg.sender, _price, _quantity);\\n    }\\n\\n    /**\\n     * @notice Allows a user to purchase a product.\\n     * @param _listingID Listing ID.\\n     * @param _quantity Purchase quantity.\\n     */\\n    function purchaseProduct(string memory _listingID, uint32 _quantity) public payable {\\n        ProductData storage product = products[_listingID];\\n        require(_quantity <= product.quantity, \\\"Not enough items in stock\\\");\\n        require(msg.value == product.price * _quantity, \\\"Incorrect amount of Ether sent\\\");\\n        product.quantity -= _quantity;\\n        productBuyers[_listingID] = msg.sender;\\n        emit ProductPurchased(_listingID, msg.sender, _quantity);\\n    }\\n\\n    function confirmDelivery(string memory _listingID) public {\\n        require(msg.sender == products[_listingID].creatorWallet, \\\"Only the seller can confirm delivery\\\");\\n        require(!products[_listingID].isDelivered, \\\"Product already delivered\\\");\\n\\n        products[_listingID].isDelivered = true;\\n        products[_listingID].creatorWallet.transfer(address(this).balance);\\n\\n        emit DeliveryConfirmed(_listingID, msg.sender);\\n    }\\n\\n    /**\\n     * @notice Allows a user to set own delivery address against their ETH address.\\n     * @param _deliveryAddress New delivery address.\\n     */\\n    function setDeliveryAddress(string memory _deliveryAddress) public {\\n        deliveryAddresses[msg.sender] = _deliveryAddress;\\n        emit DeliveryAddressUpdated(msg.sender, _deliveryAddress);\\n    }\\n\\n    /**\\n     * @notice Retrieves delivery address of a user.\\n     * @param user User's ETH address.\\n     * @return Physcial delivery address of the user.\\n     */\\n    function getDeliveryAddress(address user) public view returns (string memory) {\\n        require(bytes(deliveryAddresses[user]).length > 0, \\\"No delivery address set by this user. Are you sure they have purchased?\\\");\\n        return deliveryAddresses[user];\\n    }\\n\\n    function setCustomInstructions(string memory _instructions) public {\\n        customInstructions[msg.sender] = _instructions;\\n        emit CustomInstructionsUpdated(msg.sender, _instructions);\\n    }\\n\\n    function getCustomInstructions(address user) public view returns (string memory) {\\n        require(bytes(customInstructions[user]).length > 0, \\\"No custom instructions set for this user. Are you sure they have purchased?\\\");\\n        return customInstructions[user];\\n    }\\n\\n    function getListingTitle() public view returns (string memory) {\\n        return listingTitle;\\n    }\\n\\n    function getProductData(string memory listingID) public view returns (ProductData memory) {\\n        require(products[listingID].creatorWallet != address(0), \\\"Product does not exist\\\");\\n        return products[listingID];\\n    }\\n}\\n\",\"keccak256\":\"0x81c78c30629c3628736c52d47decb5044f0a5714d99dbb6f2179e2f03afdd9fc\",\"license\":\"Apache-2.0\"}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b5061182a8061001f6000396000f3fe60806040526004361061009c5760003560e01c806397ac5fee1161006457806397ac5fee1461016f578063a45064601461018f578063a7e8eb3b146101af578063c4d66de8146101c2578063e55683171461020d578063ecf5f42b1461022d57600080fd5b80630186a423146100a157806352276fdb146100de578063522ecace14610100578063818648e114610120578063932f4ece1461014d575b600080fd5b3480156100ad57600080fd5b506100c16100bc3660046111c6565b61024d565b6040516100d5989796959493929190611253565b60405180910390f35b3480156100ea57600080fd5b506100f36104d7565b6040516100d591906112e0565b34801561010c57600080fd5b506100f361011b3660046112fa565b610569565b34801561012c57600080fd5b5061014061013b3660046111c6565b6106c3565b6040516100d59190611323565b34801561015957600080fd5b5061016d6101683660046111c6565b610a44565b005b34801561017b57600080fd5b5061016d61018a366004611411565b610a9a565b34801561019b57600080fd5b5061016d6101aa3660046111c6565b610c88565b61016d6101bd36600461151e565b610e4e565b3480156101ce57600080fd5b5061016d6101dd3660046112fa565b60008054336001600160a01b031991821617909155600180549091166001600160a01b0392909216919091179055565b34801561021957600080fd5b5061016d6102283660046111c6565b611002565b34801561023957600080fd5b506100f36102483660046112fa565b61104d565b80516020818301810180516002825292820191909301209152805481906102739061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461029f9061156c565b80156102ec5780601f106102c1576101008083540402835291602001916102ec565b820191906000526020600020905b8154815290600101906020018083116102cf57829003601f168201915b5050505050908060010180546103019061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461032d9061156c565b801561037a5780601f1061034f5761010080835404028352916020019161037a565b820191906000526020600020905b81548152906001019060200180831161035d57829003601f168201915b505050506002830154600384018054939463ffffffff80841695640100000000909404169350916103aa9061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546103d69061156c565b80156104235780601f106103f857610100808354040283529160200191610423565b820191906000526020600020905b81548152906001019060200180831161040657829003601f168201915b5050505050908060040180546104389061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546104649061156c565b80156104b15780601f10610486576101008083540402835291602001916104b1565b820191906000526020600020905b81548152906001019060200180831161049457829003601f168201915b505050600590930154919250506001600160a01b0381169060ff600160a01b9091041688565b6060600680546104e69061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546105129061156c565b801561055f5780601f106105345761010080835404028352916020019161055f565b820191906000526020600020905b81548152906001019060200180831161054257829003601f168201915b5050505050905090565b6001600160a01b0381166000908152600460205260408120805460609291906105919061156c565b90501161061b5760405162461bcd60e51b815260206004820152604760248201527f4e6f2064656c697665727920616464726573732073657420627920746869732060448201527f757365722e2041726520796f75207375726520746865792068617665207075726064820152666368617365643f60c81b608482015260a4015b60405180910390fd5b6001600160a01b0382166000908152600460205260409020805461063e9061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461066a9061156c565b80156106b75780601f1061068c576101008083540402835291602001916106b7565b820191906000526020600020905b81548152906001019060200180831161069a57829003601f168201915b50505050509050919050565b604080516101008101825260608082526020820181905260009282018390528082018390526080820181905260a082015260c0810182905260e081019190915260006001600160a01b031660028360405161071e91906115a6565b908152604051908190036020019020600501546001600160a01b0316036107805760405162461bcd60e51b8152602060048201526016602482015275141c9bd91d58dd08191bd95cc81b9bdd08195e1a5cdd60521b6044820152606401610612565b60028260405161079091906115a6565b9081526020016040518091039020604051806101000160405290816000820180546107ba9061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546107e69061156c565b80156108335780601f1061080857610100808354040283529160200191610833565b820191906000526020600020905b81548152906001019060200180831161081657829003601f168201915b5050505050815260200160018201805461084c9061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546108789061156c565b80156108c55780601f1061089a576101008083540402835291602001916108c5565b820191906000526020600020905b8154815290600101906020018083116108a857829003601f168201915b5050509183525050600282015463ffffffff80821660208401526401000000009091041660408201526003820180546060909201916109039061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461092f9061156c565b801561097c5780601f106109515761010080835404028352916020019161097c565b820191906000526020600020905b81548152906001019060200180831161095f57829003601f168201915b505050505081526020016004820180546109959061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546109c19061156c565b8015610a0e5780601f106109e357610100808354040283529160200191610a0e565b820191906000526020600020905b8154815290600101906020018083116109f157829003601f168201915b5050509183525050600591909101546001600160a01b0381166020830152600160a01b900460ff16151560409091015292915050565b336000908152600560205260409020610a5d8282611611565b507f01ce78943c281f10861631ff461c646c7a6d1f748a4f1c4b8d3eafce36ebae353382604051610a8f9291906116d0565b60405180910390a150565b60006001600160a01b0316600282604051610ab591906115a6565b908152604051908190036020019020600501546001600160a01b031614610b1e5760405162461bcd60e51b815260206004820152601960248201527f4c697374696e6720494420616c726561647920657869737473000000000000006044820152606401610612565b60408051610100810182528881526020810188905263ffffffff80881682840152861660608201526080810185905260a081018490523360c0820152600060e08201529051600290610b719084906115a6565b90815260405190819003602001902081518190610b8e9082611611565b5060208201516001820190610ba39082611611565b506040820151600282018054606085015163ffffffff9081166401000000000267ffffffffffffffff1990921693169290921791909117905560808201516003820190610bf09082611611565b5060a08201516004820190610c059082611611565b5060c08201516005909101805460e0909301511515600160a01b026001600160a81b03199093166001600160a01b03909216919091179190911790556040517fb146efb745af9542cfbdca0f12a6f72a4ce7e283832d8b61cd3dc5e51838bc6d90610c779083903390899089906116f4565b60405180910390a150505050505050565b600281604051610c9891906115a6565b90815260405190819003602001902060050154336001600160a01b0390911614610d105760405162461bcd60e51b8152602060048201526024808201527f4f6e6c79207468652073656c6c65722063616e20636f6e6669726d2064656c696044820152637665727960e01b6064820152608401610612565b600281604051610d2091906115a6565b9081526040519081900360200190206005015460ff600160a01b9091041615610d8b5760405162461bcd60e51b815260206004820152601960248201527f50726f6475637420616c72656164792064656c697665726564000000000000006044820152606401610612565b6001600282604051610d9d91906115a6565b9081526040519081900360200181206005018054921515600160a01b0260ff60a01b1990931692909217909155600290610dd89083906115a6565b908152604051908190036020018120600501546001600160a01b0316904780156108fc02916000818181858888f19350505050158015610e1c573d6000803e3d6000fd5b507f8e7f2465d57c0d2ee4e9f885968a20b36712b73d9d659a145dd42122beae92c78133604051610a8f929190611733565b6000600283604051610e6091906115a6565b908152604051908190036020019020600281015490915063ffffffff64010000000090910481169083161115610ed85760405162461bcd60e51b815260206004820152601960248201527f4e6f7420656e6f756768206974656d7320696e2073746f636b000000000000006044820152606401610612565b6002810154610eee90839063ffffffff16611773565b63ffffffff163414610f425760405162461bcd60e51b815260206004820152601e60248201527f496e636f727265637420616d6f756e74206f662045746865722073656e7400006044820152606401610612565b818160020160048282829054906101000a900463ffffffff16610f659190611799565b92506101000a81548163ffffffff021916908363ffffffff16021790555033600384604051610f9491906115a6565b90815260405190819003602001812080546001600160a01b03939093166001600160a01b0319909316929092179091557f56175a6a000ddb23d40bb76f2819a9cf92504db2eb4ec635b19d9dbd9ae05d8a90610ff5908590339086906117bb565b60405180910390a1505050565b33600090815260046020526040902061101b8282611611565b507f4ee9b8dbe704dd50721397f99b693b9946421e9fd429bb9edf1e6bf0864082723382604051610a8f9291906116d0565b6001600160a01b0381166000908152600560205260408120805460609291906110759061156c565b9050116110fe5760405162461bcd60e51b815260206004820152604b60248201527f4e6f20637573746f6d20696e737472756374696f6e732073657420666f72207460448201527f68697320757365722e2041726520796f7520737572652074686579206861766560648201526a207075726368617365643f60a81b608482015260a401610612565b6001600160a01b0382166000908152600560205260409020805461063e9061156c565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261114857600080fd5b813567ffffffffffffffff81111561116257611162611121565b604051601f8201601f19908116603f0116810167ffffffffffffffff8111828210171561119157611191611121565b6040528181528382016020018510156111a957600080fd5b816020850160208301376000918101602001919091529392505050565b6000602082840312156111d857600080fd5b813567ffffffffffffffff8111156111ef57600080fd5b6111fb84828501611137565b949350505050565b60005b8381101561121e578181015183820152602001611206565b50506000910152565b6000815180845261123f816020860160208601611203565b601f01601f19169290920160200192915050565b6101008152600061126861010083018b611227565b828103602084015261127a818b611227565b905063ffffffff8916604084015263ffffffff8816606084015282810360808401526112a68188611227565b905082810360a08401526112ba8187611227565b6001600160a01b039590951660c0840152505090151560e0909101529695505050505050565b6020815260006112f36020830184611227565b9392505050565b60006020828403121561130c57600080fd5b81356001600160a01b03811681146112f357600080fd5b60208152600082516101006020840152611341610120840182611227565b90506020840151601f1984830301604085015261135e8282611227565b9150506040840151611378606085018263ffffffff169052565b50606084015163ffffffff81166080850152506080840151838203601f190160a08501526113a68282611227565b91505060a0840151601f198483030160c08501526113c48282611227565b91505060c08401516113e160e08501826001600160a01b03169052565b5060e0840151801515610100850152509392505050565b803563ffffffff8116811461140c57600080fd5b919050565b600080600080600080600060e0888a03121561142c57600080fd5b873567ffffffffffffffff81111561144357600080fd5b61144f8a828b01611137565b975050602088013567ffffffffffffffff81111561146c57600080fd5b6114788a828b01611137565b965050611487604089016113f8565b9450611495606089016113f8565b9350608088013567ffffffffffffffff8111156114b157600080fd5b6114bd8a828b01611137565b93505060a088013567ffffffffffffffff8111156114da57600080fd5b6114e68a828b01611137565b92505060c088013567ffffffffffffffff81111561150357600080fd5b61150f8a828b01611137565b91505092959891949750929550565b6000806040838503121561153157600080fd5b823567ffffffffffffffff81111561154857600080fd5b61155485828601611137565b925050611563602084016113f8565b90509250929050565b600181811c9082168061158057607f821691505b6020821081036115a057634e487b7160e01b600052602260045260246000fd5b50919050565b600082516115b8818460208701611203565b9190910192915050565b601f82111561160c57806000526020600020601f840160051c810160208510156115e95750805b601f840160051c820191505b8181101561160957600081556001016115f5565b50505b505050565b815167ffffffffffffffff81111561162b5761162b611121565b61163f81611639845461156c565b846115c2565b6020601f821160018114611673576000831561165b5750848201515b600019600385901b1c1916600184901b178455611609565b600084815260208120601f198516915b828110156116a35787850151825560209485019460019092019101611683565b50848210156116c15786840151600019600387901b60f8161c191681555b50505050600190811b01905550565b6001600160a01b03831681526040602082018190526000906111fb90830184611227565b6080815260006117076080830187611227565b6001600160a01b039590951660208301525063ffffffff92831660408201529116606090910152919050565b6040815260006117466040830185611227565b905060018060a01b03831660208301529392505050565b634e487b7160e01b600052601160045260246000fd5b63ffffffff81811683821602908116908181146117925761179261175d565b5092915050565b63ffffffff82811682821603908111156117b5576117b561175d565b92915050565b6060815260006117ce6060830186611227565b6001600160a01b039490941660208301525063ffffffff9190911660409091015291905056fea26469706673582212207a81452a274b81ef7740e97fe42525786368d0a05352094e4bfc30ed37a1502d64736f6c634300081a0033",
+  "deployedBytecode": "0x60806040526004361061009c5760003560e01c806397ac5fee1161006457806397ac5fee1461016f578063a45064601461018f578063a7e8eb3b146101af578063c4d66de8146101c2578063e55683171461020d578063ecf5f42b1461022d57600080fd5b80630186a423146100a157806352276fdb146100de578063522ecace14610100578063818648e114610120578063932f4ece1461014d575b600080fd5b3480156100ad57600080fd5b506100c16100bc3660046111c6565b61024d565b6040516100d5989796959493929190611253565b60405180910390f35b3480156100ea57600080fd5b506100f36104d7565b6040516100d591906112e0565b34801561010c57600080fd5b506100f361011b3660046112fa565b610569565b34801561012c57600080fd5b5061014061013b3660046111c6565b6106c3565b6040516100d59190611323565b34801561015957600080fd5b5061016d6101683660046111c6565b610a44565b005b34801561017b57600080fd5b5061016d61018a366004611411565b610a9a565b34801561019b57600080fd5b5061016d6101aa3660046111c6565b610c88565b61016d6101bd36600461151e565b610e4e565b3480156101ce57600080fd5b5061016d6101dd3660046112fa565b60008054336001600160a01b031991821617909155600180549091166001600160a01b0392909216919091179055565b34801561021957600080fd5b5061016d6102283660046111c6565b611002565b34801561023957600080fd5b506100f36102483660046112fa565b61104d565b80516020818301810180516002825292820191909301209152805481906102739061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461029f9061156c565b80156102ec5780601f106102c1576101008083540402835291602001916102ec565b820191906000526020600020905b8154815290600101906020018083116102cf57829003601f168201915b5050505050908060010180546103019061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461032d9061156c565b801561037a5780601f1061034f5761010080835404028352916020019161037a565b820191906000526020600020905b81548152906001019060200180831161035d57829003601f168201915b505050506002830154600384018054939463ffffffff80841695640100000000909404169350916103aa9061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546103d69061156c565b80156104235780601f106103f857610100808354040283529160200191610423565b820191906000526020600020905b81548152906001019060200180831161040657829003601f168201915b5050505050908060040180546104389061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546104649061156c565b80156104b15780601f10610486576101008083540402835291602001916104b1565b820191906000526020600020905b81548152906001019060200180831161049457829003601f168201915b505050600590930154919250506001600160a01b0381169060ff600160a01b9091041688565b6060600680546104e69061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546105129061156c565b801561055f5780601f106105345761010080835404028352916020019161055f565b820191906000526020600020905b81548152906001019060200180831161054257829003601f168201915b5050505050905090565b6001600160a01b0381166000908152600460205260408120805460609291906105919061156c565b90501161061b5760405162461bcd60e51b815260206004820152604760248201527f4e6f2064656c697665727920616464726573732073657420627920746869732060448201527f757365722e2041726520796f75207375726520746865792068617665207075726064820152666368617365643f60c81b608482015260a4015b60405180910390fd5b6001600160a01b0382166000908152600460205260409020805461063e9061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461066a9061156c565b80156106b75780601f1061068c576101008083540402835291602001916106b7565b820191906000526020600020905b81548152906001019060200180831161069a57829003601f168201915b50505050509050919050565b604080516101008101825260608082526020820181905260009282018390528082018390526080820181905260a082015260c0810182905260e081019190915260006001600160a01b031660028360405161071e91906115a6565b908152604051908190036020019020600501546001600160a01b0316036107805760405162461bcd60e51b8152602060048201526016602482015275141c9bd91d58dd08191bd95cc81b9bdd08195e1a5cdd60521b6044820152606401610612565b60028260405161079091906115a6565b9081526020016040518091039020604051806101000160405290816000820180546107ba9061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546107e69061156c565b80156108335780601f1061080857610100808354040283529160200191610833565b820191906000526020600020905b81548152906001019060200180831161081657829003601f168201915b5050505050815260200160018201805461084c9061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546108789061156c565b80156108c55780601f1061089a576101008083540402835291602001916108c5565b820191906000526020600020905b8154815290600101906020018083116108a857829003601f168201915b5050509183525050600282015463ffffffff80821660208401526401000000009091041660408201526003820180546060909201916109039061156c565b80601f016020809104026020016040519081016040528092919081815260200182805461092f9061156c565b801561097c5780601f106109515761010080835404028352916020019161097c565b820191906000526020600020905b81548152906001019060200180831161095f57829003601f168201915b505050505081526020016004820180546109959061156c565b80601f01602080910402602001604051908101604052809291908181526020018280546109c19061156c565b8015610a0e5780601f106109e357610100808354040283529160200191610a0e565b820191906000526020600020905b8154815290600101906020018083116109f157829003601f168201915b5050509183525050600591909101546001600160a01b0381166020830152600160a01b900460ff16151560409091015292915050565b336000908152600560205260409020610a5d8282611611565b507f01ce78943c281f10861631ff461c646c7a6d1f748a4f1c4b8d3eafce36ebae353382604051610a8f9291906116d0565b60405180910390a150565b60006001600160a01b0316600282604051610ab591906115a6565b908152604051908190036020019020600501546001600160a01b031614610b1e5760405162461bcd60e51b815260206004820152601960248201527f4c697374696e6720494420616c726561647920657869737473000000000000006044820152606401610612565b60408051610100810182528881526020810188905263ffffffff80881682840152861660608201526080810185905260a081018490523360c0820152600060e08201529051600290610b719084906115a6565b90815260405190819003602001902081518190610b8e9082611611565b5060208201516001820190610ba39082611611565b506040820151600282018054606085015163ffffffff9081166401000000000267ffffffffffffffff1990921693169290921791909117905560808201516003820190610bf09082611611565b5060a08201516004820190610c059082611611565b5060c08201516005909101805460e0909301511515600160a01b026001600160a81b03199093166001600160a01b03909216919091179190911790556040517fb146efb745af9542cfbdca0f12a6f72a4ce7e283832d8b61cd3dc5e51838bc6d90610c779083903390899089906116f4565b60405180910390a150505050505050565b600281604051610c9891906115a6565b90815260405190819003602001902060050154336001600160a01b0390911614610d105760405162461bcd60e51b8152602060048201526024808201527f4f6e6c79207468652073656c6c65722063616e20636f6e6669726d2064656c696044820152637665727960e01b6064820152608401610612565b600281604051610d2091906115a6565b9081526040519081900360200190206005015460ff600160a01b9091041615610d8b5760405162461bcd60e51b815260206004820152601960248201527f50726f6475637420616c72656164792064656c697665726564000000000000006044820152606401610612565b6001600282604051610d9d91906115a6565b9081526040519081900360200181206005018054921515600160a01b0260ff60a01b1990931692909217909155600290610dd89083906115a6565b908152604051908190036020018120600501546001600160a01b0316904780156108fc02916000818181858888f19350505050158015610e1c573d6000803e3d6000fd5b507f8e7f2465d57c0d2ee4e9f885968a20b36712b73d9d659a145dd42122beae92c78133604051610a8f929190611733565b6000600283604051610e6091906115a6565b908152604051908190036020019020600281015490915063ffffffff64010000000090910481169083161115610ed85760405162461bcd60e51b815260206004820152601960248201527f4e6f7420656e6f756768206974656d7320696e2073746f636b000000000000006044820152606401610612565b6002810154610eee90839063ffffffff16611773565b63ffffffff163414610f425760405162461bcd60e51b815260206004820152601e60248201527f496e636f727265637420616d6f756e74206f662045746865722073656e7400006044820152606401610612565b818160020160048282829054906101000a900463ffffffff16610f659190611799565b92506101000a81548163ffffffff021916908363ffffffff16021790555033600384604051610f9491906115a6565b90815260405190819003602001812080546001600160a01b03939093166001600160a01b0319909316929092179091557f56175a6a000ddb23d40bb76f2819a9cf92504db2eb4ec635b19d9dbd9ae05d8a90610ff5908590339086906117bb565b60405180910390a1505050565b33600090815260046020526040902061101b8282611611565b507f4ee9b8dbe704dd50721397f99b693b9946421e9fd429bb9edf1e6bf0864082723382604051610a8f9291906116d0565b6001600160a01b0381166000908152600560205260408120805460609291906110759061156c565b9050116110fe5760405162461bcd60e51b815260206004820152604b60248201527f4e6f20637573746f6d20696e737472756374696f6e732073657420666f72207460448201527f68697320757365722e2041726520796f7520737572652074686579206861766560648201526a207075726368617365643f60a81b608482015260a401610612565b6001600160a01b0382166000908152600560205260409020805461063e9061156c565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261114857600080fd5b813567ffffffffffffffff81111561116257611162611121565b604051601f8201601f19908116603f0116810167ffffffffffffffff8111828210171561119157611191611121565b6040528181528382016020018510156111a957600080fd5b816020850160208301376000918101602001919091529392505050565b6000602082840312156111d857600080fd5b813567ffffffffffffffff8111156111ef57600080fd5b6111fb84828501611137565b949350505050565b60005b8381101561121e578181015183820152602001611206565b50506000910152565b6000815180845261123f816020860160208601611203565b601f01601f19169290920160200192915050565b6101008152600061126861010083018b611227565b828103602084015261127a818b611227565b905063ffffffff8916604084015263ffffffff8816606084015282810360808401526112a68188611227565b905082810360a08401526112ba8187611227565b6001600160a01b039590951660c0840152505090151560e0909101529695505050505050565b6020815260006112f36020830184611227565b9392505050565b60006020828403121561130c57600080fd5b81356001600160a01b03811681146112f357600080fd5b60208152600082516101006020840152611341610120840182611227565b90506020840151601f1984830301604085015261135e8282611227565b9150506040840151611378606085018263ffffffff169052565b50606084015163ffffffff81166080850152506080840151838203601f190160a08501526113a68282611227565b91505060a0840151601f198483030160c08501526113c48282611227565b91505060c08401516113e160e08501826001600160a01b03169052565b5060e0840151801515610100850152509392505050565b803563ffffffff8116811461140c57600080fd5b919050565b600080600080600080600060e0888a03121561142c57600080fd5b873567ffffffffffffffff81111561144357600080fd5b61144f8a828b01611137565b975050602088013567ffffffffffffffff81111561146c57600080fd5b6114788a828b01611137565b965050611487604089016113f8565b9450611495606089016113f8565b9350608088013567ffffffffffffffff8111156114b157600080fd5b6114bd8a828b01611137565b93505060a088013567ffffffffffffffff8111156114da57600080fd5b6114e68a828b01611137565b92505060c088013567ffffffffffffffff81111561150357600080fd5b61150f8a828b01611137565b91505092959891949750929550565b6000806040838503121561153157600080fd5b823567ffffffffffffffff81111561154857600080fd5b61155485828601611137565b925050611563602084016113f8565b90509250929050565b600181811c9082168061158057607f821691505b6020821081036115a057634e487b7160e01b600052602260045260246000fd5b50919050565b600082516115b8818460208701611203565b9190910192915050565b601f82111561160c57806000526020600020601f840160051c810160208510156115e95750805b601f840160051c820191505b8181101561160957600081556001016115f5565b50505b505050565b815167ffffffffffffffff81111561162b5761162b611121565b61163f81611639845461156c565b846115c2565b6020601f821160018114611673576000831561165b5750848201515b600019600385901b1c1916600184901b178455611609565b600084815260208120601f198516915b828110156116a35787850151825560209485019460019092019101611683565b50848210156116c15786840151600019600387901b60f8161c191681555b50505050600190811b01905550565b6001600160a01b03831681526040602082018190526000906111fb90830184611227565b6080815260006117076080830187611227565b6001600160a01b039590951660208301525063ffffffff92831660408201529116606090910152919050565b6040815260006117466040830185611227565b905060018060a01b03831660208301529392505050565b634e487b7160e01b600052601160045260246000fd5b63ffffffff81811683821602908116908181146117925761179261175d565b5092915050565b63ffffffff82811682821603908111156117b5576117b561175d565b92915050565b6060815260006117ce6060830186611227565b6001600160a01b039490941660208301525063ffffffff9190911660409091015291905056fea26469706673582212207a81452a274b81ef7740e97fe42525786368d0a05352094e4bfc30ed37a1502d64736f6c634300081a0033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "createProduct(string,string,uint32,uint32,string,string,string)": {
+        "params": {
+          "_description": "Product description.",
+          "_formSelectionType": "Type of selection form.",
+          "_image": "Product's image URL.",
+          "_listingID": "Listing ID.",
+          "_price": "Price.",
+          "_quantity": "Initial quantity.",
+          "_title": "Listing title."
+        }
+      },
+      "getDeliveryAddress(address)": {
+        "params": {
+          "user": "User's ETH address."
+        },
+        "returns": {
+          "_0": "Physcial delivery address of the user."
+        }
+      },
+      "purchaseProduct(string,uint32)": {
+        "params": {
+          "_listingID": "Listing ID.",
+          "_quantity": "Purchase quantity."
+        }
+      },
+      "setDeliveryAddress(string)": {
+        "params": {
+          "_deliveryAddress": "New delivery address."
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "createProduct(string,string,uint32,uint32,string,string,string)": {
+        "notice": "Create a new product listing."
+      },
+      "getDeliveryAddress(address)": {
+        "notice": "Retrieves delivery address of a user."
+      },
+      "purchaseProduct(string,uint32)": {
+        "notice": "Allows a user to purchase a product."
+      },
+      "setDeliveryAddress(string)": {
+        "notice": "Allows a user to set own delivery address against their ETH address."
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3,
+        "contract": "contracts/Commerce.sol:CommerceContract",
+        "label": "owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 5,
+        "contract": "contracts/Commerce.sol:CommerceContract",
+        "label": "deployer",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 10,
+        "contract": "contracts/Commerce.sol:CommerceContract",
+        "label": "products",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_string_memory_ptr,t_struct(ProductData)75_storage)"
+      },
+      {
+        "astId": 14,
+        "contract": "contracts/Commerce.sol:CommerceContract",
+        "label": "productBuyers",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_string_memory_ptr,t_address)"
+      },
+      {
+        "astId": 18,
+        "contract": "contracts/Commerce.sol:CommerceContract",
+        "label": "deliveryAddresses",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_address,t_string_storage)"
+      },
+      {
+        "astId": 22,
+        "contract": "contracts/Commerce.sol:CommerceContract",
+        "label": "customInstructions",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_address,t_string_storage)"
+      },
+      {
+        "astId": 77,
+        "contract": "contracts/Commerce.sol:CommerceContract",
+        "label": "listingTitle",
+        "offset": 0,
+        "slot": "6",
+        "type": "t_string_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_address_payable": {
+        "encoding": "inplace",
+        "label": "address payable",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_string_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => string)",
+        "numberOfBytes": "32",
+        "value": "t_string_storage"
+      },
+      "t_mapping(t_string_memory_ptr,t_address)": {
+        "encoding": "mapping",
+        "key": "t_string_memory_ptr",
+        "label": "mapping(string => address)",
+        "numberOfBytes": "32",
+        "value": "t_address"
+      },
+      "t_mapping(t_string_memory_ptr,t_struct(ProductData)75_storage)": {
+        "encoding": "mapping",
+        "key": "t_string_memory_ptr",
+        "label": "mapping(string => struct CommerceContract.ProductData)",
+        "numberOfBytes": "32",
+        "value": "t_struct(ProductData)75_storage"
+      },
+      "t_string_memory_ptr": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(ProductData)75_storage": {
+        "encoding": "inplace",
+        "label": "struct CommerceContract.ProductData",
+        "members": [
+          {
+            "astId": 60,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "title",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 62,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "description",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 64,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "price",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint32"
+          },
+          {
+            "astId": 66,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "quantity",
+            "offset": 4,
+            "slot": "2",
+            "type": "t_uint32"
+          },
+          {
+            "astId": 68,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "formSelectionType",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 70,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "image",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 72,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "creatorWallet",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_address_payable"
+          },
+          {
+            "astId": 74,
+            "contract": "contracts/Commerce.sol:CommerceContract",
+            "label": "isDelivered",
+            "offset": 20,
+            "slot": "5",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "192"
+      },
+      "t_uint32": {
+        "encoding": "inplace",
+        "label": "uint32",
+        "numberOfBytes": "4"
+      }
+    }
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0xCF23eba1af473c295EDcEb5f12eb4C6cb7428Cf6",
+      "txHash": "0xbadc02ab8a8ca27c7b95a9984cf1cc8fc761b3354728525d4ffacd48486eef6b",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x278e3AF7fEF829dCdD4076d3C001Ccf17EDB8495",
+      "txHash": "0x8d91334e3eb7639c1db04bc6b5ad06ef5e476c659279eb72eee99aa8c1d9834c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x468C59BCd3Fa43D32B35757C4cE62f09d7b30763",
+      "txHash": "0x47bd1def6d7ae2ca13dc89a69a7824ad0fb25bdc5e5c6015d81687b410ef14cf",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x552929EF4A1Bc770d53F467ce7aeDD3A6118674A",
+      "txHash": "0x8108319f651d2640dd40860fc92789ad19d049b4d6a6ef857b868830c506689b",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x11b0033eFE52B153b5F4CaFAf4868c3448FC14AA",
+      "txHash": "0x6aae8e50cf30a5776069f5e1ebb943b3aaf19285d9e00e6a7f23e3445b8d4565",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x397e9fd722adC5A1E06eb5ea87e4139FdB2DE796",
+      "txHash": "0x56fbe08b464dfa0a826eb7785390b94bb220565542025843d1110986dae2f5a4",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "6f0aa38ebfa7eb9b0e723aa27145bd716ed4b37e364d25e3ac99faf5e0ed7783": {
+      "address": "0x12ba9b0Bc099D931AFbf9A7Bb133A1f948a56d5a",
+      "txHash": "0x5a094c7f55abbca7134e9d29920998b727d330ba080e85b74e71596e8c0abfff",
+      "layout": {
+        "solcVersion": "0.8.26",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "CommerceContract",
+            "src": "contracts/Commerce.sol:5"
+          },
+          {
+            "label": "deployer",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "CommerceContract",
+            "src": "contracts/Commerce.sol:6"
+          },
+          {
+            "label": "products",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_string_memory_ptr,t_struct(ProductData)75_storage)",
+            "contract": "CommerceContract",
+            "src": "contracts/Commerce.sol:8"
+          },
+          {
+            "label": "productBuyers",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_string_memory_ptr,t_address)",
+            "contract": "CommerceContract",
+            "src": "contracts/Commerce.sol:9"
+          },
+          {
+            "label": "deliveryAddresses",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_address,t_string_storage)",
+            "contract": "CommerceContract",
+            "src": "contracts/Commerce.sol:10"
+          },
+          {
+            "label": "customInstructions",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_mapping(t_address,t_string_storage)",
+            "contract": "CommerceContract",
+            "src": "contracts/Commerce.sol:11"
+          },
+          {
+            "label": "listingTitle",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_string_storage",
+            "contract": "CommerceContract",
+            "src": "contracts/Commerce.sol:30"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_address_payable": {
+            "label": "address payable",
+            "numberOfBytes": "20"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_string_storage)": {
+            "label": "mapping(address => string)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_address)": {
+            "label": "mapping(string => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_struct(ProductData)75_storage)": {
+            "label": "mapping(string => struct CommerceContract.ProductData)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(ProductData)75_storage": {
+            "label": "struct CommerceContract.ProductData",
+            "members": [
+              {
+                "label": "title",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "description",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "price",
+                "type": "t_uint32",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "quantity",
+                "type": "t_uint32",
+                "offset": 4,
+                "slot": "2"
+              },
+              {
+                "label": "formSelectionType",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "image",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "creatorWallet",
+                "type": "t_address_payable",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "isDelivered",
+                "type": "t_bool",
+                "offset": 20,
+                "slot": "5"
+              }
+            ],
+            "numberOfBytes": "192"
+          },
+          "t_uint32": {
+            "label": "uint32",
+            "numberOfBytes": "4"
+          }
+        },
+        "namespaces": {}
+      }
+    }
+  }
+}

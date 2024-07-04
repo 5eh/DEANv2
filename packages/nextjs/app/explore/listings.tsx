@@ -1,9 +1,5 @@
 "use client";
 
 export default function Listings() {
-  return (
-    <div>
-      <h1>Listings</h1>
-    </div>
-  );
+  return <div>Listings</div>;
 }

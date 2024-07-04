@@ -23,8 +23,13 @@ module.exports = {
       chainId: 336,
     },
   },
+  namedAccounts: {
+    deployer: {
+      default: 0, // The first account in the accounts array
+    },
+  },
   solidity: {
-    version: "0.8.21",
+    version: "0.8.26",
     settings: {
       optimizer: {
         enabled: true,

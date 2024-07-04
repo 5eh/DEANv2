@@ -5,37 +5,93 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
+  336: {
     CommerceContract: {
-      address: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+      address: "0x4821b8c6B10a12933bF790823eb992cBCb563639",
       abi: [
         {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
-              internalType: "uint256",
-              name: "productId",
-              type: "uint256",
+              indexed: false,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "instructions",
+              type: "string",
             },
           ],
-          name: "ProductDelivered",
+          name: "CustomInstructionsUpdated",
           type: "event",
         },
         {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
-              internalType: "uint256",
-              name: "productId",
-              type: "uint256",
+              indexed: false,
+              internalType: "address",
+              name: "user",
+              type: "address",
             },
             {
-              indexed: true,
+              indexed: false,
+              internalType: "string",
+              name: "deliveryAddress",
+              type: "string",
+            },
+          ],
+          name: "DeliveryAddressUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+            {
+              indexed: false,
               internalType: "address",
-              name: "seller",
+              name: "owner",
               type: "address",
+            },
+          ],
+          name: "DeliveryConfirmed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "price",
+              type: "uint32",
+            },
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "quantity",
+              type: "uint32",
             },
           ],
           name: "ProductListed",
@@ -45,16 +101,22 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
-              internalType: "uint256",
-              name: "productId",
-              type: "uint256",
+              indexed: false,
+              internalType: "string",
+              name: "listingID",
+              type: "string",
             },
             {
-              indexed: true,
+              indexed: false,
               internalType: "address",
               name: "buyer",
               type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "quantity",
+              type: "uint32",
             },
           ],
           name: "ProductPurchased",
@@ -63,29 +125,18 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "_productId",
-              type: "uint256",
+              internalType: "string",
+              name: "_listingID",
+              type: "string",
             },
           ],
-          name: "callOwnerAddress",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
+          name: "confirmDelivery",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
-            {
-              internalType: "uint256",
-              name: "_productId",
-              type: "uint256",
-            },
             {
               internalType: "string",
               name: "_title",
@@ -97,23 +148,28 @@ const deployedContracts = {
               type: "string",
             },
             {
+              internalType: "uint32",
+              name: "_price",
+              type: "uint32",
+            },
+            {
+              internalType: "uint32",
+              name: "_quantity",
+              type: "uint32",
+            },
+            {
               internalType: "string",
-              name: "_photos",
+              name: "_formSelectionType",
               type: "string",
             },
             {
               internalType: "string",
-              name: "_category",
+              name: "_image",
               type: "string",
             },
             {
               internalType: "string",
-              name: "_location",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "_shippingMethod",
+              name: "_listingID",
               type: "string",
             },
           ],
@@ -125,91 +181,134 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "_productId",
-              type: "uint256",
+              internalType: "address",
+              name: "user",
+              type: "address",
             },
           ],
-          name: "deliverProduct",
+          name: "getCustomInstructions",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getDeliveryAddress",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getListingTitle",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+          ],
+          name: "getProductData",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "title",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "price",
+                  type: "uint32",
+                },
+                {
+                  internalType: "uint32",
+                  name: "quantity",
+                  type: "uint32",
+                },
+                {
+                  internalType: "string",
+                  name: "formSelectionType",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "image",
+                  type: "string",
+                },
+                {
+                  internalType: "address payable",
+                  name: "creatorWallet",
+                  type: "address",
+                },
+                {
+                  internalType: "bool",
+                  name: "isDelivered",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct CommerceContract.ProductData",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_deployer",
+              type: "address",
+            },
+          ],
+          name: "initialize",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "getLegalInformation",
-          outputs: [
+          inputs: [
             {
               internalType: "string",
               name: "",
               type: "string",
-            },
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "greeting",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "isDelivered",
-          outputs: [
-            {
-              internalType: "bool",
-              name: "",
-              type: "bool",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "isPaid",
-          outputs: [
-            {
-              internalType: "bool",
-              name: "",
-              type: "bool",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
             },
           ],
           name: "products",
@@ -225,29 +324,34 @@ const deployedContracts = {
               type: "string",
             },
             {
+              internalType: "uint32",
+              name: "price",
+              type: "uint32",
+            },
+            {
+              internalType: "uint32",
+              name: "quantity",
+              type: "uint32",
+            },
+            {
               internalType: "string",
-              name: "photos",
+              name: "formSelectionType",
               type: "string",
             },
             {
               internalType: "string",
-              name: "category",
+              name: "image",
               type: "string",
             },
             {
-              internalType: "string",
-              name: "location",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "shippingMethod",
-              type: "string",
-            },
-            {
-              internalType: "address",
-              name: "ownerWallet",
+              internalType: "address payable",
+              name: "creatorWallet",
               type: "address",
+            },
+            {
+              internalType: "bool",
+              name: "isDelivered",
+              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -256,9 +360,14 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "_productId",
-              type: "uint256",
+              internalType: "string",
+              name: "_listingID",
+              type: "string",
+            },
+            {
+              internalType: "uint32",
+              name: "_quantity",
+              type: "uint32",
             },
           ],
           name: "purchaseProduct",
@@ -267,29 +376,29 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "purpose",
-          outputs: [
+          inputs: [
             {
               internalType: "string",
-              name: "",
+              name: "_instructions",
               type: "string",
             },
           ],
-          stateMutability: "view",
+          name: "setCustomInstructions",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "termsAndAgreements",
-          outputs: [
+          inputs: [
             {
               internalType: "string",
-              name: "",
+              name: "_deliveryAddress",
               type: "string",
             },
           ],
-          stateMutability: "view",
+          name: "setDeliveryAddress",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
       ],

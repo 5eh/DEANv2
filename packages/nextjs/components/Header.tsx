@@ -86,7 +86,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2">
+      <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 justify-between z-20 border border-transparent border-b-white px-0 sm:px-2">
         <div className="navbar-start w-auto lg:w-1/2">
           <div className="lg:hidden dropdown" ref={burgerMenuRef}>
             <label
@@ -120,14 +120,15 @@ export const Header = () => {
             </div>
           </Link>
         </div>
+
         <div className="flex justify-center w-full">
           <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
             <HeaderMenuLinks />
           </ul>
         </div>
+
         <div className="navbar-end flex-grow mr-4">
           <RainbowKitCustomConnectButton />
-          <FaucetButton />
         </div>
       </div>
     </>
