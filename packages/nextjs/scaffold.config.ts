@@ -8,7 +8,7 @@ export const mevm = defineChain({
   nativeCurrency: {
     decimals: 18,
     name: "Move Tokens",
-    symbol: "MOVE",
+    symbol: "MVMT",
   },
   rpcUrls: {
     default: {

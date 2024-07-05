@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Commerce.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity >=0.8.0 <0.9.0;\n\ncontract CommerceContract {\n\t// Event to log the address of the newly created contract\n\tevent NewContractCreated(address contractAddress);\n\n\t/**\n\t * Function to create a new contract with the provided inputs\n\t *\n\t * @param _input1 (address)\n\t * @param _input2 (string memory)\n\t * @param _input3 (uint256)\n\t * @param _input4 (bool)\n\t * @param _input5 (bytes32)\n\t */\n\tfunction createNewContract(\n\t\taddress _input1,\n\t\tstring memory _input2,\n\t\tuint256 _input3,\n\t\tbool _input4,\n\t\tbytes32 _input5\n\t) public {\n\t\tNewContract newContract = new NewContract(\n\t\t\t_input1,\n\t\t\t_input2,\n\t\t\t_input3,\n\t\t\t_input4,\n\t\t\t_input5\n\t\t);\n\t\temit NewContractCreated(address(newContract));\n\t}\n}\n\ncontract NewContract {\n\taddress public input1;\n\tstring public input2;\n\tuint256 public input3;\n\tbool public input4;\n\tbytes32 public input5;\n\n\t/**\n\t * Constructor to initialize the new contract with provided inputs\n\t *\n\t * @param _input1 (address)\n\t * @param _input2 (string memory)\n\t * @param _input3 (uint256)\n\t * @param _input4 (bool)\n\t * @param _input5 (bytes32)\n\t */\n\tconstructor(\n\t\taddress _input1,\n\t\tstring memory _input2,\n\t\tuint256 _input3,\n\t\tbool _input4,\n\t\tbytes32 _input5\n\t) {\n\t\tinput1 = _input1;\n\t\tinput2 = _input2;\n\t\tinput3 = _input3;\n\t\tinput4 = _input4;\n\t\tinput5 = _input5;\n\t}\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
