@@ -1,42 +1,54 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
+import { ethers } from "hardhat";
 
-/**
- * Deploys the CommerceFactory contract.
- *
- * @param hre HardhatRuntimeEnvironment object.
- */
-const deployCommerceFactory: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployCommerceContracts: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
-  const { deploy, get } = hre.deployments;
+  const { deploy } = hre.deployments;
 
-  // Deploy the factory contract
-  const deploymentResult = await deploy("CommerceFactory", {
+  // Deploy the CommerceFactory contract
+  const factoryDeployment = await deploy("CommerceFactory", {
     from: deployer,
     log: true,
     autoMine: true,
   });
 
   // Check if the deployment was successful
-  if (deploymentResult.newlyDeployed) {
-    console.log("🏭 COMMERCE Factory deployed at:", deploymentResult.address, "🏭");
+  if (factoryDeployment.newlyDeployed) {
+    console.log("🏭 Commerce Factory deployed at:", factoryDeployment.address, "🏭");
   } else {
-    console.log("🏭 COMMERCE Factory already deployed at:", deploymentResult.address, "🏭");
+    console.log("🏭 Commerce Factory potentially already deployed:", factoryDeployment.address);
   }
 
+  // Deploy the CommerceContract through the factory
   try {
-    // Fetch the deployment details directly
-    const deployedFactory = await get("CommerceFactory");
-
     // Get the deployed factory contract to interact with it
-    const commerceFactory: Contract = await hre.ethers.getContractAt(deployedFactory.abi, deployedFactory.address);
-    console.log("🏭 COMMERCE Factory Address from ethers.getContractAt:", commerceFactory.address, "🏭");
+    const commerceFactory = await ethers.getContractAt("CommerceFactory", factoryDeployment.address);
+    console.log("🏭 Commerce Factory Address from ethers.getContractAt:", commerceFactory.address, "🏭");
+
+    // Create a new CommerceContract through the factory
+    const tx = await commerceFactory.createCommerceContract(
+      "Sample Plant",
+      "A beautiful and rare plant",
+      1000, // price
+      10, // quantity
+      "SelectionType1",
+      "https://example.com/photo.jpg",
+    );
+    await tx.wait();
+
+    // Get all deployed CommerceContract addresses
+    const allContracts = await commerceFactory.getCommerceContracts();
+    console.log("🏭 All Commerce Contracts:", allContracts);
+
+    // Iterate over all contracts and get their product data
+    for (const contractAddress of allContracts) {
+      const productData = await commerceFactory.getProductData(contractAddress);
+      console.log(`📦 Product Data for contract ${contractAddress}:`, productData);
+    }
   } catch (error) {
-    console.error("❌ Error fetching the factory contract instance:", error);
+    console.error("❌ Error interacting with the factory contract instance:", error);
   }
 };
 
-export default deployCommerceFactory;
-
-deployCommerceFactory.tags = ["CommerceFactory"];
+export default deployCommerceContracts;

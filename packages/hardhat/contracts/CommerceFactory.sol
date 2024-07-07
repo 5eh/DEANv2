@@ -1,71 +1,52 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./Commerce.sol";
+import "./CommerceContract.sol";
 
 contract CommerceFactory {
-	struct ContractInfo {
-		address contractAddress;
-		string title;
-		string description;
-		uint timestamp;
-	}
+	address[] public commerceContracts;
+	mapping(address => address) public contractToOwner;
 
-	ContractInfo[] public deployedContracts;
-
-	event ContractDeployed(
-		address contractAddress,
-		string title,
-		string description,
-		uint timestamp
-	);
+	event CommerceContractDeployed(address contractAddress);
 
 	function createCommerceContract(
 		string memory _title,
 		string memory _description,
-		string memory _photoURL,
-		string memory _originsLocation,
-		string memory _shippingMethod,
-		string memory _upcharges,
-		string memory _sellerName,
-		uint _quantity,
-		uint _validityTime,
-		uint _productPrice
+		uint32 _price,
+		uint32 _quantity,
+		string memory _formSelectionType,
+		string memory _image
 	) public {
-		CommerceContract newContract = new CommerceContract(
+		CommerceContract newContract = new CommerceContract();
+		newContract.initialize(
+			msg.sender,
 			_title,
 			_description,
-			_photoURL,
-			_originsLocation,
-			_shippingMethod,
-			_upcharges,
-			_sellerName,
+			_price,
 			_quantity,
-			_validityTime,
-			_productPrice,
-			block.timestamp
+			_formSelectionType,
+			_image
 		);
-		deployedContracts.push(
-			ContractInfo({
-				contractAddress: address(newContract),
-				title: _title,
-				description: _description,
-				timestamp: block.timestamp
-			})
-		);
-		emit ContractDeployed(
-			address(newContract),
-			_title,
-			_description,
-			block.timestamp
-		);
+		commerceContracts.push(address(newContract));
+		contractToOwner[address(newContract)] = msg.sender;
+		emit CommerceContractDeployed(address(newContract));
 	}
 
-	function getDeployedContracts()
-		public
-		view
-		returns (ContractInfo[] memory)
-	{
-		return deployedContracts;
+	function getCommerceContracts() public view returns (address[] memory) {
+		return commerceContracts;
+	}
+
+	function getCommerceContractAddress(
+		uint256 index
+	) public view returns (address) {
+		require(index < commerceContracts.length, "Index out of bounds");
+		return commerceContracts[index];
+	}
+
+	function getProductData(
+		address contractAddress
+	) public view returns (CommerceContract.ProductData memory) {
+		CommerceContract contractInstance = CommerceContract(contractAddress);
+		return contractInstance.getProductData();
 	}
 }

@@ -9,12 +9,9 @@ import "solidity-coverage";
 import "@nomicfoundation/hardhat-verify";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
-import "@openzeppelin/hardhat-upgrades"; // Import OpenZeppelin upgrades plugin
-
-import "@nomicfoundation/hardhat-toolbox";
 
 module.exports = {
-  defaultNetwork: "m1",
+  defaultNetwork: "localhost",
   networks: {
     hardhat: {},
     m1: {
@@ -25,11 +22,11 @@ module.exports = {
   },
   namedAccounts: {
     deployer: {
-      default: 0, // The first account in the accounts array
+      default: 0,
     },
   },
   solidity: {
-    version: "0.8.26",
+    version: "0.8.0",
     settings: {
       optimizer: {
         enabled: true,
