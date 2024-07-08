@@ -1,5 +1,6 @@
 import * as chains from "viem/chains";
 import scaffoldConfig from "~~/scaffold.config";
+import { PRIMARY_TEXT_LIGHT } from "../../../../configuration/design.js";
 
 type ChainAttributes = {
   // color | [lightThemeColor, darkThemeColor]
@@ -41,7 +42,7 @@ export const getAlchemyHttpUrl = (chainId: number) => {
 
 export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
   [chains.hardhat.id]: {
-    color: "#b8af0c",
+    color: PRIMARY_TEXT_LIGHT,
   },
   [chains.mainnet.id]: {
     color: "#ff8b9e",

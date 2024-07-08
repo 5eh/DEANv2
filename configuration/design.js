@@ -9,8 +9,8 @@ export const BASE_100_DARK = "#000000"; // Dark Navigation background
 export const BASE_200_DARK = "#080705"; // Dark App background
 export const BASE_300_DARK = "#6C809A"; // Dark Hover color
 
-export const PRIMARY_TEXT_LIGHT = "#387DE4";
-export const SECONDARY_TEXT_LIGHT = "#57AEFF";
+export const PRIMARY_TEXT_LIGHT = "#05A8DC";
+export const SECONDARY_TEXT_LIGHT = "#5438DC";
 
-export const PRIMARY_TEXT_DARK = "#00FFF0";
-export const SECONDARY_TEXT_DARK = "#57AEFFs";
+export const PRIMARY_TEXT_DARK = "#05A8DC";
+export const SECONDARY_TEXT_DARK = "#5438DC";

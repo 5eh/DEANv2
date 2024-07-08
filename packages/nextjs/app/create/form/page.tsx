@@ -24,8 +24,7 @@ const Form: React.FC = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
 
-  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("CommerceContract");
-  const { address } = useAccount();
+  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("CommerceFactory");
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -47,7 +46,6 @@ const Form: React.FC = () => {
     }));
   }, [serviceType]);
 
-  // Handle form input change
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData({
@@ -56,7 +54,6 @@ const Form: React.FC = () => {
     });
   };
 
-  // Combine City and State
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
     setFormData({
@@ -73,7 +70,6 @@ const Form: React.FC = () => {
     });
   };
 
-  // Feature section
   const handleFeatureChange = (index: number, value: string) => {
     const updatedFeatures = formData.features.map((item, i) => (i === index ? value : item));
     setFormData({ ...formData, features: updatedFeatures });
@@ -88,7 +84,6 @@ const Form: React.FC = () => {
     setFormData({ ...formData, features: updatedFeatures });
   };
 
-  // Upcharge section
   const addUpcharge = () => {
     setFormData({ ...formData, upcharges: [...formData.upcharges, { upcharge: "", value: "" }] });
   };
@@ -100,14 +95,13 @@ const Form: React.FC = () => {
   };
 
   const updateUpchargeValue = (index: number, value: string, field: "upcharge" | "value") => {
-    const updatedValue = field === "value" ? Number(value) : value;
+    const updatedValue = field === "value" ? value : value;
     const updatedUpcharges = formData.upcharges.map((item, i) =>
       i === index ? { ...item, [field]: updatedValue } : item,
     );
     setFormData({ ...formData, upcharges: updatedUpcharges });
   };
 
-  // Submit section
   const handleSubmit = async () => {
     if (!formData.title || !formData.description || !formData.price || !formData.quantityOfService) {
       console.error("Title, description, price, and quantity of service are required.");
@@ -116,20 +110,20 @@ const Form: React.FC = () => {
 
     try {
       const args = [
-        Date.now(), // Unique product ID, you might want to use a better ID generation method
         formData.title,
         formData.description,
         formData.photo || "", // photo is optional
-        formData.category,
         formData.location,
         formData.shippingMethod,
-        Date.now(), // Timestamp from frontend
-        formData.features,
-        formData.upcharges.map(upcharge => [upcharge.upcharge, upcharge.value]),
+        formData.upcharges.map(upcharge => upcharge.upcharge).join(", "),
+        formData.category,
+        BigInt(formData.quantityOfService),
+        BigInt(30 * 24 * 60 * 60), // Assuming validity time is 30 days in seconds
+        BigInt(formData.price), // Price in Wei
       ];
 
       await writeYourContractAsync({
-        functionName: "createProduct",
+        functionName: "createCommerceContract",
         args: args,
         overrides: {
           gasLimit: 300000, // Adjust gas limit as needed
@@ -141,9 +135,12 @@ const Form: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12">
-      <form>
-        <div className="space-y-12">
+    <div className="x-6 lg:px-8">
+      <div className="mt-12">
+        <h1 className="text-4xl font-semibold code"> CREATE YOUR LISTING </h1>
+      </div>
+      <form className="">
+        <div className="space-y-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12">
           <div className="border-b border-white/10 pb-12">
             <div className="mt-10 gap-x-6 gap-y-8">
               <div className="sm:col-span-4">
@@ -164,11 +161,11 @@ const Form: React.FC = () => {
                 </div>
               </div>
               <div className="col-span-full">
-                <label htmlFor="description" className="block text-sm font-medium leading-6">
+                <label htmlFor="description" className="block text-sm font-medium leading-6 mt-12">
                   DESCRIPTION
                 </label>
                 <p className="mt-1 text-sm leading-6 text-gray-400">
-                  Write a few sentences about the service you're providing.
+                  Write a few sentences about the service you&apos;re providing.
                 </p>
                 <textarea
                   id="description"
@@ -180,11 +177,30 @@ const Form: React.FC = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="col-span-full flex justify-center">
+              {/* <div className="col-span-full flex justify-center">
                 <input type="file" className="file-input file-input-bordered w-full max-w-xs mt-4 mb-4" />
+              </div> */}
+              <label
+                htmlFor="photo"
+                className="block text-sm font-medium leading-6 mt-12 text-gray-900 dark:text-white"
+              >
+                INSERT PHOTO
+              </label>
+              <div className="flex justify-center items-center w-full mt-8 gap-x-1 relative">
+                <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />{" "}
+                <input
+                  type="file"
+                  onChange={handleInputChange}
+                  className="px-4 lg:mt-8 lg:mb-8 py-2 border dark:border-white border-black bg-gray-300/10 dark:bg-gray-300/10 dark:text-white w-3/4 hover:ring-2 hover:ring-primary/50 "
+                />
+                <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />
               </div>
+
               <div className="sm:col-span-3">
-                <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                <label
+                  htmlFor="price"
+                  className="block text-sm font-medium leading-6 mt-12 text-gray-900 dark:text-white"
+                >
                   TOTAL PRICE
                 </label>
                 <div className="mt-2">
@@ -201,7 +217,7 @@ const Form: React.FC = () => {
                 <span> IN WEI </span>
               </div>
 
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-4 mt-12">
                 <label
                   htmlFor="shippingMethod"
                   className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
@@ -291,7 +307,7 @@ const Form: React.FC = () => {
           </div>
 
           <div className="border-b border-white/10 pb-12">
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8">
+            <div className="mt-10 grid grid-cols-1">
               <fieldset>
                 <legend className="text-sm font-semibold leading-6 text-secondary dark:text-gray-400">
                   PREMIUM UPCHARGES TO THIS LISTING <span className="text-gray-800 dark:text-gray-500">(OPTIONAL)</span>
