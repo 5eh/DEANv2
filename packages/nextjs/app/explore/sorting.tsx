@@ -1,34 +1,55 @@
 import { useState } from "react";
 import Link from "next/link";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
+import { useDeployedContractInfo, useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import { FORM_SELECTION } from "../../../../configuration/form";
 
 export default function Sorting() {
-  const [contractAddress, setContractAddress] = useState("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
+  const [searchInput, setSearchInput] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Define ABI read functions on explore page
-  // get address
-  // create async await consolelog
+  // Call Main Contract ./
+  // Call function to Map each array[contract]
+  // Create loop to map each contract
+  // Function to retrieve contract data accordingly
+  // Function to use the mappedContract, then bring into function that retrieves data from that commerceContract
+  // Create consolelog
 
-  const ABI = [
-    {
-      inputs: [],
-      name: "getCommerceContracts",
-      outputs: [{ internalType: "address[]", name: "", type: "address[]" }],
-      stateMutability: "view",
-      type: "function",
-    },
-  ];
+  // async function fetchAndLogContracts() {
+  //   try {
+  //     const { data: allContracts } = await useScaffoldReadContract({
+  //       contractName: "CommerceFactory",
+  //       functionName: "getCommerceContracts",
+  //     });
 
-  const { data: getContracts } = useDeployedContractInfo({
-    contractName: "CommerceFactory",
-    functionName: ABI[0].name,
-    functionArgs: [],
+  //     allContracts.forEach((contract, index) => {
+  //       const mappedContract = contract;
+
+  //       const { data: contractData } = await useScaffoldReadContract({
+  //         contractName: "CommerceContract",
+  //         functionName: "getContractInfo",
+  //       });
+
+  //       console.log(`Contract: `, mappedContract, `Contract Data: `, contractData);
+  //       console.log(`Contract ${index + 1}:`, );
+  //     });
+  //   } catch (error) {
+  //     console.error("Error fetching contracts:", error);
+  //   }
+  // }
+
+  // Call the async function
+  // fetchAndLogContracts();
+
+  // const { data: readContract } = useScaffoldReadContract({
+  //   contractName: "Commerce",
+  // });
+
+  const { data: readContract } = useScaffoldReadContract({
+    contractName: "CommerceContract",
+    functionName: "getContractInfo",
   });
 
-  console.log(getContracts);
-
+  console.log(readContract);
   return (
     <div className="grid grid-cols-5 grid-rows-5 w-screen h-screen">
       <div className="row-span-5 border code border-transparent dark:border-r-white border-r-black text-left pt-8">
@@ -55,8 +76,8 @@ export default function Sorting() {
             <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />
             <input
               type="text"
-              value={contractAddress}
-              onChange={e => setContractAddress(e.target.value)}
+              value={searchInput}
+              onChange={e => setSearchInput(e.target.value)}
               placeholder="Search..."
               className="px-4 py-2 border dark:border-white border-black bg-gray-300/10 dark:bg-gray-300/10 dark:text-white w-2/3 hover:ring-2 hover:ring-primary/50"
             />

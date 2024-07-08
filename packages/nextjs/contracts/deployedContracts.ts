@@ -6,39 +6,138 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    CommerceFactory: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    CommerceContract: {
+      address: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
       abi: [
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
         {
           anonymous: false,
           inputs: [
             {
               indexed: false,
               internalType: "address",
-              name: "contractAddress",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "instructions",
+              type: "string",
+            },
+          ],
+          name: "CustomInstructionsUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "deliveryAddress",
+              type: "string",
+            },
+          ],
+          name: "DeliveryAddressUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "owner",
               type: "address",
             },
           ],
-          name: "CommerceContractDeployed",
+          name: "DeliveryConfirmed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "price",
+              type: "uint32",
+            },
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "quantity",
+              type: "uint32",
+            },
+          ],
+          name: "ProductListed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "buyer",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "quantity",
+              type: "uint32",
+            },
+          ],
+          name: "ProductPurchased",
           type: "event",
         },
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
+              internalType: "string",
+              name: "_listingID",
+              type: "string",
             },
           ],
-          name: "commerceContracts",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
+          name: "confirmDelivery",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
@@ -55,12 +154,12 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "_photoURL",
+              name: "_photo",
               type: "string",
             },
             {
               internalType: "string",
-              name: "_originsLocation",
+              name: "_location",
               type: "string",
             },
             {
@@ -75,26 +174,31 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "_sellerName",
+              name: "_category",
               type: "string",
             },
             {
-              internalType: "uint256",
+              internalType: "uint32",
+              name: "_price",
+              type: "uint32",
+            },
+            {
+              internalType: "uint32",
+              name: "_timeValidity",
+              type: "uint32",
+            },
+            {
+              internalType: "uint32",
               name: "_quantity",
-              type: "uint256",
+              type: "uint32",
             },
             {
-              internalType: "uint256",
-              name: "_validityTime",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "_productPrice",
-              type: "uint256",
+              internalType: "string",
+              name: "_listingID",
+              type: "string",
             },
           ],
-          name: "createCommerceContract",
+          name: "createProduct",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -102,17 +206,36 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "index",
-              type: "uint256",
+              internalType: "address",
+              name: "user",
+              type: "address",
             },
           ],
-          name: "getCommerceContractAddress",
+          name: "getCustomInstructions",
           outputs: [
             {
-              internalType: "address",
+              internalType: "string",
               name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
               type: "address",
+            },
+          ],
+          name: "getDeliveryAddress",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
             },
           ],
           stateMutability: "view",
@@ -120,15 +243,214 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "getCommerceContracts",
+          name: "getListingTitle",
           outputs: [
             {
-              internalType: "address[]",
+              internalType: "string",
               name: "",
-              type: "address[]",
+              type: "string",
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+          ],
+          name: "getProductData",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "title",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "photo",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "location",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "shippingMethod",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "upcharges",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "category",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "price",
+                  type: "uint32",
+                },
+                {
+                  internalType: "uint32",
+                  name: "timeValidity",
+                  type: "uint32",
+                },
+                {
+                  internalType: "uint32",
+                  name: "quantity",
+                  type: "uint32",
+                },
+                {
+                  internalType: "address payable",
+                  name: "creatorWallet",
+                  type: "address",
+                },
+                {
+                  internalType: "bool",
+                  name: "isDelivered",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct CommerceContract.ProductData",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          name: "products",
+          outputs: [
+            {
+              internalType: "string",
+              name: "title",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "photo",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "location",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "shippingMethod",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "upcharges",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "category",
+              type: "string",
+            },
+            {
+              internalType: "uint32",
+              name: "price",
+              type: "uint32",
+            },
+            {
+              internalType: "uint32",
+              name: "timeValidity",
+              type: "uint32",
+            },
+            {
+              internalType: "uint32",
+              name: "quantity",
+              type: "uint32",
+            },
+            {
+              internalType: "address payable",
+              name: "creatorWallet",
+              type: "address",
+            },
+            {
+              internalType: "bool",
+              name: "isDelivered",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "_listingID",
+              type: "string",
+            },
+            {
+              internalType: "uint32",
+              name: "_quantity",
+              type: "uint32",
+            },
+          ],
+          name: "purchaseProduct",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "_instructions",
+              type: "string",
+            },
+          ],
+          name: "setCustomInstructions",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "_deliveryAddress",
+              type: "string",
+            },
+          ],
+          name: "setDeliveryAddress",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
       ],

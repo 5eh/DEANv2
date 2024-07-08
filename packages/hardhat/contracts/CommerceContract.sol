@@ -1,182 +1,186 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
 contract CommerceContract {
-	struct Product {
+	address private owner;
+	address private deployer;
+
+	mapping(string => ProductData) public products;
+	mapping(string => address) private productBuyers;
+	mapping(address => string) private deliveryAddresses; // Storing unhashed delivery addresses
+	mapping(address => string) private customInstructions;
+
+	event ProductListed(
+		string listingID,
+		address owner,
+		uint32 price,
+		uint32 quantity
+	);
+	event ProductPurchased(string listingID, address buyer, uint32 quantity);
+	event DeliveryConfirmed(string listingID, address owner);
+	event DeliveryAddressUpdated(address user, string deliveryAddress);
+	event CustomInstructionsUpdated(address user, string instructions);
+
+	struct ProductData {
 		string title;
 		string description;
-		string photoURL;
-		string originsLocation;
+		string photo;
+		string location;
 		string shippingMethod;
 		string upcharges;
-		string sellerName;
-		uint quantity;
-		uint validityTime;
-		bool isAuthentic;
+		string category;
+		uint32 price;
+		uint32 timeValidity;
+		uint32 quantity;
+		address payable creatorWallet;
+		bool isDelivered;
 	}
 
-	struct Order {
-		address buyer;
-		string buyerName;
-		string deliveryLocation;
-		string shippingMethod;
-		uint quantity;
-		string customInstructions;
-		string purchasedUpcharges;
-		uint totalPrice;
-		bool isCompleted;
-		string receiptImageURL;
+	string private listingTitle;
+
+	constructor() {
+		owner = msg.sender;
+		deployer = msg.sender;
 	}
 
-	struct ContractInfo {
-		Product product;
-		address seller;
-		uint productPrice;
-		uint contractTimestamp;
-		address contractAddress;
-	}
-
-	Product public product;
-	address public seller;
-	mapping(address => Order) public orders;
-	address[] public buyers;
-	uint public totalOrders;
-	uint public productPrice;
-	uint public contractTimestamp;
-
-	event ProductListed(address seller, Product product);
-	event OrderPlaced(address buyer, Order order);
-	event OrderCompleted(address buyer, Order order);
-
-	modifier onlySeller() {
-		require(msg.sender == seller, "Only seller can perform this action");
+	modifier onlyOwnerOrDeployer() {
+		require(
+			msg.sender == owner || msg.sender == deployer,
+			"Not authorized"
+		);
 		_;
 	}
 
-	modifier validOrder() {
-		require(orders[msg.sender].buyer == address(0), "Order already placed");
-		_;
-	}
-
-	constructor(
+	/**
+	 * @notice Create a new product listing.
+	 * @param _title Listing title.
+	 * @param _description Product description..
+	 * @param _photo Product photo URL.
+	 * @param _location Product location.
+	 * @param _shippingMethod Shipping method.
+	 * @param _upcharges Additional upcharges.
+	 * @param _category Product category.
+	 * @param _price Price.
+	 * @param _quantity Initial quantity.
+	 * @param _listingID Listing ID.
+	 */
+	function createProduct(
 		string memory _title,
 		string memory _description,
-		string memory _photoURL,
-		string memory _originsLocation,
+		string memory _photo,
+		string memory _location,
 		string memory _shippingMethod,
 		string memory _upcharges,
-		string memory _sellerName,
-		uint _quantity,
-		uint _validityTime,
-		uint _productPrice,
-		uint _contractTimestamp
-	) {
-		seller = msg.sender;
-		product = Product({
+		string memory _category,
+		uint32 _price,
+		uint32 _timeValidity,
+		uint32 _quantity,
+		string memory _listingID
+	) public {
+		require(
+			products[_listingID].creatorWallet == address(0),
+			"Listing ID already exists"
+		);
+		products[_listingID] = ProductData({
 			title: _title,
 			description: _description,
-			photoURL: _photoURL,
-			originsLocation: _originsLocation,
+			photo: _photo,
+			location: _location,
 			shippingMethod: _shippingMethod,
 			upcharges: _upcharges,
-			sellerName: _sellerName,
+			category: _category,
+			price: _price,
+			timeValidity: _timeValidity,
 			quantity: _quantity,
-			validityTime: _validityTime,
-			isAuthentic: false
+			creatorWallet: payable(msg.sender),
+			isDelivered: false
 		});
-		productPrice = _productPrice;
-		contractTimestamp = _contractTimestamp;
-		emit ProductListed(seller, product);
+		emit ProductListed(_listingID, msg.sender, _price, _quantity);
 	}
 
-	function placeOrder(
-		string memory _buyerName,
-		string memory _deliveryLocation,
-		string memory _shippingMethod,
-		uint _quantity,
-		string memory _customInstructions,
-		string memory _purchasedUpcharges
-	) public payable validOrder {
+	/**
+	 * @notice Allows a user to purchase a product.
+	 * @param _listingID Listing ID.
+	 * @param _quantity Purchase quantity.
+	 */
+	function purchaseProduct(
+		string memory _listingID,
+		uint32 _quantity
+	) public payable {
+		ProductData storage product = products[_listingID];
+		require(_quantity <= product.quantity, "Not enough items in stock");
 		require(
-			_quantity > 0 && _quantity <= product.quantity,
-			"Invalid quantity"
+			msg.value == product.price * _quantity,
+			"Incorrect amount of Ether sent"
 		);
-		uint totalPrice = calculateTotalPrice(_quantity, _purchasedUpcharges);
-		require(msg.value >= totalPrice, "Insufficient payment");
-
-		orders[msg.sender] = Order({
-			buyer: msg.sender,
-			buyerName: _buyerName,
-			deliveryLocation: _deliveryLocation,
-			shippingMethod: _shippingMethod,
-			quantity: _quantity,
-			customInstructions: _customInstructions,
-			purchasedUpcharges: _purchasedUpcharges,
-			totalPrice: totalPrice,
-			isCompleted: false,
-			receiptImageURL: ""
-		});
-
-		buyers.push(msg.sender);
-		totalOrders += 1;
 		product.quantity -= _quantity;
-
-		emit OrderPlaced(msg.sender, orders[msg.sender]);
+		productBuyers[_listingID] = msg.sender;
+		emit ProductPurchased(_listingID, msg.sender, _quantity);
 	}
 
-	function completeOrder(
-		address _buyer,
-		string memory _receiptImageURL
-	) public onlySeller {
-		require(orders[_buyer].buyer != address(0), "Order does not exist");
-		orders[_buyer].isCompleted = true;
-		orders[_buyer].receiptImageURL = _receiptImageURL;
-
-		emit OrderCompleted(_buyer, orders[_buyer]);
-	}
-
-	function calculateTotalPrice(
-		uint _quantity,
-		string memory _purchasedUpcharges
-	) internal view returns (uint) {
-		uint totalPrice = _quantity * productPrice;
-		// Add upcharge price logic here (e.g., each upcharge costs 0.01 ETH)
-		if (bytes(_purchasedUpcharges).length > 0) {
-			totalPrice += 0.01 ether;
-		}
-		return totalPrice;
-	}
-
-	function getOrder(address _buyer) public view returns (Order memory) {
-		return orders[_buyer];
-	}
-
-	function withdraw() public onlySeller {
-		require(totalOrders > 0, "No orders placed");
-		bool allOrdersCompleted = true;
-
-		for (uint i = 0; i < buyers.length; i++) {
-			if (!orders[buyers[i]].isCompleted) {
-				allOrdersCompleted = false;
-				break;
-			}
-		}
-
+	function confirmDelivery(string memory _listingID) public {
 		require(
-			allOrdersCompleted,
-			"All orders must be completed before withdrawal"
+			msg.sender == products[_listingID].creatorWallet,
+			"Only the seller can confirm delivery"
 		);
-		payable(seller).transfer(address(this).balance);
+		require(!products[_listingID].isDelivered, "Product already delivered");
+
+		products[_listingID].isDelivered = true;
+		products[_listingID].creatorWallet.transfer(address(this).balance);
+
+		emit DeliveryConfirmed(_listingID, msg.sender);
 	}
 
-	function getContractInfo() public view returns (ContractInfo memory) {
-		return
-			ContractInfo({
-				product: product,
-				seller: seller,
-				productPrice: productPrice,
-				contractTimestamp: contractTimestamp,
-				contractAddress: address(this)
-			});
+	/**
+	 * @notice Allows a user to set own delivery address against their ETH address.
+	 * @param _deliveryAddress New delivery address.
+	 */
+	function setDeliveryAddress(string memory _deliveryAddress) public {
+		deliveryAddresses[msg.sender] = _deliveryAddress;
+		emit DeliveryAddressUpdated(msg.sender, _deliveryAddress);
+	}
+
+	/**
+	 * @notice Retrieves delivery address of a user.
+	 * @param user User's ETH address.
+	 * @return Physical delivery address of the user.
+	 */
+	function getDeliveryAddress(
+		address user
+	) public view returns (string memory) {
+		require(
+			bytes(deliveryAddresses[user]).length > 0,
+			"No delivery address set by this user. Are you sure they have purchased?"
+		);
+		return deliveryAddresses[user];
+	}
+
+	function setCustomInstructions(string memory _instructions) public {
+		customInstructions[msg.sender] = _instructions;
+		emit CustomInstructionsUpdated(msg.sender, _instructions);
+	}
+
+	function getCustomInstructions(
+		address user
+	) public view returns (string memory) {
+		require(
+			bytes(customInstructions[user]).length > 0,
+			"No custom instructions set for this user. Are you sure they have purchased?"
+		);
+		return customInstructions[user];
+	}
+
+	function getListingTitle() public view returns (string memory) {
+		return listingTitle;
+	}
+
+	function getProductData(
+		string memory listingID
+	) public view returns (ProductData memory) {
+		require(
+			products[listingID].creatorWallet != address(0),
+			"Product does not exist"
+		);
+		return products[listingID];
 	}
 }

@@ -28,25 +28,6 @@ export default function Page() {
             />
           </div>
         </div>
-
-        {/* Banner */}
-        {/* Profile */}
-        {/*  */}
-
-        {/*  */}
-        {/* Total Reviews */}
-        {/* Badges */}
-        {/*  */}
-
-        {/* CONDITIONAL */}
-        {/* Needs attention */}
-        {/* Handle delivery */}
-
-        {/* lg:grid-2 sm:no-grid*/}
-        {/* Left: About section */}
-        {/* Left: Reviews */}
-
-        {/* Right: Listings */}
       </div>
     </>
   );

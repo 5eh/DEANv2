@@ -2,8 +2,10 @@
 
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { useAccount } from "wagmi";
+
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+
+// packages/nextjs/app/create/form/page
 
 interface FormData {
   title: string;
@@ -13,6 +15,7 @@ interface FormData {
   location: string;
   quantityOfService: number;
   category: string;
+  sellerName: string;
   features: string[];
   upcharges: { upcharge: string; value: string }[];
   shippingMethod: string;
@@ -23,8 +26,9 @@ const Form: React.FC = () => {
   const serviceType = searchParams.get("title") || "";
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [sellerName, setSellerName] = useState("Test");
 
-  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("CommerceFactory");
+  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("CommerceContract");
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -37,6 +41,7 @@ const Form: React.FC = () => {
     features: [""],
     upcharges: [{ upcharge: "", value: "" }],
     shippingMethod: "",
+    sellerName: sellerName,
   });
 
   useEffect(() => {
@@ -109,21 +114,28 @@ const Form: React.FC = () => {
     }
 
     try {
+      const timestamp = Date.now();
+      const uniqueComponent = Math.floor(Math.random() * 1000000);
+      const listingID = `listing-${timestamp}-${uniqueComponent}`;
+
+      console.log(listingID);
       const args = [
         formData.title,
         formData.description,
-        formData.photo || "", // photo is optional
+        formData.photo || "", // photo is optional,
         formData.location,
         formData.shippingMethod,
         formData.upcharges.map(upcharge => upcharge.upcharge).join(", "),
         formData.category,
+        BigInt(formData.price), // Price in Wei
         BigInt(formData.quantityOfService),
         BigInt(30 * 24 * 60 * 60), // Assuming validity time is 30 days in seconds
-        BigInt(formData.price), // Price in Wei
+        // formData.sellerName,
+        listingID,
       ];
 
       await writeYourContractAsync({
-        functionName: "createCommerceContract",
+        functionName: "createProduct",
         args: args,
         overrides: {
           gasLimit: 300000, // Adjust gas limit as needed
