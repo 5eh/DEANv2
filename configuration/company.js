@@ -15,7 +15,7 @@ export const CALL_TO_ACTION_BUTTON = "Begin now";
 
 // MARKETPLACE & COMPANY DETAILS
 
-export const COMPANY_NAME = "ARTHUR LABS";
+export const COMPANY_NAME = "MOVEMENT LABS";
 export const COMPANY_DESCRIPTION = "The Web3 laboratory for innovation";
 
 // CRYPTOCURRENCY DETAILS
