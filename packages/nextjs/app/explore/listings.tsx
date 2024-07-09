@@ -1,39 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 export default function Listings() {
-  const [listingData, setListingData] = useState([]);
+  const [listing, listingData] = useState("listing-1720429255238-397564");
 
   const { data: allListings } = useScaffoldReadContract({
     contractName: "CommerceContract",
     functionName: "getAllListings",
   });
 
-  useEffect(() => {
-    if (allListings && allListings.length > 0) {
-      fetchAllListingsData();
-    }
-  }, [allListings]);
+  const { data: result } = useScaffoldReadContract({
+    contractName: "CommerceContract",
+    functionName: "getProductData",
+    args: [listing],
+  });
 
-  const fetchAllListingsData = async () => {
-    const fetchedData = await Promise.all(
-      allListings.map(async listingID => {
-        const { data: listing } = await useScaffoldReadContract({
-          contractName: "CommerceContract",
-          functionName: "getProductData",
-          args: [listingID],
-        });
-        return { listingID, ...listing };
-      }),
-    );
-    setListingData(fetchedData);
-    console.log(fetchedData);
-  };
+  const array = allListings?.map(listing => {
+    const getListing = useScaffoldReadContract({
+      contractName: "CommerceContract",
+      functionName: "getProductData",
+      args: [getListing],
+    });
+    console.log(getListing);
+  });
 
-  console.log(listingData);
+  console.log(array);
 
   return (
     <div>
