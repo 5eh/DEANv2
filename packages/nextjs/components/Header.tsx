@@ -10,6 +10,7 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ComputerDesktopIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
+import { useTheme } from "next-themes";
 
 type HeaderMenuLink = {
   label: string;
@@ -77,6 +78,7 @@ export const HeaderMenuLinks = () => {
  * Site header
  */
 export const Header = () => {
+  const { resolvedTheme } = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
   useOutsideClick(
@@ -84,16 +86,18 @@ export const Header = () => {
     useCallback(() => setIsDrawerOpen(false), []),
   );
 
+  const logoSrc = resolvedTheme === "dark" ? "/logo-white.svg" : "/logo-black.svg";
+
   return (
     <>
       <div className="sticky lg:static top-0 navbar min-h-0 flex-shrink-0 justify-around z-20 px-0 sm:px-2">
         <div>
           <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
             <div className="flex relative w-10 h-10">
-              <Image alt={`${MARKETPLACE_TITLE} Logo`} className="cursor-pointer" fill src="/logo.svg" />
+              <Image alt={`${MARKETPLACE_TITLE} Logo`} className="cursor-pointer" fill src={logoSrc} />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold leading-tight">{MARKETPLACE_TITLE}</span>
+              <span className="font-bold leading-tight code">{MARKETPLACE_TITLE}</span>
               <span className="text-xs">{MARKETPLACE_DESCRIPTION}</span>
             </div>
           </Link>

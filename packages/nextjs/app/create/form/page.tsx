@@ -128,16 +128,6 @@ const Form: React.FC = () => {
         listingID,
       ];
 
-      // try {
-      //   const _id = Number(listingID);
-      //   const id = await createListing(Number(listingID), formData.title, formData.description);
-      //   console.log("Form submission successful. ID:", id);
-      // } catch (error) {
-      //   console.error("Form submission failed:", error);
-      // } finally {
-      //   console.log("caught in finally section of try");
-      // }
-
       await writeYourContractAsync({
         functionName: "createProduct",
         args: args,

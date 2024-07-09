@@ -1,5 +1,31 @@
 import * as chains from "viem/chains";
 
+import { defineChain } from "viem";
+
+export const mevm = defineChain({
+  id: 30730,
+  name: "Movement EVM",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Move Tokens",
+    symbol: "MOVE",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://mevm.devnet.m1.movementlabs.xyz"],
+    },
+  },
+  blockExplorers: {
+    default: { name: "Explorer", url: "https://explorer.movementlabs.xyz/#/?network=local" },
+  },
+  contracts: {
+    multicall3: {
+      address: "0x81DC420A191Cf3736987078e922C19b2F43d2518",
+      blockCreated: 5882,
+    },
+  },
+});
+
 export type ScaffoldConfig = {
   targetNetworks: readonly chains.Chain[];
   pollingInterval: number;
@@ -10,7 +36,7 @@ export type ScaffoldConfig = {
 
 const scaffoldConfig = {
   // The networks on which your DApp is live
-  targetNetworks: [chains.hardhat],
+  targetNetworks: [mevm],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)

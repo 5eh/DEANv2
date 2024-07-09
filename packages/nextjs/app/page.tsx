@@ -1,10 +1,18 @@
 "use client";
 
-import { MARKETPLACE_DESCRIPTION_LONG, MARKETPLACE_TITLE } from "../../../configuration/company";
+import {
+  CALL_TO_ACTION_BUTTON,
+  CALL_TO_ACTION_QUESTION,
+  MARKETPLACE_DESCRIPTION_LONG,
+  MARKETPLACE_TITLE,
+  NATIVE_TOKEN,
+  NATIVE_TOKEN_DOCS,
+} from "../../../configuration/company";
 
 import { ArrowPathIcon, CloudArrowUpIcon, LockClosedIcon } from "@heroicons/react/20/solid";
 import { Address } from "~~/components/scaffold-eth";
 import { useAccount } from "wagmi";
+import Link from "next/link";
 
 const features = [
   {
@@ -49,11 +57,7 @@ export default function Example() {
       <main>
         {/* Hero section */}
         <div className="relative isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
-          <img
-            src="https://images.unsplash.com/photo-1550948390-6eb7fa773072?q=80&w=2948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="absolute inset-0 -z-10 h-full w-full object-cover opacity-15"
-          />
+          <img src="./Background.png" alt="" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-15" />
           <div
             className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
             aria-hidden="true"
@@ -69,21 +73,21 @@ export default function Example() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
               <div className="text-center">
-                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl code">
                   {MARKETPLACE_TITLE.toUpperCase()}
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-300">{MARKETPLACE_DESCRIPTION_LONG}</p>
                 <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                   <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-200 ring-1 ring-white/10 hover:ring-white/20">
-                    Ready to sell your plants and get paid in crypto?{" "}
-                    <a href="#" className="font-semibold text-primary dark:text-primary">
-                      <span className="absolute inset-0 " aria-hidden="true" />
-                      Sell Plant <span aria-hidden="true">&rarr;</span>
-                    </a>
+                    {CALL_TO_ACTION_QUESTION}
+                    <Link href="/create" className="font-semibold text-primary dark:text-primary">
+                      <span className="absolute inset-0 " aria-hidden="true" /> {CALL_TO_ACTION_BUTTON}{" "}
+                      <span aria-hidden="true">&rarr;</span>
+                    </Link>
                   </div>
                 </div>
-                <div className="flex justify-center text-white items-center space-x-2 flex-col sm:flex-row">
-                  <p className="my-2  font-medium">Welcome back</p>
+                <div className="flex justify-center text-white items-center space-x-2 flex-col sm:flex-row border border-white bg-gray-800/20">
+                  <p className="my-2  font-medium">Welcome</p>
                   <Address address={connectedAddress} />{" "}
                 </div>
               </div>
@@ -109,7 +113,11 @@ export default function Example() {
             <div className="mx-auto max-w-2xl sm:text-center">
               <h2 className="text-base font-semibold leading-7 text-secondary dark:text-secondary">use your crypto</h2>
               <p className="mt-2 text-3xl font-bold tracking-tight dark:text-white text-gray-900 sm:text-4xl">
-                Have ETH, but can&apos;t spend it?{" "}
+                Have{" "}
+                <Link href={`${NATIVE_TOKEN_DOCS}`} className="text-primary">
+                  ${NATIVE_TOKEN}{" "}
+                </Link>{" "}
+                - but can&apos;t spend it?{" "}
               </p>
               <p className="mt-6 text-lg leading-8 dark:text-gray-300 text-gray-600">
                 We&apos;re building marketplaces that allow you to purchase any product, service or delivery with your
