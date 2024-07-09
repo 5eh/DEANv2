@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 contract CommerceContract {
 	address private owner;
 	address private deployer;
+	string[] public listingsArray;
 
 	mapping(string => ProductData) public products;
 	mapping(string => address) private productBuyers;
@@ -54,13 +55,14 @@ contract CommerceContract {
 	/**
 	 * @notice Create a new product listing.
 	 * @param _title Listing title.
-	 * @param _description Product description..
+	 * @param _description Product description.
 	 * @param _photo Product photo URL.
 	 * @param _location Product location.
 	 * @param _shippingMethod Shipping method.
 	 * @param _upcharges Additional upcharges.
 	 * @param _category Product category.
 	 * @param _price Price.
+	 * @param _timeValidity Time validity.
 	 * @param _quantity Initial quantity.
 	 * @param _listingID Listing ID.
 	 */
@@ -81,6 +83,7 @@ contract CommerceContract {
 			products[_listingID].creatorWallet == address(0),
 			"Listing ID already exists"
 		);
+
 		products[_listingID] = ProductData({
 			title: _title,
 			description: _description,
@@ -95,6 +98,7 @@ contract CommerceContract {
 			creatorWallet: payable(msg.sender),
 			isDelivered: false
 		});
+		listingsArray.push(_listingID);
 		emit ProductListed(_listingID, msg.sender, _price, _quantity);
 	}
 
@@ -158,6 +162,10 @@ contract CommerceContract {
 	function setCustomInstructions(string memory _instructions) public {
 		customInstructions[msg.sender] = _instructions;
 		emit CustomInstructionsUpdated(msg.sender, _instructions);
+	}
+
+	function getAllListings() public view returns (string[] memory) {
+		return listingsArray;
 	}
 
 	function getCustomInstructions(

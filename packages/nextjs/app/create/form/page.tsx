@@ -2,10 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-
-// packages/nextjs/app/create/form/page
+// import createListing from "~~/hooks/createListing";
 
 interface FormData {
   title: string;
@@ -15,7 +13,6 @@ interface FormData {
   location: string;
   quantityOfService: number;
   category: string;
-  sellerName: string;
   features: string[];
   upcharges: { upcharge: string; value: string }[];
   shippingMethod: string;
@@ -26,7 +23,6 @@ const Form: React.FC = () => {
   const serviceType = searchParams.get("title") || "";
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [sellerName, setSellerName] = useState("Test");
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("CommerceContract");
 
@@ -41,7 +37,6 @@ const Form: React.FC = () => {
     features: [""],
     upcharges: [{ upcharge: "", value: "" }],
     shippingMethod: "",
-    sellerName: sellerName,
   });
 
   useEffect(() => {
@@ -130,9 +125,18 @@ const Form: React.FC = () => {
         BigInt(formData.price), // Price in Wei
         BigInt(formData.quantityOfService),
         BigInt(30 * 24 * 60 * 60), // Assuming validity time is 30 days in seconds
-        // formData.sellerName,
         listingID,
       ];
+
+      // try {
+      //   const _id = Number(listingID);
+      //   const id = await createListing(Number(listingID), formData.title, formData.description);
+      //   console.log("Form submission successful. ID:", id);
+      // } catch (error) {
+      //   console.error("Form submission failed:", error);
+      // } finally {
+      //   console.log("caught in finally section of try");
+      // }
 
       await writeYourContractAsync({
         functionName: "createProduct",
