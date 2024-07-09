@@ -5,34 +5,14 @@ import { useState } from "react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 export default function Listings() {
-  // const [listing, listingData] = useState("listing-1720429255238-397564");
+  const [listing, listingData] = useState("listing-1720537068535-445418");
 
-  // const { data: allListings } = useScaffoldReadContract({
-  //   contractName: "CommerceContract",
-  //   functionName: "getAllListings",
-  // });
-
-  // const { data: result } = useScaffoldReadContract({
-  //   contractName: "CommerceContract",
-  //   functionName: "getProductData",
-  //   args: [listing],
-  // });
-
-  // const array = allListings?.map(listing => {
-  //   const getListing = useScaffoldReadContract({
-  //     contractName: "CommerceContract",
-  //     functionName: "getProductData",
-  //     args: [getListing],
-  //   });
-  //   console.log(getListing);
-  // });
-
-  const { data: test } = useScaffoldReadContract({
+  const { data: getAllListings } = useScaffoldReadContract({
     contractName: "CommerceContract",
     functionName: "getAllListings",
   });
 
-  console.log(test);
+  console.log(getAllListings);
 
   return (
     <div>
