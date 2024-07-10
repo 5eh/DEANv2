@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/CommerceContract.sol": {
+      "content": "// SPDX-License-Identifier: Apache-2.0\npragma solidity ^0.8.0;\n\ncontract CommerceContract {\n\taddress private owner;\n\taddress private deployer;\n\tstring[] public listingsArray;\n\n\tmapping(string => ProductData) public products;\n\tmapping(string => address) private productBuyers;\n\tmapping(address => string) private deliveryAddresses; // Storing unhashed delivery addresses\n\tmapping(address => string) private customInstructions;\n\n\tevent ProductListed(\n\t\tstring listingID,\n\t\taddress owner,\n\t\tuint32 price,\n\t\tuint32 quantity\n\t);\n\tevent ProductPurchased(string listingID, address buyer, uint32 quantity);\n\tevent DeliveryConfirmed(string listingID, address owner);\n\tevent DeliveryAddressUpdated(address user, string deliveryAddress);\n\tevent CustomInstructionsUpdated(address user, string instructions);\n\tevent ProductDataFetched(string listingID, ProductData product);\n\n\tstruct ProductData {\n\t\tstring title;\n\t\tstring description;\n\t\tstring photo;\n\t\tstring location;\n\t\tstring shippingMethod;\n\t\tstring upcharges;\n\t\tstring category;\n\t\tuint32 price;\n\t\tuint32 timeValidity;\n\t\tuint32 quantity;\n\t\taddress payable creatorWallet;\n\t\tbool isDelivered;\n\t}\n\n\tconstructor() {\n\t\towner = msg.sender;\n\t\tdeployer = msg.sender;\n\t}\n\n\tmodifier onlyOwnerOrDeployer() {\n\t\trequire(\n\t\t\tmsg.sender == owner || msg.sender == deployer,\n\t\t\t\"Not authorized\"\n\t\t);\n\t\t_;\n\t}\n\n\tfunction createProduct(\n\t\tstring memory _title,\n\t\tstring memory _description,\n\t\tstring memory _photo,\n\t\tstring memory _location,\n\t\tstring memory _shippingMethod,\n\t\tstring memory _upcharges,\n\t\tstring memory _category,\n\t\tuint32 _price,\n\t\tuint32 _timeValidity,\n\t\tuint32 _quantity,\n\t\tstring memory _listingID\n\t) public {\n\t\trequire(\n\t\t\tproducts[_listingID].creatorWallet == address(0),\n\t\t\t\"Listing ID already exists\"\n\t\t);\n\n\t\tproducts[_listingID] = ProductData({\n\t\t\ttitle: _title,\n\t\t\tdescription: _description,\n\t\t\tphoto: _photo,\n\t\t\tlocation: _location,\n\t\t\tshippingMethod: _shippingMethod,\n\t\t\tupcharges: _upcharges,\n\t\t\tcategory: _category,\n\t\t\tprice: _price,\n\t\t\ttimeValidity: _timeValidity,\n\t\t\tquantity: _quantity,\n\t\t\tcreatorWallet: payable(msg.sender),\n\t\t\tisDelivered: false\n\t\t});\n\t\tlistingsArray.push(_listingID);\n\t\temit ProductListed(_listingID, msg.sender, _price, _quantity);\n\t\temit ProductDataFetched(_listingID, products[_listingID]);\n\t}\n\n\tfunction purchaseProduct(\n\t\tstring memory _listingID,\n\t\tuint32 _quantity\n\t) public payable {\n\t\tProductData storage product = products[_listingID];\n\t\trequire(_quantity <= product.quantity, \"Not enough items in stock\");\n\t\trequire(\n\t\t\tmsg.value == product.price * _quantity,\n\t\t\t\"Incorrect amount of Ether sent\"\n\t\t);\n\t\tproduct.quantity -= _quantity;\n\t\tproductBuyers[_listingID] = msg.sender;\n\t\temit ProductPurchased(_listingID, msg.sender, _quantity);\n\t}\n\n\tfunction confirmDelivery(string memory _listingID) public {\n\t\trequire(\n\t\t\tmsg.sender == products[_listingID].creatorWallet,\n\t\t\t\"Only the seller can confirm delivery\"\n\t\t);\n\t\trequire(!products[_listingID].isDelivered, \"Product already delivered\");\n\n\t\tproducts[_listingID].isDelivered = true;\n\t\tproducts[_listingID].creatorWallet.transfer(address(this).balance);\n\n\t\temit DeliveryConfirmed(_listingID, msg.sender);\n\t}\n\n\tfunction setDeliveryAddress(string memory _deliveryAddress) public {\n\t\tdeliveryAddresses[msg.sender] = _deliveryAddress;\n\t\temit DeliveryAddressUpdated(msg.sender, _deliveryAddress);\n\t}\n\n\tfunction getDeliveryAddress(\n\t\taddress user\n\t) public view returns (string memory) {\n\t\trequire(\n\t\t\tbytes(deliveryAddresses[user]).length > 0,\n\t\t\t\"No delivery address set by this user. Are you sure they have purchased?\"\n\t\t);\n\t\treturn deliveryAddresses[user];\n\t}\n\n\tfunction setCustomInstructions(string memory _instructions) public {\n\t\tcustomInstructions[msg.sender] = _instructions;\n\t\temit CustomInstructionsUpdated(msg.sender, _instructions);\n\t}\n\n\tfunction getAllListings() public view returns (string[] memory) {\n\t\treturn listingsArray;\n\t}\n\n\tfunction getCustomInstructions(\n\t\taddress user\n\t) public view returns (string memory) {\n\t\trequire(\n\t\t\tbytes(customInstructions[user]).length > 0,\n\t\t\t\"No custom instructions set for this user. Are you sure they have purchased?\"\n\t\t);\n\t\treturn customInstructions[user];\n\t}\n\n\tfunction getProductData(\n\t\tstring memory listingID\n\t) public view returns (ProductData memory) {\n\t\trequire(\n\t\t\tproducts[listingID].creatorWallet != address(0),\n\t\t\t\"Product does not exist\"\n\t\t);\n\t\treturn products[listingID];\n\t}\n\n\tfunction getAllProductData()\n\t\tpublic\n\t\tview\n\t\treturns (string[] memory, ProductData[] memory)\n\t{\n\t\tuint256 length = listingsArray.length;\n\t\tProductData[] memory allProducts = new ProductData[](length);\n\n\t\tfor (uint256 i = 0; i < length; i++) {\n\t\t\tallProducts[i] = products[listingsArray[i]];\n\t\t}\n\n\t\treturn (listingsArray, allProducts);\n\t}\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

@@ -350,7 +350,7 @@ const Form: React.FC = () => {
                       />
                       <div className="relative flex">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <span className="text-gray-300 sm:text-sm">WEI</span>
+                          <span className="text-gray-300 sm:text-sm">{NATIVE_TOKEN}</span>
                         </div>
                         <input
                           type="number"

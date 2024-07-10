@@ -6,39 +6,39 @@
 
 export const FORM_SELECTION = [
   {
-    id: "Houseplants",
-    title: "Houseplants",
+    id: "Vehicles",
+    title: "Vehicles",
     imageUrl:
-      "https://plus.unsplash.com/premium_photo-1665408511793-51dc25f82b2d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1596157783429-027a9773431a?q=80&w=3165&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Succulents and Cacti",
-    title: "Succulents and Cacti",
+    id: "Electronics",
+    title: "Electronics",
     imageUrl:
-      "https://plus.unsplash.com/premium_photo-1679237001830-baf5e8d51d11?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1529338296731-c4280a44fc48?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Herbs and Edibles",
-    title: "Herbs and Edibles",
+    id: "Fashion",
+    title: "Fashion",
     imageUrl:
-      "https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1707932485806-ce9b3c855339?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Ornamental Flowers",
-    title: "Ornamental Flowers",
+    id: "Furniture",
+    title: "Furniture",
     imageUrl:
-      "https://plus.unsplash.com/premium_photo-1673569481316-116fb85d82d6?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=3058&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Trees and Shrubs",
-    title: "Trees and Shrubs",
+    id: "Plants",
+    title: "Plants",
     imageUrl:
       "https://images.unsplash.com/photo-1458966480358-a0ac42de0a7a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Aquatic and Pond Plants",
-    title: "Aquatic and Pond Plants",
+    id: "Art",
+    title: "Art",
     imageUrl:
-      "https://images.unsplash.com/photo-1534162802244-d6f69e9048da?q=80&w=1049&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1549289524-06cf8837ace5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];

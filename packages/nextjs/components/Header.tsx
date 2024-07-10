@@ -28,11 +28,11 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/create",
     icon: <PlusIcon className="h-4 w-4" />,
   },
-  {
-    label: "TRANSACTIONS",
-    href: "/blockexplorer",
-    icon: <ComputerDesktopIcon className="h-4 w-4" />,
-  },
+  // {
+  //   label: "TRANSACTIONS",
+  //   href: "/blockexplorer",
+  //   icon: <ComputerDesktopIcon className="h-4 w-4" />,
+  // },
   {
     label: "PROFILE",
     href: "/profile",
