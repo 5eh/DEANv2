@@ -44,9 +44,7 @@ export default function Sorting() {
         </div>
 
         <div className="grid p-4 grid-cols-4 gap-4 relative z-0">
-          <div className="">
-            <Listings />
-          </div>
+          <Listings />
         </div>
       </div>
     </div>

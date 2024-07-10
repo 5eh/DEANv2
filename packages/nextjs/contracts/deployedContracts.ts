@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   30730: {
     CommerceContract: {
-      address: "0xd563fB64e8e46285460a578856c857528e687EAf",
+      address: "0x56698868abEA01CEa5AFf39c2BFDdFAB90f8F9D9",
       abi: [
         {
           inputs: [],
@@ -69,6 +69,87 @@ const deployedContracts = {
             },
           ],
           name: "DeliveryConfirmed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "string",
+              name: "listingID",
+              type: "string",
+            },
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "title",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "photo",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "location",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "shippingMethod",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "upcharges",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "category",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "price",
+                  type: "uint32",
+                },
+                {
+                  internalType: "uint32",
+                  name: "timeValidity",
+                  type: "uint32",
+                },
+                {
+                  internalType: "uint32",
+                  name: "quantity",
+                  type: "uint32",
+                },
+                {
+                  internalType: "address payable",
+                  name: "creatorWallet",
+                  type: "address",
+                },
+                {
+                  internalType: "bool",
+                  name: "isDelivered",
+                  type: "bool",
+                },
+              ],
+              indexed: false,
+              internalType: "struct CommerceContract.ProductData",
+              name: "product",
+              type: "tuple",
+            },
+          ],
+          name: "ProductDataFetched",
           type: "event",
         },
         {
@@ -217,6 +298,86 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "getAllProductData",
+          outputs: [
+            {
+              internalType: "string[]",
+              name: "",
+              type: "string[]",
+            },
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "title",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "photo",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "location",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "shippingMethod",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "upcharges",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "category",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "price",
+                  type: "uint32",
+                },
+                {
+                  internalType: "uint32",
+                  name: "timeValidity",
+                  type: "uint32",
+                },
+                {
+                  internalType: "uint32",
+                  name: "quantity",
+                  type: "uint32",
+                },
+                {
+                  internalType: "address payable",
+                  name: "creatorWallet",
+                  type: "address",
+                },
+                {
+                  internalType: "bool",
+                  name: "isDelivered",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct CommerceContract.ProductData[]",
+              name: "",
+              type: "tuple[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -244,19 +405,6 @@ const deployedContracts = {
             },
           ],
           name: "getDeliveryAddress",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getListingTitle",
           outputs: [
             {
               internalType: "string",

@@ -264,24 +264,6 @@ export type EventFilters<
       }
 >;
 
-export type UseScaffoldEventHistoryConfig<
-  TContractName extends ContractName,
-  TEventName extends ExtractAbiEventNames<ContractAbi<TContractName>>,
-  TBlockData extends boolean = false,
-  TTransactionData extends boolean = false,
-  TReceiptData extends boolean = false,
-> = {
-  contractName: TContractName;
-  eventName: IsContractDeclarationMissing<string, TEventName>;
-  fromBlock: bigint;
-  filters?: EventFilters<TContractName, TEventName>;
-  blockData?: TBlockData;
-  transactionData?: TTransactionData;
-  receiptData?: TReceiptData;
-  watch?: boolean;
-  enabled?: boolean;
-};
-
 export type UseScaffoldEventHistoryData<
   TContractName extends ContractName,
   TEventName extends ExtractAbiEventNames<ContractAbi<TContractName>>,

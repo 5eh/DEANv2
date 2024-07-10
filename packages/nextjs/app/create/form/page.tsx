@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-// import createListing from "~~/hooks/createListing";
+import { NATIVE_TOKEN } from "../../../../../configuration/company";
 
 interface FormData {
   title: string;
@@ -23,7 +23,6 @@ const Form: React.FC = () => {
   const serviceType = searchParams.get("title") || "";
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("CommerceContract");
 
   const [formData, setFormData] = useState<FormData>({
@@ -102,6 +101,26 @@ const Form: React.FC = () => {
     setFormData({ ...formData, upcharges: updatedUpcharges });
   };
 
+  const fileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const form = new FormData();
+    form.append("image", file);
+
+    try {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=94d67511d33d7f7cdd49759c1bbb4a8d`, {
+        method: "POST",
+        body: form,
+      });
+      const data = await response.json();
+      setFormData({ ...formData, photo: data.data.url });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  console.log(fileChange);
   const handleSubmit = async () => {
     if (!formData.title || !formData.description || !formData.price || !formData.quantityOfService) {
       console.error("Title, description, price, and quantity of service are required.");
@@ -196,7 +215,8 @@ const Form: React.FC = () => {
                 <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />{" "}
                 <input
                   type="file"
-                  onChange={handleInputChange}
+                  id="input_img"
+                  onChange={fileChange}
                   className="px-4 lg:mt-8 lg:mb-8 py-2 border dark:border-white border-black bg-gray-300/10 dark:bg-gray-300/10 dark:text-white w-3/4 hover:ring-2 hover:ring-primary/50 "
                 />
                 <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />
@@ -220,7 +240,7 @@ const Form: React.FC = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <span> IN WEI </span>
+                <span> IN ${NATIVE_TOKEN} </span>
               </div>
 
               <div className="sm:col-span-4 mt-12">
