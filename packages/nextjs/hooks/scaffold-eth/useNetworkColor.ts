@@ -1,8 +1,9 @@
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useTheme } from "next-themes";
 import { ChainWithAttributes } from "~~/utils/scaffold-eth";
+import { PRIMARY_TEXT_DARK, PRIMARY_TEXT_LIGHT } from "../../../../configuration/design";
 
-export const DEFAULT_NETWORK_COLOR: [string, string] = ["#05A8DC", "#bbbbbb"];
+export const DEFAULT_NETWORK_COLOR: [string, string] = [`${PRIMARY_TEXT_LIGHT}`, `${PRIMARY_TEXT_DARK}`];
 
 export function getNetworkColor(network: ChainWithAttributes, isDarkMode: boolean) {
   const colorConfig = network.color ?? DEFAULT_NETWORK_COLOR;
