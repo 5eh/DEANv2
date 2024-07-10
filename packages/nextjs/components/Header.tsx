@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MARKETPLACE_DESCRIPTION, MARKETPLACE_TITLE } from "../../../configuration/company";
-import { ChatBubbleLeftIcon, PlusIcon, UserIcon } from "@heroicons/react/20/solid";
-import { Bars3Icon } from "@heroicons/react/24/outline";
+import { PlusIcon, UserIcon } from "@heroicons/react/20/solid";
 import { ComputerDesktopIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
@@ -60,8 +59,8 @@ export const HeaderMenuLinks = () => {
               passHref
               className={`${
                 isActive ? "bg-primary shadow-md" : ""
-              } p-3 min-w-fit w-fit border backdrop-blur-md transition hover:ease-in-out
-              bg-primary/40 hover:bg-primary/50 border-primary/60 hover:border-primary/90
+              } p-3 min-w-fit w-fit border border-gray-500 backdrop-blur-md transition hover:ease-in-out
+              bg-primary/10 hover:bg-primary/20 hover:border-gray-900
               dark:bg-primary/20 dark:hover:bg-primary/40 dark:border-primary dark:hover:border-primary/80 py-1.5 px-3 text-sm gap-2 flex items-center`}
             >
               {icon}
