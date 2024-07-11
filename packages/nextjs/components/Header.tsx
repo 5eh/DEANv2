@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MARKETPLACE_DESCRIPTION, MARKETPLACE_TITLE } from "../../../configuration/company";
 import { PlusIcon, UserIcon } from "@heroicons/react/20/solid";
-import { ComputerDesktopIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { ChatBubbleLeftIcon, ComputerDesktopIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useTheme } from "next-themes";
@@ -28,21 +28,21 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/create",
     icon: <PlusIcon className="h-4 w-4" />,
   },
-  // {
-  //   label: "TRANSACTIONS",
-  //   href: "/blockexplorer",
-  //   icon: <ComputerDesktopIcon className="h-4 w-4" />,
-  // },
+  {
+    label: "TRANSACTIONS",
+    href: "/blockexplorer",
+    icon: <ComputerDesktopIcon className="h-4 w-4" />,
+  },
   {
     label: "PROFILE",
     href: "/profile",
     icon: <UserIcon className="h-4 w-4" />,
   },
-  // {
-  //   label: "MESSAGES",
-  //   href: "/messenger",
-  //   icon: <ChatBubbleLeftIcon className="h-4 w-4" />,
-  // },
+  {
+    label: "MESSAGES",
+    href: "/messenger",
+    icon: <ChatBubbleLeftIcon className="h-4 w-4" />,
+  },
 ];
 
 export const HeaderMenuLinks = () => {
