@@ -6,6 +6,7 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { NATIVE_TOKEN } from "../../../../../configuration/company";
 import { useGlobalState } from "~~/services/store/store";
 import Image from "next/image";
+import { DefaultImage } from "~~/public/Background.png";
 
 interface FormData {
   title: string;
@@ -238,46 +239,6 @@ const Form: React.FC = () => {
 
               {/* PREVIEW */}
 
-              {previewImage && (
-                <div className="grid lg:grid-cols-8 lg:grid-rows-1 sm:col-span-3">
-                  <div className="lg:col-span-2 lg:col-start-4 sm:col-span-3 sm:col-start-2">
-                    <div className="hover:cursor-pointer">
-                      <div className="relative  sm:h-[75px] md:h-[150px] lg:h-[275px] overflow-hidden border dark:border-gray-500 border-black dark:bg-gray-300/10">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Image
-                            src={previewImage}
-                            alt={previewImage}
-                            layout="fill"
-                            objectFit="cover"
-                            className="filter blur-xl"
-                            style={{ objectPosition: "center top" }}
-                          />
-                        </div>
-                        <div className="relative flex items-center justify-center w-full h-full">
-                          <Image
-                            src={previewImage}
-                            alt={previewImage}
-                            width={600}
-                            height={400}
-                            className="w-full h-auto object-cover dark:border border-gray-800 border-b-transparent dark:border-b-transparent dark:border-gray-200/20"
-                          />
-                        </div>
-                      </div>
-                      <div className="p-3 dark:border-gray-200/20 border-gray-800 border dark:border h-24 dark:bg-gray-200/5 dark:border-t-transparent">
-                        <div className="flex gap-3 items-center justify-between">
-                          <span className="text-lg font-bold dark:text-gray-200">{formData.price}</span>
-                          <span className="font-thin dark:text-gray-400">{formData.price}</span>
-                        </div>
-                        <div className="mt-0 mb-0">
-                          <span className="block">{formData.title}</span>
-                          <span className="block">{formData.description}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               <div className="sm:col-span-3">
                 <label
                   htmlFor="price"
@@ -452,6 +413,58 @@ const Form: React.FC = () => {
             </div>
           </div>
         </div>
+        <div className="mt-12">
+          <h1 className="text-4xl font-semibold code"> PREVIEW </h1>
+        </div>
+
+        <div className="space-y-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12">
+          <div className="grid lg:grid-cols-8 lg:grid-rows-1 sm:col-span-3">
+            <div className="lg:col-span-2 lg:col-start-4 sm:col-span-3 sm:col-start-2">
+              <div className="hover:cursor-pointer">
+                <div className="relative  sm:h-[75px] md:h-[150px] lg:h-[275px] overflow-hidden border dark:border-gray-500 border-black dark:bg-gray-300/10">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {!previewImage && <span> Not set </span>}
+                    {previewImage && (
+                      <Image
+                        src={formData.photo}
+                        alt={formData.photo}
+                        defaultValue={DefaultImage}
+                        layout="fill"
+                        objectFit="cover"
+                        className="filter blur-xl"
+                        style={{ objectPosition: "center top" }}
+                      />
+                    )}
+                  </div>
+                  <div className="relative flex items-center justify-center w-full h-full">
+                    {previewImage && (
+                      <Image
+                        src={formData.photo}
+                        alt={formData.photo}
+                        defaultValue={DefaultImage}
+                        width={600}
+                        height={400}
+                        className="w-full h-auto object-cover dark:border border-gray-800 border-b-transparent dark:border-b-transparent dark:border-gray-200/20"
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <div className="p-3 dark:border-gray-200/20 border-gray-800 border dark:border h-24 dark:bg-gray-200/5 dark:border-t-transparent">
+                  <div className="flex gap-3 items-center justify-between">
+                    <span className="text-lg font-bold dark:text-gray-200">{formData.price || "Not set"}</span>
+                    <span className="font-thin dark:text-gray-400">{formData.price || "Not set"}</span>
+                  </div>
+                  <div className="mt-0 mb-0">
+                    <span className="block">{formData.title || "Not set"}</span>
+                    <span className="mt-2 text-gray-500">{formData.location || "Not set"}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="mt-6 flex items-center gap-x-6 justify-center">
           <button
             type="button"

@@ -89,7 +89,14 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
               isOpen={openPopup[listingID]}
               onClose={() => togglePopup(listingID)}
               className="xl:w-3/5 min-h-64 max-w-full max-h-full"
-              title={<Popup.Title className="pl-3 pr-3 uppercase code">{product.title}</Popup.Title>}
+              title={
+                <Popup.Title className="pl-3 pr-3 uppercase ">
+                  <div className="flex w-full justify-between">
+                    <span className="text-left code">{product.title}</span>
+                    <span className="text-right dark:text-gray-100/20 font-thin lowercase">{listingID}</span>
+                  </div>
+                </Popup.Title>
+              }
             >
               <p className="pl-3 pr-3">
                 {showInUSD ? `$${priceInUSD.toFixed(2)} USD` : `${(product.price / 100).toFixed(3)} ${NATIVE_TOKEN}`}
