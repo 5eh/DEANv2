@@ -50,10 +50,20 @@ export default function Create() {
             placeholder="Blue bonnets"
             className="px-4 py-2 border dark:border-white border-black bg-gray-300/10 dark:bg-gray-300/10 dark:text-white w-3/4 hover:ring-2 hover:ring-primary/50 "
           />
-          <button className="px-4 py-2 border dark:border-primary border-black bg-gray-300/10 dark:bg-gray-300/10 dark:text-white w-1/4 hover:ring-2 hover:ring-primary/50 ">
-            {" "}
-            Create{" "}
-          </button>
+          <Link
+            href={{
+              pathname: "/create/form",
+              query: {
+                id: customListing,
+                title: customListing,
+              },
+            }}
+          >
+            <button className="px-4 min-w-fit py-2 border dark:border-primary border-black bg-gray-300/10 dark:bg-gray-300/10 dark:text-white w-1/4 hover:ring-2 hover:ring-primary/50 ">
+              {" "}
+              Create{" "}
+            </button>
+          </Link>
           <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />
         </div>
       </div>
