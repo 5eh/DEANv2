@@ -15,9 +15,10 @@ export const CALL_TO_ACTION_BUTTON = "Begin now";
 
 // MARKETPLACE & COMPANY DETAILS
 
-export const COMPANY_NAME = "MOVEMENT LABS";
-export const COMPANY_DESCRIPTION = "The Web3 laboratory for innovation";
+export const COMPANY_NAME = "ARTHUR LABS";
+export const COMPANY_DESCRIPTION = "A system generations lab.";
+export const COMPANY_LINK = "https://arthurlabs.net/";
 
 // CRYPTOCURRENCY DETAILS
-export const NATIVE_TOKEN = "MOVE";
-export const NATIVE_TOKEN_DOCS = "https://movementlabs.xyz/";
+export const NATIVE_TOKEN = "ETH";
+export const NATIVE_TOKEN_DOCS = "https://ethereum.org/";

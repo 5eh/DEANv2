@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { MutateOptions } from "@tanstack/react-query";
@@ -45,7 +46,7 @@ export const useScaffoldWriteContract = <TContractName extends ContractName>(
     }
 
     if (!chain?.id) {
-      notification.error("Please connect your wallet");
+      notification.error("To interact, please log in by connecting your wallet");
       return;
     }
     if (chain?.id !== targetNetwork.id) {
@@ -94,7 +95,7 @@ export const useScaffoldWriteContract = <TContractName extends ContractName>(
       return;
     }
     if (!chain?.id) {
-      notification.error("Please connect your wallet");
+      notification.error("To interact, please log in by connecting your wallet");
       return;
     }
     if (chain?.id !== targetNetwork.id) {

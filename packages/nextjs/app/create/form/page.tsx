@@ -3,7 +3,9 @@
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-// import createListing from "~~/hooks/createListing";
+import { NATIVE_TOKEN } from "../../../../../configuration/company";
+import { useGlobalState } from "~~/services/store/store";
+import Image from "next/image";
 
 interface FormData {
   title: string;
@@ -20,11 +22,13 @@ interface FormData {
 
 const Form: React.FC = () => {
   const searchParams = useSearchParams() || new URLSearchParams();
-  const serviceType = searchParams.get("title") || "";
+  const category = searchParams.get("id") || "";
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("CommerceContract");
+  const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrency.price);
+  const [showInUSD, setShowInUSD] = useState(true);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -33,7 +37,7 @@ const Form: React.FC = () => {
     photo: "",
     location: "",
     quantityOfService: 1,
-    category: serviceType,
+    category: category,
     features: [""],
     upcharges: [{ upcharge: "", value: "" }],
     shippingMethod: "",
@@ -42,9 +46,9 @@ const Form: React.FC = () => {
   useEffect(() => {
     setFormData(prevData => ({
       ...prevData,
-      category: serviceType,
+      category: category,
     }));
-  }, [serviceType]);
+  }, [category]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -102,6 +106,30 @@ const Form: React.FC = () => {
     setFormData({ ...formData, upcharges: updatedUpcharges });
   };
 
+  const toggleCurrency = () => {
+    setShowInUSD(!showInUSD);
+  };
+
+  const fileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const form = new FormData();
+    form.append("image", file);
+
+    try {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=94d67511d33d7f7cdd49759c1bbb4a8d`, {
+        method: "POST",
+        body: form,
+      });
+      const data = await response.json();
+      setFormData({ ...formData, photo: data.data.url });
+      setPreviewImage(data.data.url); // Set preview image
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!formData.title || !formData.description || !formData.price || !formData.quantityOfService) {
       console.error("Title, description, price, and quantity of service are required.");
@@ -114,6 +142,11 @@ const Form: React.FC = () => {
       const listingID = `listing-${timestamp}-${uniqueComponent}`;
 
       console.log(listingID);
+
+      // Ethereum specific
+      const priceInNativeToken = showInUSD ? formData.price / nativeCurrencyPrice : formData.price;
+      const priceInWei = BigInt(Math.round(priceInNativeToken * 10 ** 18)); // Convert to smallest unit (wei for ETH)
+
       const args = [
         formData.title,
         formData.description,
@@ -122,7 +155,7 @@ const Form: React.FC = () => {
         formData.shippingMethod,
         formData.upcharges.map(upcharge => upcharge.upcharge).join(", "),
         formData.category,
-        BigInt(formData.price), // Price in Wei
+        priceInWei,
         BigInt(formData.quantityOfService),
         BigInt(30 * 24 * 60 * 60), // Assuming validity time is 30 days in seconds
         listingID,
@@ -196,11 +229,54 @@ const Form: React.FC = () => {
                 <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />{" "}
                 <input
                   type="file"
-                  onChange={handleInputChange}
+                  id="input_img"
+                  onChange={fileChange}
                   className="px-4 lg:mt-8 lg:mb-8 py-2 border dark:border-white border-black bg-gray-300/10 dark:bg-gray-300/10 dark:text-white w-3/4 hover:ring-2 hover:ring-primary/50 "
                 />
                 <div className="w-full border border-transparent border-t-black dark:border-t-white pt-1" />
               </div>
+
+              {/* PREVIEW */}
+
+              {previewImage && (
+                <div className="grid lg:grid-cols-8 lg:grid-rows-1 sm:col-span-3">
+                  <div className="lg:col-span-2 lg:col-start-4 sm:col-span-3 sm:col-start-2">
+                    <div className="hover:cursor-pointer">
+                      <div className="relative  sm:h-[75px] md:h-[150px] lg:h-[275px] overflow-hidden border dark:border-gray-500 border-black dark:bg-gray-300/10">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Image
+                            src={previewImage}
+                            alt={previewImage}
+                            layout="fill"
+                            objectFit="cover"
+                            className="filter blur-xl"
+                            style={{ objectPosition: "center top" }}
+                          />
+                        </div>
+                        <div className="relative flex items-center justify-center w-full h-full">
+                          <Image
+                            src={previewImage}
+                            alt={previewImage}
+                            width={600}
+                            height={400}
+                            className="w-full h-auto object-cover dark:border border-gray-800 border-b-transparent dark:border-b-transparent dark:border-gray-200/20"
+                          />
+                        </div>
+                      </div>
+                      <div className="p-3 dark:border-gray-200/20 border-gray-800 border dark:border h-24 dark:bg-gray-200/5 dark:border-t-transparent">
+                        <div className="flex gap-3 items-center justify-between">
+                          <span className="text-lg font-bold dark:text-gray-200">{formData.price}</span>
+                          <span className="font-thin dark:text-gray-400">{formData.price}</span>
+                        </div>
+                        <div className="mt-0 mb-0">
+                          <span className="block">{formData.title}</span>
+                          <span className="block">{formData.description}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="sm:col-span-3">
                 <label
@@ -209,18 +285,37 @@ const Form: React.FC = () => {
                 >
                   TOTAL PRICE
                 </label>
-                <div className="mt-2">
-                  <input
-                    type="number"
-                    name="price"
-                    id="price"
-                    className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
-                    placeholder="$249"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                  />
+
+                <div className="mt-2 flex items-center">
+                  <div className="relative w-full ">
+                    <div
+                      className="absolute inset-y-0 left-0 flex items-center hover:cursor-pointer"
+                      onClick={toggleCurrency}
+                    >
+                      <span className="text-gray-200 ml-2 text-md font-semibold">
+                        {showInUSD ? "USD" : NATIVE_TOKEN}
+                      </span>
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        name="price"
+                        id="price"
+                        className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 pl-12 pr-12 text-md leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
+                        placeholder={showInUSD ? "249" : `${(249 / nativeCurrencyPrice).toFixed(6)}`}
+                        value={formData.price}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="absolute inset-y-0 right-0  flex items-center pointer-events-none">
+                      <span className="text-gray-600 mr-2">
+                        {showInUSD
+                          ? `${(formData.price / nativeCurrencyPrice).toFixed(6)} ${NATIVE_TOKEN}`
+                          : `$${(formData.price * nativeCurrencyPrice).toFixed(2)}`}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <span> IN WEI </span>
               </div>
 
               <div className="sm:col-span-4 mt-12">
@@ -330,7 +425,7 @@ const Form: React.FC = () => {
                       />
                       <div className="relative flex">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <span className="text-gray-300 sm:text-sm">WEI</span>
+                          <span className="text-gray-300 sm:text-sm">{NATIVE_TOKEN}</span>
                         </div>
                         <input
                           type="number"

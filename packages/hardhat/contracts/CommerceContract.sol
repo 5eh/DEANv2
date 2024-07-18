@@ -21,6 +21,7 @@ contract CommerceContract {
 	event DeliveryConfirmed(string listingID, address owner);
 	event DeliveryAddressUpdated(address user, string deliveryAddress);
 	event CustomInstructionsUpdated(address user, string instructions);
+	event ProductDataFetched(string listingID, ProductData product);
 
 	struct ProductData {
 		string title;
@@ -37,8 +38,6 @@ contract CommerceContract {
 		bool isDelivered;
 	}
 
-	string private listingTitle;
-
 	constructor() {
 		owner = msg.sender;
 		deployer = msg.sender;
@@ -52,20 +51,6 @@ contract CommerceContract {
 		_;
 	}
 
-	/**
-	 * @notice Create a new product listing.
-	 * @param _title Listing title.
-	 * @param _description Product description.
-	 * @param _photo Product photo URL.
-	 * @param _location Product location.
-	 * @param _shippingMethod Shipping method.
-	 * @param _upcharges Additional upcharges.
-	 * @param _category Product category.
-	 * @param _price Price.
-	 * @param _timeValidity Time validity.
-	 * @param _quantity Initial quantity.
-	 * @param _listingID Listing ID.
-	 */
 	function createProduct(
 		string memory _title,
 		string memory _description,
@@ -100,13 +85,9 @@ contract CommerceContract {
 		});
 		listingsArray.push(_listingID);
 		emit ProductListed(_listingID, msg.sender, _price, _quantity);
+		emit ProductDataFetched(_listingID, products[_listingID]);
 	}
 
-	/**
-	 * @notice Allows a user to purchase a product.
-	 * @param _listingID Listing ID.
-	 * @param _quantity Purchase quantity.
-	 */
 	function purchaseProduct(
 		string memory _listingID,
 		uint32 _quantity
@@ -135,20 +116,11 @@ contract CommerceContract {
 		emit DeliveryConfirmed(_listingID, msg.sender);
 	}
 
-	/**
-	 * @notice Allows a user to set own delivery address against their ETH address.
-	 * @param _deliveryAddress New delivery address.
-	 */
 	function setDeliveryAddress(string memory _deliveryAddress) public {
 		deliveryAddresses[msg.sender] = _deliveryAddress;
 		emit DeliveryAddressUpdated(msg.sender, _deliveryAddress);
 	}
 
-	/**
-	 * @notice Retrieves delivery address of a user.
-	 * @param user User's ETH address.
-	 * @return Physical delivery address of the user.
-	 */
 	function getDeliveryAddress(
 		address user
 	) public view returns (string memory) {
@@ -178,10 +150,6 @@ contract CommerceContract {
 		return customInstructions[user];
 	}
 
-	function getListingTitle() public view returns (string memory) {
-		return listingTitle;
-	}
-
 	function getProductData(
 		string memory listingID
 	) public view returns (ProductData memory) {
@@ -190,5 +158,20 @@ contract CommerceContract {
 			"Product does not exist"
 		);
 		return products[listingID];
+	}
+
+	function getAllProductData()
+		public
+		view
+		returns (string[] memory, ProductData[] memory)
+	{
+		uint256 length = listingsArray.length;
+		ProductData[] memory allProducts = new ProductData[](length);
+
+		for (uint256 i = 0; i < length; i++) {
+			allProducts[i] = products[listingsArray[i]];
+		}
+
+		return (listingsArray, allProducts);
 	}
 }

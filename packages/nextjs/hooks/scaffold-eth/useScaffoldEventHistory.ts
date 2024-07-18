@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { Abi, AbiEvent, ExtractAbiEventNames } from "abitype";

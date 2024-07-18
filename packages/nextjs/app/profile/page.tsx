@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AcademicCapIcon,
   ComputerDesktopIcon,
@@ -5,13 +7,18 @@ import {
   GlobeAsiaAustraliaIcon,
   LanguageIcon,
   MapPinIcon,
-  SpeakerWaveIcon,
 } from "@heroicons/react/20/solid";
-import { CakeIcon, Cog8ToothIcon, CogIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import Popup from "~~/components/Popup";
 
 export default function Page() {
+  const [editAboutSection, setEditAboutSection] = useState(false);
+
+  const toggleEditAboutSection = () => {
+    setEditAboutSection(!editAboutSection);
+  };
   return (
     <>
       <div className="px-4 lg-px:12">
@@ -62,7 +69,7 @@ export default function Page() {
 
         {/* Grid - About / Listings */}
         <div className="lg:grid lg:grid-cols-2 pt-24 md:pt-20 lg:pt-10 pl-4 pr-4 gap-4">
-          <div className="h-fit border dark:border-gray-500 dark:bg-gray-400/10 lg:rounded-md lg:cols-span-1 ml-2">
+          <div className="h-fit border border-gray-500 dark:bg-gray-400/10 lg:rounded-md lg:cols-span-1 ml-2">
             {/* Array of information */}
             <div className="w-full border border-transparent border-b-gray-500 scroll-p-10 pl-4 pr-4 pt-1">
               <p className="code font-semibold">ABOUT YOU</p>
@@ -138,20 +145,36 @@ export default function Page() {
             </div>
 
             <div className="pl-4 pr-4 w-full flex justify-items-center pb-1 border border-transparent border-t-gray-500">
-              <button className="w-full pt-1 code">EDIT</button>
+              <button className="w-full pt-1 code" onClick={toggleEditAboutSection}>
+                EDIT
+              </button>
               {/* Credit edit link modal popup function */}
+
+              <Popup
+                isOpen={editAboutSection}
+                onClose={toggleEditAboutSection}
+                className="min-w-96 min-h-64 max-w-full max-h-full"
+                title={<Popup.Title className="pl-3 pr-3 uppercase code">Popup 1 Title</Popup.Title>}
+              >
+                <p className="pl-3 pr-3">This is the content of the first popup.</p>
+                <p className="pl-3 pr-3">This is the content of the first popup.</p>
+
+                <p className="pl-3 pr-3">This is the content of the first popup.</p>
+              </Popup>
             </div>
           </div>
 
-          <div className="  lg:cols-span-1 ml-2">
+          <div className=" lg:cols-span-1 ">
             {/* Array of information */}
-            <div className="h-fit w-full border border-transparent hover border-b-gray-500 scroll-p-10 pl-4 pr-4 pt-1">
-              <p className="code font-semibold">YOUR ACTIVE LISTINGS</p>
+            <div className="border-gray-500 rounded-md border">
+              <div className="h-fit w-full  scroll-p-10 pl-4 pr-4 pt-1">
+                <p className="code font-semibold">YOUR ACTIVE LISTINGS</p>
+              </div>
             </div>
 
             <div className="mt-4 mb-4 gap-8">
               {/* Map here */}
-              <div className="grid grid-cols-2 gap-4 mt-4 mb-4 border border-gray-500/30 rounded-md hover:border-primary/80 transition hover:ease-in-out">
+              <div className=" grid grid-cols-2 gap-4  mb-4 border border-gray-500 rounded-md hover:border-primary/80 transition hover:ease-in-out">
                 {/* Texts Column */}
                 <div className="ml-2">
                   <div className="grid grid-rows-4 pl-4 text-left mt-8">
@@ -163,28 +186,28 @@ export default function Page() {
                     <div className="row-span-1 dark:text-gray-400 text-gray-700">
                       Fantastic description about a fantastic commerce product that is TRULY fantastic.
                     </div>
-                    <div className="flex gap-4 row-span-1 w-full ">
-                      <Link href="explore/listingID">
-                        <div className=" bg-primary/30 border hover:bg-primary/60 border-primary/80 transition hover:border-primary/100 hover:ease-in-out">
-                          <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">VIEW</span>{" "}
-                        </div>
-                      </Link>
-                      <Link href="edit/listing">
-                        <div className="bg-gray-400/30 hover:bg-gray-200 hover:text-black border border-white/80 transition hover:border-white/100 hover:ease-in-out">
-                          <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">EDIT</span>{" "}
-                        </div>
-                      </Link>
-                    </div>
+                  </div>
+                  <div className="flex gap-4 row-span-1 w-full pl-4 pb-4 ">
+                    <Link href="explore/listingID">
+                      <div className=" bg-primary/30 border hover:bg-primary/60 border-primary/80 transition hover:border-primary/100 hover:ease-in-out">
+                        <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">VIEW</span>{" "}
+                      </div>
+                    </Link>
+                    <Link href="edit/listing">
+                      <div className="bg-gray-400/30 hover:bg-gray-200 hover:text-black border border-white/80 transition hover:border-white/100 hover:ease-in-out">
+                        <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">EDIT</span>{" "}
+                      </div>
+                    </Link>
                   </div>
                 </div>
                 {/* Image Column */}
-                <div className="relative bg-gray-500/40 h-full w-full">
+                <div className="relative h-full w-full">
                   <Image
                     src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     layout="fill"
                     objectFit="cover"
                     alt="Listing image"
-                    className="opacity-80 hover:opacity-100 rounded-md transition hover:ease-in-out "
+                    className="opacity-80 rounded-r-md hover:opacity-100  transition hover:ease-in-out "
                   />
                 </div>
               </div>

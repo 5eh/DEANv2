@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MARKETPLACE_DESCRIPTION, MARKETPLACE_TITLE } from "../../../configuration/company";
 import { PlusIcon, UserIcon } from "@heroicons/react/20/solid";
-import { ComputerDesktopIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { ChatBubbleLeftIcon, ComputerDesktopIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useTheme } from "next-themes";
@@ -38,11 +38,11 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/profile",
     icon: <UserIcon className="h-4 w-4" />,
   },
-  // {
-  //   label: "MESSAGES",
-  //   href: "/messenger",
-  //   icon: <ChatBubbleLeftIcon className="h-4 w-4" />,
-  // },
+  {
+    label: "MESSAGES",
+    href: "/messenger",
+    icon: <ChatBubbleLeftIcon className="h-4 w-4" />,
+  },
 ];
 
 export const HeaderMenuLinks = () => {
@@ -80,12 +80,20 @@ export const Header = () => {
   const { resolvedTheme } = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
+  const [logoSrc, setLogoSrc] = useState<string | undefined>(undefined);
+
   useOutsideClick(
     burgerMenuRef,
     useCallback(() => setIsDrawerOpen(false), []),
   );
 
-  const logoSrc = resolvedTheme === "dark" ? "/logo-white.svg" : "/logo-black.svg";
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLogoSrc(resolvedTheme === "dark" ? "/logo-white.svg" : "/logo-black.svg");
+    }, 10);
+
+    return () => clearTimeout(timer);
+  }, [resolvedTheme]);
 
   return (
     <>
@@ -93,7 +101,7 @@ export const Header = () => {
         <div>
           <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
             <div className="flex relative w-10 h-10">
-              <Image alt={`${MARKETPLACE_TITLE} Logo`} className="cursor-pointer" fill src={logoSrc} />
+              {logoSrc && <Image alt={`${MARKETPLACE_TITLE} Logo`} className="cursor-pointer" fill src={logoSrc} />}
             </div>
             <div className="flex flex-col">
               <span className="font-bold leading-tight code">{MARKETPLACE_TITLE}</span>

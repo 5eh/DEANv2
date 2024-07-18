@@ -1,40 +1,104 @@
-import React from "react";
 import Link from "next/link";
-import { hardhat } from "viem/chains";
-import { CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { SwitchTheme } from "~~/components/SwitchTheme";
-import { BuidlGuidlLogo } from "~~/components/assets/BuidlGuidlLogo";
-import { Faucet } from "~~/components/scaffold-eth";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import { useGlobalState } from "~~/services/store/store";
+import { COMPANY_DESCRIPTION, COMPANY_LINK, COMPANY_NAME } from "../../../configuration/company";
 
-/**
- * Site footer
- */
-export const Footer = () => {
-  const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrency.price);
-  const { targetNetwork } = useTargetNetwork();
-  const isLocalNetwork = targetNetwork.id === hardhat.id;
+const navigation = [
+  {
+    name: "Documentation",
+    href: "#",
+  },
+  {
+    name: "Terms and Conditions",
+    href: "#",
+  },
+  {
+    name: "Data Compliance",
+    href: "#",
+  },
+  {
+    name: "Company",
+    href: "#",
+  },
+  {
+    name: "Blockchain Infrastructure",
+    href: "#",
+  },
+];
 
+const socials = [
+  {
+    name: "Facebook",
+    href: "#",
+    icon: props => (
+      <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+        <path
+          fillRule="evenodd"
+          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+          clipRule="evenodd"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Facebook",
+    href: "#",
+    icon: props => (
+      <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+        <path
+          fillRule="evenodd"
+          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+          clipRule="evenodd"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Facebook",
+    href: "#",
+    icon: props => (
+      <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+        <path
+          fillRule="evenodd"
+          d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+          clipRule="evenodd"
+        />
+      </svg>
+    ),
+  },
+];
+
+export default function Footer() {
   return (
-    <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0">
-      <div>
-        <div className="fixed flex justify-between items-center w-full z-10 p-4 bottom-0 left-0 pointer-events-none">
-          <div className="flex flex-col md:flex-row gap-2 pointer-events-auto">
-            {nativeCurrencyPrice > 0 && (
-              <div>
-                <button className="min-w-fit flex items-center w-fit gap-3 pl-3 pr-3 rounded-md pt-1 pb-1 bg-primary/20 border border-primary hover:border-primary/80 transition hover:ease-in-out hover:bg-primary/40 hover:text-gray-100 dark:border-primary backdrop-blur-md">
-                  {/* <CurrencyDollarIcon className="h-4 w-4 mr-1" /> */}
-                  <span className="text-gray-700 dark:text-gray-300"> ETH to USD</span>
-                  <span>{nativeCurrencyPrice.toFixed(2)}</span>
-                </button>
-              </div>
-            )}
-          </div>
-          {/* <SwitchTheme className={`pointer-events-auto ${isLocalNetwork ? "self-end md:self-auto" : ""}`} /> */}
+    <footer className="pt-12 bg-base-200 dark:bg-base-200">
+      <div className="mx-auto max-w-7xl px-6 md:flex md:items-center md:justify-between lg:px-8">
+        <div className="flex justify-center space-x-6 md:order-2">
+          {navigation.map(item => (
+            <a key={item.name} href={item.href} className="text-gray-400 hover:text-primary">
+              <span className="sr-only">{item.name}</span>
+              <p>{item.name}</p>
+            </a>
+          ))}
+        </div>
+        <div className=" md:order-1 md:mt-0">
+          <Link href={COMPANY_LINK}>
+            <p className="text-center text-xs leading-5 text-gray-500">
+              &copy; 2020, a build of <span className="text-primary">{COMPANY_NAME}</span> |{" "}
+              <span>{COMPANY_DESCRIPTION}</span>
+            </p>
+          </Link>
         </div>
       </div>
-    </div>
+      <div className="flex justify-center items-center gap-3 pt-2 pb-8">
+        {socials.map(social => (
+          <a
+            key={social.name}
+            href={social.href}
+            className="transition hover:ease-in-out text-gray-400 hover:text-primary"
+          >
+            <span className="sr-only">{social.name}</span>
+            {social.icon({ className: "h-6 w-6" })}
+          </a>
+        ))}
+      </div>
+    </footer>
   );
-};
+}
