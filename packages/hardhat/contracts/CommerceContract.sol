@@ -23,6 +23,8 @@ contract CommerceContract {
 	event CustomInstructionsUpdated(address user, string instructions);
 	event ProductDataFetched(string listingID, ProductData product);
 
+	// Change of Contract
+
 	struct ProductData {
 		string title;
 		string description;
