@@ -10,7 +10,7 @@ const nextConfig = {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
   images: {
-    domains: ["images.unsplash.com", "i.ibb.co"],
+    domains: ["images.unsplash.com", "plus.unsplash.com", "i.ibb.co"],
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
