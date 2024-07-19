@@ -40,7 +40,7 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
     <>
       {filteredListings.map((listingID, index) => {
         const product = productDataArray[index];
-        const priceInUSD = (product.price / 100) * nativeCurrencyPrice;
+        const priceInUSD = Number(product.price);
         return (
           <div key={listingID} className="col-span-1">
             <div onClick={() => togglePopup(listingID)} className="hover:cursor-pointer">
@@ -70,11 +70,11 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
                   <span className="text-lg font-bold dark:text-gray-200">
                     {showInUSD
                       ? `$${priceInUSD.toFixed(2)} USD`
-                      : `${(product.price / 100).toFixed(3)} ${NATIVE_TOKEN}`}
+                      : `${(Number(product.price) / 100).toFixed(8)} ${NATIVE_TOKEN}`}
                   </span>
                   <span className="font-thin dark:text-gray-400">
                     {showInUSD
-                      ? `${(product.price / 100).toFixed(3)} ${NATIVE_TOKEN}`
+                      ? `${(Number(product.price) / 100).toFixed(3)} ${NATIVE_TOKEN}`
                       : `$${priceInUSD.toFixed(2)} USD`}
                   </span>
                 </div>
@@ -93,26 +93,71 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
                 <Popup.Title className="pl-3 pr-3 uppercase ">
                   <div className="flex w-full justify-between">
                     <span className="text-left code">{product.title}</span>
-                    <span className="text-right dark:text-gray-100/20 font-thin lowercase">{listingID}</span>
+                    <span className="text-right dark:text-gray-100/50 font-thin lowercase">{listingID}</span>
                   </div>
                 </Popup.Title>
               }
             >
-              <p className="pl-3 pr-3">
-                {showInUSD ? `$${priceInUSD.toFixed(2)} USD` : `${(product.price / 100).toFixed(3)} ${NATIVE_TOKEN}`}
-              </p>
-              <p className="pl-3 pr-3">{product.title}</p>
-              <p className="pl-3 pr-3">{product.description}</p>
-              <p className="pl-3 pr-3">{product.photo}</p>
-              <p className="pl-3 pr-3">{product.price}</p>
-              <p className="pl-3 pr-3">{product.location}</p>
-              <p className="pl-3 pr-3">{product.shippingMethod}</p>
-              <p className="pl-3 pr-3">{product.upcharges}</p>
-              <p className="pl-3 pr-3">{product.category}</p>
-              <p className="pl-3 pr-3">{product.timeValidity}</p>
-              <p className="pl-3 pr-3">{product.quantity}</p>
-              <p className="pl-3 pr-3">{product.creatorWallet}</p>
-              <p className="pl-3 pr-3">{listingID}</p>
+              <div className="grid grid-cols-5 grid-rows-5 gap-4 m-4">
+                <div className="col-span-2 border border-red-400">
+                  <p className="pl-3 pr-3">{product.category}</p>
+                </div>
+
+                <div className="col-span-2 col-start-1 row-start-2 border border-red-400">
+                  <p className="pl-3 pr-3">
+                    {showInUSD
+                      ? `$${priceInUSD.toFixed(2)} USD`
+                      : `${(Number(product.price) / 100).toFixed(3)} ${NATIVE_TOKEN}`}
+                  </p>
+
+                  <p className="pl-3 pr-3">{product.location}</p>
+                </div>
+                <div className="col-span-2 row-span-5 col-start-4 row-start-1 border border-red-400">
+                  <p className="pl-3 pr-3">{product.photo}</p>
+                </div>
+                <div className="col-start-3 row-start-1 border border-red-400">
+                  Valid until
+                  <p className="pl-3 pr-3">{product.quantity}</p>
+                </div>
+
+                <div className="col-start-3 row-start-2 border border-red-400">
+                  {" "}
+                  <p className="pl-3 pr-3">{product.shippingMethod}</p>
+                </div>
+                <div className="col-start-3 row-start-3 border border-red-400">
+                  <p className="pl-3 pr-3">{product.upcharges} UPCHARGES</p>
+                </div>
+                <div className="col-start-3 row-start-4 border border-red-400">
+                  <p className="pl-3 pr-3">{product.upcharges} FEATURES</p>
+                </div>
+                <div className="col-start-3 row-start-5 border border-red-400">
+                  {" "}
+                  <p className="pl-3 pr-3">{product.creatorWallet}</p>
+                  View Etherscan
+                </div>
+                <div className="col-span-2 row-span-3 col-start-1 row-start-3 border border-red-400">
+                  <p className="pl-3 pr-3">{product.description}</p>
+                </div>
+              </div>
+
+              <div className="flex justify-center items-center w-full mt-8 gap-x-1 relative">
+                <div className="w-full border border-transparent border-t-black dark:border-t-primary pt-1" />{" "}
+                <div className="text-center w-1/2">
+                  {" "}
+                  <p>ABOUT SELLER </p>{" "}
+                </div>
+                <div className="w-full border border-transparent border-t-black dark:border-t-primary pt-1" />{" "}
+              </div>
+
+              <div className="grid grid-cols-5 grid-rows-2 gap-4 m-4">
+                <div className="h-64 row-span-2 border border-white">Avatar</div>
+                <div className=" col-span-2 border border-white">Name & ratings</div>
+                <div className="col-start-4 border border-white">Location</div>
+                <div className="col-start-5 border border-white">Reviews</div>
+                <div className="col-span-2 col-start-2 row-start-2 border border-white">Description (or badges)?</div>
+                <div className="col-start-4 row-start-2 border border-white">Badges</div>
+                <div className="col-start-5 row-start-2 border border-white">View full profile button</div>
+              </div>
             </Popup>
           </div>
         );

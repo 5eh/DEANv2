@@ -6,7 +6,6 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { NATIVE_TOKEN } from "../../../../../configuration/company";
 import { useGlobalState } from "~~/services/store/store";
 import Image from "next/image";
-import { DefaultImage } from "~~/public/Background.png";
 
 interface FormData {
   title: string;
@@ -34,7 +33,7 @@ const Form: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
-    price: 0,
+    price: 0.0,
     photo: "",
     location: "",
     quantityOfService: 1,
@@ -144,9 +143,9 @@ const Form: React.FC = () => {
 
       console.log(listingID);
 
-      // Ethereum specific
-      const priceInNativeToken = showInUSD ? formData.price / nativeCurrencyPrice : formData.price;
-      const priceInWei = BigInt(Math.round(priceInNativeToken * 10 ** 18)); // Convert to smallest unit (wei for ETH)
+      const priceInWei = showInUSD
+        ? BigInt(Math.floor(formData.price / nativeCurrencyPrice))
+        : BigInt(Math.floor(formData.price));
 
       const args = [
         formData.title,
@@ -157,8 +156,8 @@ const Form: React.FC = () => {
         formData.upcharges.map(upcharge => upcharge.upcharge).join(", "),
         formData.category,
         priceInWei,
-        BigInt(formData.quantityOfService),
-        BigInt(30 * 24 * 60 * 60), // Assuming validity time is 30 days in seconds
+        formData.quantityOfService,
+        500000,
         listingID,
       ];
 
@@ -428,7 +427,6 @@ const Form: React.FC = () => {
                       <Image
                         src={formData.photo}
                         alt={formData.photo}
-                        defaultValue={DefaultImage}
                         layout="fill"
                         objectFit="cover"
                         className="filter blur-xl"
@@ -441,7 +439,6 @@ const Form: React.FC = () => {
                       <Image
                         src={formData.photo}
                         alt={formData.photo}
-                        defaultValue={DefaultImage}
                         width={600}
                         height={400}
                         className="w-full h-auto object-cover dark:border border-gray-800 border-b-transparent dark:border-b-transparent dark:border-gray-200/20"

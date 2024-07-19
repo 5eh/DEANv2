@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     CommerceContract: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
       abi: [
         {
           inputs: [],
@@ -118,9 +118,9 @@ const deployedContracts = {
                   type: "string",
                 },
                 {
-                  internalType: "uint32",
+                  internalType: "uint256",
                   name: "price",
-                  type: "uint32",
+                  type: "uint256",
                 },
                 {
                   internalType: "uint32",
@@ -169,9 +169,9 @@ const deployedContracts = {
             },
             {
               indexed: false,
-              internalType: "uint32",
+              internalType: "uint256",
               name: "price",
-              type: "uint32",
+              type: "uint256",
             },
             {
               indexed: false,
@@ -259,9 +259,9 @@ const deployedContracts = {
               type: "string",
             },
             {
-              internalType: "uint32",
+              internalType: "uint256",
               name: "_price",
-              type: "uint32",
+              type: "uint256",
             },
             {
               internalType: "uint32",
@@ -344,9 +344,9 @@ const deployedContracts = {
                   type: "string",
                 },
                 {
-                  internalType: "uint32",
+                  internalType: "uint256",
                   name: "price",
-                  type: "uint32",
+                  type: "uint256",
                 },
                 {
                   internalType: "uint32",
@@ -463,9 +463,9 @@ const deployedContracts = {
                   type: "string",
                 },
                 {
-                  internalType: "uint32",
+                  internalType: "uint256",
                   name: "price",
-                  type: "uint32",
+                  type: "uint256",
                 },
                 {
                   internalType: "uint32",
@@ -561,9 +561,9 @@ const deployedContracts = {
               type: "string",
             },
             {
-              internalType: "uint32",
+              internalType: "uint256",
               name: "price",
-              type: "uint32",
+              type: "uint256",
             },
             {
               internalType: "uint32",

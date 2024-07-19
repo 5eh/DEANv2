@@ -14,7 +14,7 @@ contract CommerceContract {
 	event ProductListed(
 		string listingID,
 		address owner,
-		uint32 price,
+		uint price,
 		uint32 quantity
 	);
 	event ProductPurchased(string listingID, address buyer, uint32 quantity);
@@ -31,7 +31,7 @@ contract CommerceContract {
 		string shippingMethod;
 		string upcharges;
 		string category;
-		uint32 price;
+		uint price;
 		uint32 timeValidity;
 		uint32 quantity;
 		address payable creatorWallet;
@@ -59,7 +59,7 @@ contract CommerceContract {
 		string memory _shippingMethod,
 		string memory _upcharges,
 		string memory _category,
-		uint32 _price,
+		uint _price,
 		uint32 _timeValidity,
 		uint32 _quantity,
 		string memory _listingID

@@ -9,7 +9,7 @@ export default function Sorting() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showInUSD, setShowInUSD] = useState(false);
 
-  const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrency.price);
+  // const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrency.price);
 
   const toggleCurrency = () => {
     setShowInUSD(!showInUSD);
