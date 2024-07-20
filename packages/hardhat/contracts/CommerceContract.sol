@@ -8,7 +8,7 @@ contract CommerceContract {
 
 	mapping(string => ProductData) public products;
 	mapping(string => address) private productBuyers;
-	mapping(address => string) private deliveryAddresses; // Storing unhashed delivery addresses
+	mapping(address => string) private deliveryAddresses;
 	mapping(address => string) private customInstructions;
 
 	event ProductListed(
@@ -22,8 +22,6 @@ contract CommerceContract {
 	event DeliveryAddressUpdated(address user, string deliveryAddress);
 	event CustomInstructionsUpdated(address user, string instructions);
 	event ProductDataFetched(string listingID, ProductData product);
-
-	// Change of Contract
 
 	struct ProductData {
 		string title;
@@ -105,12 +103,28 @@ contract CommerceContract {
 		emit ProductPurchased(_listingID, msg.sender, _quantity);
 	}
 
-	function confirmDelivery(string memory _listingID) public {
+	function confirmDelivery(
+		string memory _listingID,
+		address customerWallet
+	) public {
 		require(
 			msg.sender == products[_listingID].creatorWallet,
 			"Only the seller can confirm delivery"
 		);
 		require(!products[_listingID].isDelivered, "Product already delivered");
+
+		address buyer = productBuyers[_listingID];
+		require(
+			buyer == customerWallet,
+			"Customer wallet address does not match the buyer"
+		);
+		require(buyer != address(0), "No buyer found for this listing");
+
+		string memory deliveryAddress = deliveryAddresses[buyer];
+		require(
+			bytes(deliveryAddress).length > 0,
+			"Buyer has not set a delivery address"
+		);
 
 		products[_listingID].isDelivered = true;
 		products[_listingID].creatorWallet.transfer(address(this).balance);
