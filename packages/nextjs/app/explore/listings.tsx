@@ -42,7 +42,8 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
     <>
       {filteredListings.map((listingID, index) => {
         const product = productDataArray[index];
-        const priceInUSD = Number(product.price);
+        const priceInUSD = (Number(product.price) / 10 ** 18) * nativeCurrencyPrice;
+
         return (
           <div key={listingID} className="col-span-1">
             <div onClick={() => togglePopup(listingID)} className="hover:cursor-pointer">
@@ -72,11 +73,11 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
                   <span className="text-lg font-bold dark:text-gray-200">
                     {showInUSD
                       ? `$${priceInUSD.toFixed(2)} USD`
-                      : `${(Number(product.price) / 100).toFixed(8)} ${NATIVE_TOKEN}`}
+                      : `${(Number(product.price) / 10 ** 18).toFixed(8)} ${NATIVE_TOKEN}`}
                   </span>
                   <span className="font-thin dark:text-gray-400">
                     {showInUSD
-                      ? `${(Number(product.price) / 100).toFixed(3)} ${NATIVE_TOKEN}`
+                      ? `${(Number(product.price) / 10 ** 18).toFixed(8)} ${NATIVE_TOKEN}`
                       : `$${priceInUSD.toFixed(2)} USD`}
                   </span>
                 </div>
@@ -183,11 +184,11 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
                     <span className="text-lg font-bold dark:text-gray-200">
                       {showInUSD
                         ? `$${priceInUSD.toFixed(2)} USD`
-                        : `${(Number(product.price) / 100).toFixed(3)} ${NATIVE_TOKEN}`}
+                        : `${(Number(product.price) / 10 ** 18).toFixed(8)} ${NATIVE_TOKEN}`}
                     </span>
                     <span className="font-thin dark:text-gray-400">
                       {showInUSD
-                        ? `${(Number(product.price) / 100).toFixed(4)} ${NATIVE_TOKEN}`
+                        ? `${(Number(product.price) / 10 ** 18).toFixed(4)} ${NATIVE_TOKEN}`
                         : `$${priceInUSD.toFixed(2)} USD`}
                     </span>
                   </div>

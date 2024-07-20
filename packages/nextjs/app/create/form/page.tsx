@@ -143,19 +143,19 @@ const Form: React.FC = () => {
 
       console.log(listingID);
 
-      const priceInWei = showInUSD
-        ? BigInt(Math.floor(formData.price / nativeCurrencyPrice))
-        : BigInt(Math.floor(formData.price));
+      const price = showInUSD
+        ? BigInt(((formData.price / nativeCurrencyPrice) * 10 ** 18).toFixed(0)) // Convert to wei if in USD
+        : BigInt(formData.price * 10 ** 18); // Keep as is if in native currency
 
       const args = [
         formData.title,
         formData.description,
-        formData.photo || "", // photo is optional,
+        formData.photo || "", // photo is optional
         formData.location,
         formData.shippingMethod,
         formData.upcharges.map(upcharge => upcharge.upcharge).join(", "),
         formData.category,
-        priceInWei,
+        price,
         formData.quantityOfService,
         500000,
         listingID,
@@ -172,7 +172,6 @@ const Form: React.FC = () => {
       console.error("Error creating product:", error);
     }
   };
-
   return (
     <div className="x-6 lg:px-8">
       <div className="mt-12">
