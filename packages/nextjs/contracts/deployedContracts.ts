@@ -215,6 +215,11 @@ const deployedContracts = {
               name: "_listingID",
               type: "string",
             },
+            {
+              internalType: "address",
+              name: "customerWallet",
+              type: "address",
+            },
           ],
           name: "confirmDelivery",
           outputs: [],

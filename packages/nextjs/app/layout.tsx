@@ -1,12 +1,13 @@
-import { COMPANY_DESCRIPTION, COMPANY_NAME, MARKETPLACE_TITLE } from "../../../configuration/company";
+import { COMPANY_DESCRIPTION, COMPANY_NAME } from "../../../configuration/company";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
+import { DEFAULT_TITLE, TITLE_BREAKER } from "../../../configuration/seo";
 
 export const metadata = getMetadata({
-  title: `${MARKETPLACE_TITLE} | ${COMPANY_NAME}`,
+  title: `${DEFAULT_TITLE} ${TITLE_BREAKER} ${COMPANY_NAME}`,
   description: `${COMPANY_DESCRIPTION}`,
 });
 

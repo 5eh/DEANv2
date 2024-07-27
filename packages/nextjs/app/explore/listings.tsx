@@ -203,23 +203,54 @@ export default function Listings({ showInUSD, searchInput, selectedCategory }) {
                 <div className="w-full border border-transparent border-t-black dark:border-t-primary pt-1" />
               </div>
 
-              <div className="grid grid-cols-auto grid-rows-auto gap-4 m-4 w-fit">
-                <div className="h-64 w-64 row-span-2 border border-white">Avatar</div>
-                <div className="col-span-2 border border-white">
-                  <div>
-                    <span>{COMPANY_NAME} </span>
+              <div className="grid grid-cols-6 grid-rows-auto gap-4 m-4 ">
+                <div className="col-span-2 row-span-2 border border-white relative overflow-hidden flex items-center justify-center w-auto h-64">
+                  <div className="absolute inset-0 flex items-center justify-center filter blur-xl">
+                    <Image
+                      src="https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      alt={product.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="object-center w-64 h-64"
+                    />
                   </div>
-                  <div>
-                    <span>4.8 / 10</span>
+                  <div className="relative flex items-center justify-center w-full h-full">
+                    <Image
+                      src="https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      alt={product.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="w-64 h-64"
+                    />
                   </div>
+                </div>
 
-                  <div>
-                    <span>24 ratings</span>
+                <div className="col-span-1 ">
+                  <div className="">
+                    <div className="font-bold">
+                      <span>{COMPANY_NAME}</span>{" "}
+                    </div>
+                    <div>
+                      <span className="font-semibold dark:text-gray-500">{COMPANY_DESCRIPTION}</span>
+                    </div>
                   </div>
                 </div>
                 <div className="col-start-4 border border-white">Location</div>
                 <div className="col-start-5 border border-white">Reviews</div>
-                <div className="col-span-2 col-start-2 row-start-2 text-left max-w-48 ">{COMPANY_DESCRIPTION}</div>
+                <div className="col-start-6 row-span-2 border border-white">Other listings</div>
+                <div className="col-span-1 col-start-auto max-w-48 grid align-bottom ">
+                  <div className="flex justify-start  m-0">
+                    <p className="align-baseline text-center font-bold pt-2 pb-2 pl-3 pr-3 border border-primary/80 bg-primary/20 w-fit">
+                      4.8 / 10
+                    </p>
+                  </div>
+
+                  <div className="flex justify-start ">
+                    <span className="align-baseline text-center font-bold pt-2 pb-2 pl-3 pr-3 border border-primary/80 bg-primary/20 w-fit">
+                      24 Ratings
+                    </span>
+                  </div>
+                </div>
                 <div className="col-start-4 row-start-2 border border-white">Badges</div>
                 <div className="col-start-5 row-start-2 border border-white">View full profile button</div>
               </div>

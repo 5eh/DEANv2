@@ -39,7 +39,7 @@ const socials = [
     ),
   },
   {
-    name: "Facebook",
+    name: "Discord",
     href: "#",
     icon: props => (
       <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -52,7 +52,7 @@ const socials = [
     ),
   },
   {
-    name: "Facebook",
+    name: "Github",
     href: "#",
     icon: props => (
       <svg fill="currentColor" viewBox="0 0 24 24" {...props}>

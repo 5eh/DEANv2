@@ -10,6 +10,7 @@ import {
 import { rainbowkitBurnerWallet } from "burner-connector";
 import * as chains from "viem/chains";
 import scaffoldConfig from "~~/scaffold.config";
+import { COMPANY_NAME } from "../../../../configuration/company";
 
 const { onlyLocalBurnerWallet, targetNetworks } = scaffoldConfig;
 
@@ -37,7 +38,7 @@ export const wagmiConnectors = connectorsForWallets(
   ],
 
   {
-    appName: "scaffold-eth-2",
+    appName: `${COMPANY_NAME}`, // Original is 'Scaffold-eth-2'
     projectId: scaffoldConfig.walletConnectProjectId,
   },
 );

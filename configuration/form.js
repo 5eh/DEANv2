@@ -6,39 +6,38 @@
 
 export const FORM_SELECTION = [
   {
-    id: "Houseplants",
-    title: "Houseplants",
+    id: "Apperal",
+    title: "Apperal",
     imageUrl:
-      "https://plus.unsplash.com/premium_photo-1665408511793-51dc25f82b2d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Succulents and Cacti",
-    title: "Succulents and Cacti",
-    imageUrl:
-      "https://plus.unsplash.com/premium_photo-1679237001830-baf5e8d51d11?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    id: "Electronics",
+    title: "Electronics",
+    imageUrl: "https://i.redd.it/k1th39crijw61.jpg",
   },
   {
-    id: "Herbs and Edibles",
-    title: "Herbs and Edibles",
+    id: "Entertainment",
+    title: "Entertainment",
     imageUrl:
-      "https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1486572788966-cfd3df1f5b42?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Ornamental Flowers",
-    title: "Ornamental Flowers",
+    id: "Commerce",
+    title: "Commerce",
     imageUrl:
-      "https://plus.unsplash.com/premium_photo-1673569481316-116fb85d82d6?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1592903297149-37fb25202dfa?q=80&w=2785&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Trees and Shrubs",
-    title: "Trees and Shrubs",
+    id: "Garden",
+    title: "Garden",
     imageUrl:
       "https://images.unsplash.com/photo-1458966480358-a0ac42de0a7a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    id: "Aquatic and Pond Plants",
-    title: "Aquatic and Pond Plants",
+    id: "Assets",
+    title: "Assets",
     imageUrl:
-      "https://images.unsplash.com/photo-1534162802244-d6f69e9048da?q=80&w=1049&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1718752773178-a02768f6355d?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];

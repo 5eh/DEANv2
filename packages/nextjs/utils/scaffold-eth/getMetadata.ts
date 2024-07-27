@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { MARKETPLACE_TITLE } from "../../../../configuration/company";
 
 const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : `http://localhost:${process.env.PORT || 3000}`;
-const titleTemplate = "%s | Scaffold-ETH 2";
+
+const titleTemplate = ` %s | ${MARKETPLACE_TITLE}`;
 
 export const getMetadata = ({
   title,
