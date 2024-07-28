@@ -49,12 +49,12 @@ export default function Page() {
     setEditAboutSection(!editAboutSection);
   };
 
-  console.log(accountInfo);
+  const hasActiveListings = accountInfo && accountInfo.listings && accountInfo.listings.length > 0;
 
   return (
     <>
       {isLoading ? (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen bg-gray-900">
           <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
         </div>
       ) : (
@@ -105,7 +105,31 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="lg:grid lg:grid-cols-2 pt-24 md:pt-20 lg:pt-10 pl-4 pr-4 gap-4">
+          {/* NEEDS ATTENTION SECTION */}
+          <div className="mt-16 pl-4 pr-4">
+            <div className="border border-primary/80 w-full text-center pt-3 pb-3 rounded-md">
+              <span className="code font-bold">NEEDS ATTENTION</span>
+            </div>
+
+            <div className="mt-4 mb-8 lg:grid lg:grid-cols-2 gap-8">
+              <div className="border border-gray-800 rounded-md">
+                <p> IMAGE </p>
+                <p> TITLE </p>
+                <p> PURCHASED BY: name </p>
+                <p> ACTION: </p>
+                <p> VIEW AND COMPLETE </p>
+                <p> FINISH AND EARN: price </p>
+                <p> CONTACT: name </p>
+              </div>
+
+              <div>
+                <span> LISTING 2 </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ABOUT YOU SECTION */}
+          <div className="lg:grid lg:grid-cols-2 pt-24 md:pt-20 lg:pt-10  gap-4">
             <div className="h-fit border border-gray-500 dark:bg-gray-400/10 lg:rounded-md lg:cols-span-1 ml-2">
               <div className="w-full border border-transparent border-b-gray-500 scroll-p-10 pl-4 pr-4 pt-1">
                 <p className="code font-semibold">ABOUT YOU</p>
@@ -177,46 +201,68 @@ export default function Page() {
               </div>
             </div>
             <div className="lg:cols-span-1">
-              <div className="border-gray-500 rounded-md border">
-                <div className="h-fit w-full scroll-p-10 pl-4 pr-4 pt-1">
-                  <p className="code font-semibold">YOUR ACTIVE LISTINGS</p>
+              {hasActiveListings ? (
+                <div className="border-gray-500 rounded-md border">
+                  <div className="h-fit w-full scroll-p-10 pl-4 pr-4 pt-1">
+                    <p className="code font-semibold">YOUR ACTIVE LISTINGS</p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <Link href="/create">
+                  <div className="border-gray-500 rounded-md border cursor-pointer">
+                    <div className="h-fit w-full scroll-p-10 pl-4 pr-4 pt-1">
+                      <p className="code font-semibold">EARN CRYPTO BY SELLING YOUR PRODUCTS HERE</p>
+                    </div>
+                  </div>
+                </Link>
+              )}
+
               <div className="mt-4 mb-4 gap-8">
-                <div className="grid grid-cols-2 gap-4 mb-4 border border-gray-500 rounded-md hover:border-primary/80 transition hover:ease-in-out">
-                  <div className="ml-2">
-                    <div className="grid grid-rows-4 pl-4 text-left mt-8">
-                      <div className="row-span-1">
-                        <span className="dark:text-gray-400 text-gray-700 code">12th Feb, 2024</span>
-                        <p className="font-bold">Modernized Listing Image</p>
+                {hasActiveListings ? (
+                  accountInfo.listings.map((listing, index) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-2 gap-4 mb-4 border border-gray-500 rounded-md hover:border-primary/80 transition hover:ease-in-out"
+                    >
+                      <div className="ml-2">
+                        <div className="grid grid-rows-4 pl-4 text-left mt-8">
+                          <div className="row-span-1">
+                            <span className="dark:text-gray-400 text-gray-700 code">{listing.date}</span>
+                            <p className="font-bold">{listing.title}</p>
+                          </div>
+                          <div className="row-span-1 dark:text-gray-400 text-gray-700">{listing.description}</div>
+                        </div>
+                        <div className="flex gap-4 row-span-1 w-full pl-4 pb-4">
+                          <Link href={`explore/${listing.id}`}>
+                            <div className="bg-primary/30 border hover:bg-primary/60 border-primary/80 transition hover:border-primary/100 hover:ease-in-out">
+                              <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">VIEW</span>
+                            </div>
+                          </Link>
+                          <Link href={`edit/${listing.id}`}>
+                            <div className="bg-gray-400/30 hover:bg-gray-200 hover:text-black border border-white/80 transition hover:border-white/100 hover:ease-in-out">
+                              <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">EDIT</span>
+                            </div>
+                          </Link>
+                        </div>
                       </div>
-                      <div className="row-span-1 dark:text-gray-400 text-gray-700">
-                        Fantastic description about a fantastic commerce product that is TRULY fantastic.
+                      <div className="relative h-full w-full">
+                        <Image
+                          src={listing.image}
+                          layout="fill"
+                          objectFit="cover"
+                          alt="Listing image"
+                          className="opacity-80 rounded-r-md hover:opacity-100 transition hover:ease-in-out"
+                        />
                       </div>
                     </div>
-                    <div className="flex gap-4 row-span-1 w-full pl-4 pb-4">
-                      <Link href="explore/listingID">
-                        <div className="bg-primary/30 border hover:bg-primary/60 border-primary/80 transition hover:border-primary/100 hover:ease-in-out">
-                          <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">VIEW</span>
-                        </div>
-                      </Link>
-                      <Link href="edit/listing">
-                        <div className="bg-gray-400/30 hover:bg-gray-200 hover:text-black border border-white/80 transition hover:border-white/100 hover:ease-in-out">
-                          <span className="borderp-2 pl-12 pr-12 pt-4 pb-4">EDIT</span>
-                        </div>
-                      </Link>
+                  ))
+                ) : (
+                  <div className="grid gap-4 mb-4 h-fit border border-gray-500 rounded-md hover:border-red-500/80 transition hover:ease-in-out">
+                    <div className="text-center">
+                      <p className="font-bold">No active listings at the moment.</p>
                     </div>
                   </div>
-                  <div className="relative h-full w-full">
-                    <Image
-                      src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                      layout="fill"
-                      objectFit="cover"
-                      alt="Listing image"
-                      className="opacity-80 rounded-r-md hover:opacity-100 transition hover:ease-in-out"
-                    />
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

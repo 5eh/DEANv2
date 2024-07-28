@@ -128,7 +128,7 @@ export default function Example() {
           <div className="relative overflow-hidden pt-16">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <img
-                src="https://tailwindui.com/img/component-images/project-app-screenshot.png"
+                src="https://i.ibb.co/CsH95yd/Screenshot-2024-07-27-at-4-31-07-PM.png"
                 alt="Explore section screenshot"
                 className="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-gray-900/10"
                 width={2432}
