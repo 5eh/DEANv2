@@ -14,9 +14,12 @@ import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
 import Popup from "~~/components/Popup";
 import { findAccountInformation } from "~~/mongodb/_actions/findAccountAction"; // Adjust the import path according to your project structure
+import { NATIVE_TOKEN } from "../../../../configuration/company";
 
 export default function Page() {
   const [editAboutSection, setEditAboutSection] = useState(false);
+  const [openAttentionItem, setToggleOpenAttentionItem] = useState(false);
+
   const { address: connectedAddress } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
   const [accountInfo, setAccountInfo] = useState(null);
@@ -47,6 +50,10 @@ export default function Page() {
 
   const toggleEditAboutSection = () => {
     setEditAboutSection(!editAboutSection);
+  };
+
+  const toggleOpenAttentionItem = () => {
+    setToggleOpenAttentionItem(!openAttentionItem);
   };
 
   const hasActiveListings = accountInfo && accountInfo.listings && accountInfo.listings.length > 0;
@@ -107,24 +114,63 @@ export default function Page() {
 
           {/* NEEDS ATTENTION SECTION */}
           <div className="mt-16 pl-4 pr-4">
-            <div className="border border-primary/80 w-full text-center pt-3 pb-3 rounded-md">
-              <span className="code font-bold">NEEDS ATTENTION</span>
+            <div className="border bg-white w-full text-center pt-3 pb-3 rounded-md ">
+              <span className="code font-bold text-black">NEEDS ATTENTION</span>
             </div>
 
             <div className="mt-4 mb-8 lg:grid lg:grid-cols-2 gap-8">
-              <div className="border border-gray-800 rounded-md">
-                <p> IMAGE </p>
-                <p> TITLE </p>
-                <p> PURCHASED BY: name </p>
-                <p> ACTION: </p>
-                <p> VIEW AND COMPLETE </p>
-                <p> FINISH AND EARN: price </p>
-                <p> CONTACT: name </p>
+              <div className="border border-gray-800 rounded-md lg:grid lg:grid-cols-2 ">
+                <div className="relative h-full w-full lg:h-60">
+                  <Image
+                    src="https://images.unsplash.com/photo-1579547945413-497e1b99dac0?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    layout="fill"
+                    objectFit="cover"
+                    alt="Listing image"
+                    className="opacity-80 rounded-l-md hover:opacity-100 transition hover:ease-in-out"
+                  />
+                </div>
+                <div className="flex flex-col h-full p-2">
+                  <div className="flex-grow">
+                    <div className="w-full h-fit">
+                      <span className="code font-bold text-2xl"> Monstera Deliciso </span>
+                    </div>
+                    <div className="w-full h-fit">
+                      <span className="font-normal text-lg text-gray-400">
+                        {" "}
+                        PURCHASED BY <span className="text-primary code uppercase"> name </span>{" "}
+                      </span>
+                    </div>
+                    <div className="w-full h-fit">
+                      <span className="text-md text-red-400 italics text-md"> Deliver by </span>
+                    </div>
+                  </div>
+                  <div className="w-full pt-2 pb-2 ">
+                    <div>
+                      <span>
+                        FINISH AND EARN <span className="text-primary code ml-2 mr-2">0.003 {NATIVE_TOKEN}</span>
+                      </span>
+                    </div>
+                    <button
+                      className="w-full border border-primary/80 bg-primary/30 justify-center text-center hover:border-primary hover:bg-primary/40 transition hover:ease-in-out pt-4 pb-4"
+                      onClick={toggleOpenAttentionItem}
+                    >
+                      <span> VIEW AND COMPLETE </span>
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <span> LISTING 2 </span>
-              </div>
+              {openAttentionItem && (
+                <Popup
+                  isOpen={openAttentionItem}
+                  onClose={toggleOpenAttentionItem}
+                  className="min-w-96 min-h-64 max-w-full max-h-full"
+                  title={<Popup.Title className="pl-3 pr-3 uppercase code">Attention Item Details</Popup.Title>}
+                >
+                  <p className="pl-3 pr-3">This is the content of the attention item popup.</p>
+                  <p className="pl-3 pr-3">You can add more details or actions related to this item here.</p>
+                </Popup>
+              )}
             </div>
           </div>
 

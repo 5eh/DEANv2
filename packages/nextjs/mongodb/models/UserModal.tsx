@@ -1,27 +1,35 @@
-// packages/nextjs/models/userModel.ts
+import mongoose from "mongoose";
 
-import { Schema, model, models } from "mongoose";
-
-const userSchema = new Schema(
+const UserSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     wallet: {
       type: String,
       required: true,
       unique: true,
     },
+    username: {
+      type: String,
+      unique: true,
+    },
+    location: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
-  { timestamps: true },
+  { strict: false, timestamps: true },
 );
 
-const UserModel = models.User || model("User", userSchema);
+const UserModel = mongoose.models.User || mongoose.model("User", UserSchema);
+
 export default UserModel;

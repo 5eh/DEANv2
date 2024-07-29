@@ -9,8 +9,28 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    // Add other fields as needed
+    username: {
+      type: String,
+      unique: true,
+    },
+    location: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
+  // Add other fields as needed
+
   { timestamps: true },
 );
 
