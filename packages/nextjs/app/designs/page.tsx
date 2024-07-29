@@ -1,59 +1,90 @@
-// packages/nextjs/app/components/RegisterForm.tsx
-
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { createAccount } from "~~/mongodb/_actions/createAccountAction";
+import React, { useEffect, useState } from "react";
+import { updateAccount } from "~~/mongodb/_actions/updateAccountAction";
+import { readAccount } from "~~/mongodb/_actions/readAccountAction";
 import { useAccount } from "wagmi";
 
-const RegisterForm = () => {
-  const [message, setMessage] = useState("");
+const UpdateForm = () => {
   const { address: connectedAddress } = useAccount();
-  const [formData, setFormData] = useState({ wallet: connectedAddress, username: "", email: "" });
-
-  useEffect(() => {
-    if (connectedAddress) {
-      setFormData(prev => ({ ...prev, wallet: connectedAddress }));
-    }
-  }, [connectedAddress]);
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [field, setField] = useState("");
+  const [value, setValue] = useState("");
+  const [message, setMessage] = useState("");
+  const [accountInformation, setAccountInformation] = useState(null);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const { wallet, username, email } = formData;
+
+    if (!connectedAddress) {
+      setMessage("You must be connected to your wallet");
+      return;
+    }
+
     try {
-      const response = await createAccount(wallet, username, email);
-      setMessage(response.msg || response.errMsg || "Failed to create account");
+      const response = await updateAccount(connectedAddress, field, value);
+      setMessage(response.msg || "Account updated successfully");
     } catch (error) {
-      console.error("Failed to create account", error);
-      setMessage("Failed to create account");
+      console.error("Failed to update account", error);
+      setMessage("Failed to update account");
     }
   };
 
+  useEffect(() => {
+    const fetchAccountData = async () => {
+      try {
+        const user = await readAccount(connectedAddress);
+        setAccountInformation(user);
+      } catch (error) {
+        console.error("Failed to read account", error);
+      }
+    };
+
+    if (connectedAddress) {
+      fetchAccountData();
+    }
+  }, [connectedAddress]);
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="address">Connected Address:</label>
-          <p>{connectedAddress}</p>
-        </div>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} required />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      {message && <p>{message}</p>}
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="field">Field:</label>
+            <input
+              type="text"
+              id="field"
+              name="field"
+              value={field}
+              onChange={e => setField(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="value">Value:</label>
+            <input
+              type="text"
+              id="value"
+              name="value"
+              value={value}
+              onChange={e => setValue(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Update</button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
+
+      <div>
+        <p>Account information:</p>
+        {accountInformation ? (
+          <pre>{JSON.stringify(accountInformation, null, 2)}</pre>
+        ) : (
+          <p>No account information available</p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default RegisterForm;
+export default UpdateForm;
