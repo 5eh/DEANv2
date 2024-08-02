@@ -19,6 +19,11 @@ import { NATIVE_TOKEN } from "../../../../configuration/company";
 export default function Page() {
   const [editAboutSection, setEditAboutSection] = useState(false);
   const [openAttentionItem, setToggleOpenAttentionItem] = useState(false);
+  const [uploadReceiptPopup, setUploadReceiptPopup] = useState(false);
+  const [receiptImage, setReceiptImage] = useState(null);
+  const [buttonText, setButtonText] = useState("Upload receipt");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   const { address: connectedAddress } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +59,37 @@ export default function Page() {
 
   const toggleOpenAttentionItem = () => {
     setToggleOpenAttentionItem(!openAttentionItem);
+  };
+
+  const toggleUploadReceiptPopup = () => {
+    setUploadReceiptPopup(!uploadReceiptPopup);
+  };
+
+  const fileChange = async event => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const form = new FormData();
+    form.append("image", file);
+
+    setIsUploading(true);
+
+    try {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=94d67511d33d7f7cdd49759c1bbb4a8d`, {
+        method: "POST",
+        body: form,
+      });
+      const data = await response.json();
+      setReceiptImage(data.data.url);
+      console.log(data.data.url);
+      setUploadSuccess(true);
+      setButtonText("Receive vara!");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      setIsUploading(false);
+      setUploadReceiptPopup(false); // Close the popup
+    }
   };
 
   const hasActiveListings = accountInfo && accountInfo.listings && accountInfo.listings.length > 0;
@@ -159,16 +195,44 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-
               {openAttentionItem && (
                 <Popup
                   isOpen={openAttentionItem}
                   onClose={toggleOpenAttentionItem}
-                  className="min-w-96 min-h-64 max-w-full max-h-full"
-                  title={<Popup.Title className="pl-3 pr-3 uppercase code">Attention Item Details</Popup.Title>}
+                  className="xl:w-3/5 min-h-64 max-w-full max-h-[80vh] overflow-y-auto relative"
+                  title={<Popup.Title className="pl-3 pr-3 uppercase code">Monstera Deliciso</Popup.Title>}
                 >
-                  <p className="pl-3 pr-3">This is the content of the attention item popup.</p>
-                  <p className="pl-3 pr-3">You can add more details or actions related to this item here.</p>
+                  <div className="lg:grid-cols-2 lg:grid gap-2">
+                    <div className="lg:cols-span-1 border border-red-400">
+                      <p className="pl-3 pr-3">IMAGE.</p>
+                    </div>
+                    <div className="border border-green-400"></div>
+                  </div>
+                  <div className="flex justify-center items-center w-full mt-2 gap-x-1 relative">
+                    <div className="w-full border border-transparent border-t-black dark:border-t-primary pt-1" />
+                    <div className="text-center w-full">
+                      <p className="code">DELIVERY INSTRUCTIONS</p>
+                    </div>
+                    <div className="w-full border border-transparent border-t-black dark:border-t-primary pt-1" />
+                  </div>
+                  <p className="pl-3 pr-3">QUANTITY TO DELIVER:</p>
+                  <p className="pl-3 pr-3">DELIVERY TO:</p>
+                  <p className="pl-3 pr-3">YOUR CLIENTS PREFERRED SHIPPING:</p>
+                  <p className="pl-3 pr-3">CLIENTS NAME:</p>
+                  <p className="pl-3 pr-3">INSTRUCTIONS FOR DELIVERY:</p>
+                  <p className="pl-3 pr-3">ADDITIONAL CLIENTS PREFERENCE:</p>
+                  <p className="pl-3 pr-3">DEADLINE TO DELIVER:</p>
+                  <div className="ml-4 mr-4">
+                    {uploadSuccess && (
+                      <p className="text-primary text-center mb-2">Success, an image receipt has been uploaded</p>
+                    )}
+                    <button
+                      className="w-full dark:border dark:border-primary/70 dark:bg-primary/30 hover:dark:border-primary/80 hover:dark:bg-primary/40 transition hover:ease-in-out p-4"
+                      onClick={toggleUploadReceiptPopup}
+                    >
+                      {buttonText}
+                    </button>
+                  </div>
                 </Popup>
               )}
             </div>
@@ -313,6 +377,29 @@ export default function Page() {
             </div>
           </div>
         </div>
+      )}
+      {uploadReceiptPopup && (
+        <Popup
+          isOpen={uploadReceiptPopup}
+          onClose={toggleUploadReceiptPopup}
+          className="min-w-96 min-h-64 max-w-full max-h-full"
+          title={<Popup.Title className="pl-3 pr-3 uppercase code">Upload Receipt</Popup.Title>}
+        >
+          <div className="p-4">
+            <input type="file" accept="image/*" onChange={fileChange} />
+            <button
+              className="w-full dark:border dark:border-primary/70 dark:bg-primary/30 hover:dark:border-primary/80 hover:dark:bg-primary/40 transition hover:ease-in-out p-4 mt-2"
+              onClick={toggleUploadReceiptPopup}
+            >
+              Submit Image
+            </button>
+            {isUploading && (
+              <div className="flex justify-center items-center">
+                <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mt-4"></div>
+              </div>
+            )}
+          </div>
+        </Popup>
       )}
     </>
   );
