@@ -6,6 +6,21 @@ import { useEffect, useState } from "react";
 import { Popover, PopoverBackdrop, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { NATIVE_TOKEN } from "../../../../../configuration/company";
+import { TITLE_BREAKER } from "../../../../../configuration/seo";
+
+interface FormData {
+  name: string;
+  address1: string;
+  address2: string;
+  country: string;
+  state: string;
+  province: string;
+  postcode: string;
+  instructions: string;
+  business: string;
+  upcharges: string | number;
+  shippingMethod: string | number;
+}
 
 export default function Checkout() {
   const { listingID } = useParams();
@@ -14,6 +29,20 @@ export default function Checkout() {
   const { data: allListings } = useScaffoldReadContract({
     contractName: "CommerceContract",
     functionName: "getAllProductData",
+  });
+
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    address1: "",
+    address2: "",
+    country: "",
+    state: "",
+    province: "",
+    postcode: "",
+    instructions: "",
+    business: "",
+    upcharges: "",
+    shippingMethod: "",
   });
 
   useEffect(() => {
@@ -28,6 +57,19 @@ export default function Checkout() {
       }
     }
   }, [listingID, allListings]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Form Data:", formData);
+  };
 
   if (!listingID) {
     return <p>Loading...</p>;
@@ -67,34 +109,67 @@ export default function Checkout() {
           className="px-4 pb-10 pt-16 sm:px-6 lg:col-start-2 lg:row-start-1 lg:px-0 lg:pb-16"
         >
           <div className="mx-auto max-w-lg lg:max-w-none">
-            <h2 id="summary-heading" className="text-lg font-medium text-white">
+            <h2 id="summary-heading" className="text-lg font-medium text-gray-300">
               Order summary
             </h2>
 
             <dl className="hidden space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-white lg:block">
               <div className="flex items-center justify-between">
-                <dt className="text-gray-600">Subtotal</dt>
-                <dd>
+                <dt className="text-gray-400">Subtotal</dt>
+                <dd className="ml-auto">
                   {(Number(product.price) / 10 ** 18).toFixed(8)}{" "}
-                  <span className="code text-primary"> {NATIVE_TOKEN} </span>
+                  <span className="code text-primary">{NATIVE_TOKEN}</span>
                 </dd>
               </div>
 
               <div className="flex items-center justify-between">
-                <dt className="text-gray-600">Shipping</dt>
-                <dd>$15.00</dd>
+                <dt className="text-gray-400">Shipping Method</dt>
+                <dd className="ml-auto">
+                  <p className="text-right">Standard</p>
+                  <p className="text-right">
+                    {(Number(product.price) / 10 ** 18).toFixed(8)}{" "}
+                    <span className="code text-primary">{NATIVE_TOKEN}</span>
+                  </p>
+                </dd>
               </div>
 
               <div className="flex items-center justify-between">
-                <dt className="text-gray-600">Taxes</dt>
-                <dd>$26.80</dd>
+                <dt className="text-gray-400">Taxes</dt>
+                <dd className="ml-auto">
+                  {(Number(product.price) / 10 ** 18).toFixed(8)}{" "}
+                  <span className="code text-primary">{NATIVE_TOKEN}</span>
+                </dd>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <dt className="text-gray-400">Upcharges</dt>
+                <dd className="ml-auto block space-y-2 text-right">
+                  <p>
+                    Item 1:{" "}
+                    <span className="code text-primary">
+                      {(Number(product.price) / 10 ** 18).toFixed(2)} {NATIVE_TOKEN}
+                    </span>
+                  </p>
+                  <p>
+                    Item 2:{" "}
+                    <span className="code text-primary">
+                      {(Number(product.price) / 10 ** 18).toFixed(2)} {NATIVE_TOKEN}
+                    </span>
+                  </p>
+                  <p>
+                    Item 3:{" "}
+                    <span className="code text-primary">
+                      {(Number(product.price) / 10 ** 18).toFixed(2)} {NATIVE_TOKEN}
+                    </span>
+                  </p>
+                </dd>
               </div>
 
               <div className="flex items-center justify-between border-t border-gray-200 pt-6">
                 <dt className="text-base">Total</dt>
-                <dd className="text-base">
+                <dd className="text-base ml-auto">
                   {(Number(product.price) / 10 ** 18 + 41.8).toFixed(8)}{" "}
-                  <span className="code text-primary"> {NATIVE_TOKEN} </span>
+                  <span className="code text-primary">{NATIVE_TOKEN}</span>
                 </dd>
               </div>
             </dl>
@@ -146,7 +221,10 @@ export default function Checkout() {
           </div>
         </section>
 
-        <form className="px-4 pb-36 pt-16 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0 lg:pb-16">
+        <form
+          className="px-4 pb-36 pt-16 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0 lg:pb-16"
+          onSubmit={handleSubmit}
+        >
           <div className="mx-auto max-w-lg lg:max-w-none">
             <section aria-labelledby="shipping-heading" className="mt-10">
               <h2 id="shipping-heading" className="text-lg font-medium text-gray-300">
@@ -155,16 +233,18 @@ export default function Checkout() {
 
               <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-3">
                 <div className="sm:col-span-3">
-                  <label htmlFor="company" className="block text-sm font-medium text-white">
+                  <label htmlFor="name" className="block text-sm font-medium text-white">
                     NAME
                   </label>
                   <div className="sm:col-span-4">
                     <div className="mt-2">
                       <input
                         type="text"
-                        name="Name"
-                        id="Name"
-                        autoComplete="Name"
+                        name="name"
+                        id="name"
+                        autoComplete="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
                         placeholder="Name or alias for delivery"
                       />
@@ -173,7 +253,7 @@ export default function Checkout() {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label htmlFor="address" className="block text-sm font-medium text-white">
+                  <label htmlFor="address1" className="block text-sm font-medium text-white">
                     Address 1
                   </label>
                   <div className="sm:col-span-4">
@@ -183,6 +263,8 @@ export default function Checkout() {
                         name="address1"
                         id="address1"
                         autoComplete="address-line1"
+                        value={formData.address1}
+                        onChange={handleChange}
                         className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
                         placeholder="Address 1"
                       />
@@ -201,6 +283,8 @@ export default function Checkout() {
                         name="address2"
                         id="address2"
                         autoComplete="address-line2"
+                        value={formData.address2}
+                        onChange={handleChange}
                         className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
                         placeholder="Apartment, suite, house number"
                       />
@@ -219,6 +303,8 @@ export default function Checkout() {
                         name="country"
                         id="country"
                         autoComplete="country"
+                        value={formData.country}
+                        onChange={handleChange}
                         className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
                         placeholder="Country"
                       />
@@ -237,6 +323,8 @@ export default function Checkout() {
                         name="state"
                         id="state"
                         autoComplete="address-level1"
+                        value={formData.state}
+                        onChange={handleChange}
                         className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
                         placeholder="State or Province"
                       />
@@ -255,6 +343,8 @@ export default function Checkout() {
                         name="postcode"
                         id="postcode"
                         autoComplete="postal-code"
+                        value={formData.postcode}
+                        onChange={handleChange}
                         className="text-left border-b border-gray-900 dark:border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
                         placeholder="Postcode"
                       />
@@ -263,7 +353,7 @@ export default function Checkout() {
                 </div>
 
                 <div className="col-span-full">
-                  <label htmlFor="description" className="block text-sm font-medium leading-6 mt-12">
+                  <label htmlFor="instructions" className="block text-sm font-medium leading-6 mt-12">
                     CUSTOM INSTRUCTIONS
                   </label>
                   <p className="mt-1 text-sm leading-6 text-gray-400">
@@ -273,6 +363,8 @@ export default function Checkout() {
                     id="instructions"
                     name="instructions"
                     rows={3}
+                    value={formData.instructions}
+                    onChange={handleChange}
                     className="text-left border border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
                     placeholder="This tropical plant is known for its unique, hole-punched leaves and low maintenance requirements. Ideal for indoor spaces as it thrives in indirect light and requires watering only once a week."
                   />
@@ -282,7 +374,7 @@ export default function Checkout() {
 
             <div className="mt-10 border-t border-gray-200 pt-6 sm:flex sm:items-center sm:justify-between">
               <button
-                type="button"
+                type="submit"
                 className="w-full rounded-md border border-primary/80 bg-primary/30 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-50 sm:order-last sm:ml-6 sm:w-auto"
               >
                 PAY WITH VARA

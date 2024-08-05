@@ -385,19 +385,25 @@ export default function Page() {
           className="min-w-96 min-h-64 max-w-full max-h-full"
           title={<Popup.Title className="pl-3 pr-3 uppercase code">Upload Receipt</Popup.Title>}
         >
-          <div className="p-4">
-            <input type="file" accept="image/*" onChange={fileChange} />
+          <div className="p-4 w-full justify-center flex flex-col h-full">
+            <div className="w-full justify-center text-center flex-grow">
+              <input
+                type="file"
+                className="file-input file-input-bordered rounded-none w-full max-w-xs"
+                onChange={fileChange}
+              />
+              {isUploading && (
+                <div className="flex justify-center items-center pt-4 pb-4">
+                  <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mt-4"></div>
+                </div>
+              )}
+            </div>
             <button
-              className="w-full dark:border dark:border-primary/70 dark:bg-primary/30 hover:dark:border-primary/80 hover:dark:bg-primary/40 transition hover:ease-in-out p-4 mt-2"
+              className="w-full dark:border mt-32 dark:border-primary/70 dark:bg-primary/30 hover:dark:border-primary/80 hover:dark:bg-primary/40 transition hover:ease-in-out p-4 "
               onClick={toggleUploadReceiptPopup}
             >
               Submit Image
             </button>
-            {isUploading && (
-              <div className="flex justify-center items-center">
-                <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mt-4"></div>
-              </div>
-            )}
           </div>
         </Popup>
       )}
