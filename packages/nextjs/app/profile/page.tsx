@@ -302,11 +302,74 @@ export default function Page() {
                   isOpen={editAboutSection}
                   onClose={toggleEditAboutSection}
                   className="min-w-96 min-h-64 max-w-full max-h-full"
-                  title={<Popup.Title className="pl-3 pr-3 uppercase code">Popup 1 Title</Popup.Title>}
+                  title={
+                    <Popup.Title className="pl-3 pr-3 uppercase code">
+                      Modify the sections you wish to include on your profile
+                    </Popup.Title>
+                  }
                 >
-                  <p className="pl-3 pr-3">This is the content of the first popup.</p>
-                  <p className="pl-3 pr-3">This is the content of the first popup.</p>
-                  <p className="pl-3 pr-3">This is the content of the first popup.</p>
+                  <div className="pl-4 pr-4">
+                    <div className="w-full flex items-center gap-4 pb-1 relative">
+                      <div className="relative">
+                        <div className="relative w-8 h-8 bg-primary/50 rounded-full flex items-center justify-center border border-primary">
+                          <FaceSmileIcon className="w-4 h-4 text-white" />
+                        </div>
+                      </div>
+                      <p>
+                        Hi, my name&apos;s <span className="code text-primary">MODIFY</span>!
+                      </p>
+                    </div>
+                    <div className="w-full flex items-center gap-4 pb-1 relative">
+                      <div className="relative">
+                        <div className="relative w-8 h-8 bg-green-500/50 rounded-full flex items-center justify-center border border-green-500">
+                          <GlobeAsiaAustraliaIcon className="w-4 h-4 text-white" />
+                        </div>
+                      </div>
+                      <p>
+                        I was raised in <span className="code text-primary">MODIFY </span>{" "}
+                      </p>
+                    </div>
+                    <div className="w-full flex items-center gap-4 pb-1 relative">
+                      <div className="relative">
+                        <div className="relative w-8 h-8 bg-green-500/50 rounded-full flex items-center justify-center border border-green-500">
+                          <MapPinIcon className="w-4 h-4 text-white" />
+                        </div>
+                      </div>
+                      <p>
+                        I currently live in <span className="code text-primary">MODIFY </span>
+                      </p>
+                    </div>
+                    <div className="w-full flex items-center gap-4 pb-1 relative">
+                      <div className="relative">
+                        <div className="relative w-8 h-8 bg-white rounded-full flex items-center justify-center border border-black">
+                          <LanguageIcon className="w-4 h-4 text-black" />
+                        </div>
+                      </div>
+                      <p>
+                        I speak <span className="code text-primary">MODIFY </span>
+                      </p>
+                    </div>
+                    <div className="w-full flex items-center gap-4 pb-1 relative">
+                      <div className="relative">
+                        <div className="relative w-8 h-8 bg-white rounded-full flex items-center justify-center border border-black">
+                          <ComputerDesktopIcon className="w-4 h-4 text-black" />
+                        </div>
+                      </div>
+                      <p>
+                        My occupation <span className="code text-primary">MODIFY </span>{" "}
+                      </p>
+                    </div>
+                    <div className="w-full flex items-center gap-4 pb-1 relative">
+                      <div className="relative">
+                        <div className="relative w-8 h-8 bg-pink-500/50 rounded-full flex items-center justify-center border border-pink-500">
+                          <AcademicCapIcon className="w-4 h-4 text-white" />
+                        </div>
+                      </div>
+                      <p>
+                        I recently completed education at <span className="code text-primary">MODIFY </span>{" "}
+                      </p>
+                    </div>
+                  </div>
                 </Popup>
               </div>
             </div>

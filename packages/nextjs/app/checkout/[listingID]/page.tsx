@@ -2,6 +2,8 @@
 
 import { useParams } from "next/navigation";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+
 import { useEffect, useState } from "react";
 import { Popover, PopoverBackdrop, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
@@ -35,6 +37,11 @@ export default function Checkout() {
     contractName: "CommerceContract",
     functionName: "getAllProductData",
   });
+
+  // 1. Retrieve contract
+  // 2. Call contract
+  // 3. Set contract information and redirect on handleSubmit
+  // 4. Set custom instructions
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -91,6 +98,14 @@ export default function Checkout() {
   const togglePopup = () => {
     setOpenPopup(!openPopup);
   };
+
+  // await writeYourContractAsync({
+  //   functionName: "createProduct",
+  //   args: args,
+  //   overrides: {
+  //     gasLimit: 300000, // Adjust gas limit as needed
+  //   },
+  // });
 
   return (
     <div className="px-6 lg:px-8">
@@ -493,7 +508,7 @@ export default function Checkout() {
                     value={formData.instructions}
                     onChange={handleChange}
                     className="text-left border border-gray-200/20 w-full bg-gray-500/20 py-2 px-3 text-sm leading-6 text-gray-800 dark:text-gray-300 focus:bg-gray-700/20 focus:border-primary/40 hover:border-primary/60 focus:outline-none"
-                    placeholder="This tropical plant is known for its unique, hole-punched leaves and low maintenance requirements. Ideal for indoor spaces as it thrives in indirect light and requires watering only once a week."
+                    placeholder="Please deliver directly to my door, it is room number 3102. You can locate it by going to the entrance and buzzing the door. Someone should be home."
                   />
                 </div>
               </div>
