@@ -15,6 +15,7 @@ import { useAccount } from "wagmi";
 import Popup from "~~/components/Popup";
 import { findAccountInformation } from "~~/mongodb/_actions/findAccountAction"; // Adjust the import path according to your project structure
 import { NATIVE_TOKEN } from "../../../../configuration/company";
+import EditAboutSection from "~~/components/EditAboutSection";
 
 export default function Page() {
   const [editAboutSection, setEditAboutSection] = useState(false);
@@ -308,68 +309,7 @@ export default function Page() {
                     </Popup.Title>
                   }
                 >
-                  <div className="pl-4 pr-4">
-                    <div className="w-full flex items-center gap-4 pb-1 relative">
-                      <div className="relative">
-                        <div className="relative w-8 h-8 bg-primary/50 rounded-full flex items-center justify-center border border-primary">
-                          <FaceSmileIcon className="w-4 h-4 text-white" />
-                        </div>
-                      </div>
-                      <p>
-                        Hi, my name&apos;s <span className="code text-primary">MODIFY</span>!
-                      </p>
-                    </div>
-                    <div className="w-full flex items-center gap-4 pb-1 relative">
-                      <div className="relative">
-                        <div className="relative w-8 h-8 bg-green-500/50 rounded-full flex items-center justify-center border border-green-500">
-                          <GlobeAsiaAustraliaIcon className="w-4 h-4 text-white" />
-                        </div>
-                      </div>
-                      <p>
-                        I was raised in <span className="code text-primary">MODIFY </span>{" "}
-                      </p>
-                    </div>
-                    <div className="w-full flex items-center gap-4 pb-1 relative">
-                      <div className="relative">
-                        <div className="relative w-8 h-8 bg-green-500/50 rounded-full flex items-center justify-center border border-green-500">
-                          <MapPinIcon className="w-4 h-4 text-white" />
-                        </div>
-                      </div>
-                      <p>
-                        I currently live in <span className="code text-primary">MODIFY </span>
-                      </p>
-                    </div>
-                    <div className="w-full flex items-center gap-4 pb-1 relative">
-                      <div className="relative">
-                        <div className="relative w-8 h-8 bg-white rounded-full flex items-center justify-center border border-black">
-                          <LanguageIcon className="w-4 h-4 text-black" />
-                        </div>
-                      </div>
-                      <p>
-                        I speak <span className="code text-primary">MODIFY </span>
-                      </p>
-                    </div>
-                    <div className="w-full flex items-center gap-4 pb-1 relative">
-                      <div className="relative">
-                        <div className="relative w-8 h-8 bg-white rounded-full flex items-center justify-center border border-black">
-                          <ComputerDesktopIcon className="w-4 h-4 text-black" />
-                        </div>
-                      </div>
-                      <p>
-                        My occupation <span className="code text-primary">MODIFY </span>{" "}
-                      </p>
-                    </div>
-                    <div className="w-full flex items-center gap-4 pb-1 relative">
-                      <div className="relative">
-                        <div className="relative w-8 h-8 bg-pink-500/50 rounded-full flex items-center justify-center border border-pink-500">
-                          <AcademicCapIcon className="w-4 h-4 text-white" />
-                        </div>
-                      </div>
-                      <p>
-                        I recently completed education at <span className="code text-primary">MODIFY </span>{" "}
-                      </p>
-                    </div>
-                  </div>
+                  <EditAboutSection onClose={toggleEditAboutSection} />{" "}
                 </Popup>
               </div>
             </div>
