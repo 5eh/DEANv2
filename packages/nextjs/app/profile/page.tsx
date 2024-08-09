@@ -16,9 +16,11 @@ import Popup from "~~/components/Popup";
 import { findAccountInformation } from "~~/mongodb/_actions/findAccountAction"; // Adjust the import path according to your project structure
 import { NATIVE_TOKEN } from "../../../../configuration/company";
 import EditAboutSection from "~~/components/EditAboutSection";
+import ViewBadgeChallenges from "~~/components/viewBadgeChallenges";
 
 export default function Page() {
   const [editAboutSection, setEditAboutSection] = useState(false);
+  const [viewBadgeChallenges, setViewBadgeChallenges] = useState(false);
   const [openAttentionItem, setToggleOpenAttentionItem] = useState(false);
   const [uploadReceiptPopup, setUploadReceiptPopup] = useState(false);
   const [receiptImage, setReceiptImage] = useState(null);
@@ -42,7 +44,7 @@ export default function Page() {
   const checkWalletConnection = async address => {
     const wallet = address;
 
-    setIsLoading(true);
+    setIsLoading(false);
     const result = await findAccountInformation(wallet);
 
     if (result.success) {
@@ -56,6 +58,10 @@ export default function Page() {
 
   const toggleEditAboutSection = () => {
     setEditAboutSection(!editAboutSection);
+  };
+
+  const toggleViewBadgeChallenges = () => {
+    setViewBadgeChallenges(!viewBadgeChallenges);
   };
 
   const toggleOpenAttentionItem = () => {
@@ -108,7 +114,6 @@ export default function Page() {
               WELCOME <span className="text-white">{connectedAddress}</span>
             </p>
           </div>
-
           <div className="w-full border border-red-500 bg-red-400/20 justify-center text-center mt-4 mb-4">
             <p className="font-bold code">
               THERE ARE SOME ADJUSTMENTS THAT NEED TO BE MADE ON YOUR PROFILE. CLICK TO GET STARTED
@@ -132,23 +137,96 @@ export default function Page() {
               />
             </div>
           </div>
-
-          <div className="lg:grid lg:grid-cols-4 pt-12 md:pt-8 lg:pt-4 gap-4">
-            <div className="md:col-start-2 md:col-span-1 flex gap-4 justify-start">
-              <Link href={`reviews/`}>
-                <div className="border border-yellow-500 bg-yellow-500/20 pl-4 pr-4 pt-3 pb-3">12 REVIEWS</div>
-              </Link>
-              <Link href={`reviews/`}>
-                <div className="border border-yellow-500 bg-yellow-500/20 pl-4 pr-4 pt-3 pb-3">4.5 STARS</div>
-              </Link>
+          <div className="w-full h-full mt-32 pt-4 pb-4 flex justify-evenly gap-8">
+            <div className=" w-full text-left border border-gray-400 rounded-md h-fit">
+              <div className="gap-2 mt-4 ml-2">
+                <span className="pl-3 font-semibold">Watson Lewis-Rodriguez</span>
+                <Link href={`u/${connectedAddress}`}>
+                  <span className="pl-3 pr-3 code text-primary">@Watsonlr</span>
+                </Link>
+                <Link href={`u/${connectedAddress}`}>
+                  <span className="pl-3 pr-3 code text-gray-400">Scan Account</span>
+                </Link>
+                <span className="pl-3 pr-3 text-gray-400 block">Austin Texas</span>
+              </div>
+              <p className="p-4 h-full bg-gray-400/10">
+                geiaoG iaorniaorg iraogirangioarng igra giarognariogirao giar giargira raig ar io foepamgionairgnari
+                gira gira giarng ioramgarimgairg naorignaior{" "}
+              </p>
+              <p className="pl-3 pr-3">Created date</p>
             </div>
-            <div className="md:col-span-2 flex gap-3">
-              <div className="border border-primary bg-primary/20 pl-4 pr-4 pt-3 pb-3">VERIFIED</div>
-              <div className="border border-red-500 bg-red-500/20 pl-4 pr-4 pt-3 pb-3">EMAIL CONFIRMED</div>
-              <div className="border border-green-500 bg-green/20 pl-4 pr-4 pt-3 pb-3">HIGHLY TRUSTED</div>
+            <div className=" w-full text-center border border-gray-400 rounded-md h-fit">
+              <div className="p-2 border border-transparent border-b-gray-400 mb-3">
+                <span className="code">BADGE COLLECTION</span>
+              </div>
+
+              <div className="grid grid-cols-3 justify-center gap-3 mb-3 pl-3 pr-3 h-fit">
+                <span className="border border-primary/80 bg-primary/20 hover:bg-primary/30 hover:border-primary transition hover:ease-in-out pl-4 pr-4 pt-3 pb-3 h-fit">
+                  VERIFIED
+                </span>
+                <span className="border border-red-500/80 bg-red-500/20 hover:bg-red-500/30 hover:border-red-500 transition hover:ease-in-out pl-4 pr-4 pt-3 pb-3 h-fit">
+                  EMAIL CONFIRMED
+                </span>
+                <span className="border border-blue-500/80 bg-blue-500/20 hover:bg-blue-500/30 hover:border-blue-500 transition hover:ease-in-out pl-4 pr-4 pt-3 pb-3 h-fit">
+                  HIGHLY TRUSTED
+                </span>
+                <span className="border border-pink-500/80 bg-pink-500/20 hover:bg-pink-500/30 hover:border-pink-500 transition hover:ease-in-out pl-4 pr-4 pt-3 pb-3 h-fit">
+                  REPUTABLE SELLER
+                </span>
+                <span className="border border-orange-500/80 bg-orange-500/20 hover:bg-orange-500/30 hover:border-orange-500 transition hover:ease-in-out pl-4 pr-4 pt-3 pb-3 h-fit">
+                  BLOCKCHAIN PROFESSIONAL
+                </span>
+                <span className="border border-cyan-500/80 bg-cyan-500/20 hover:bg-cyan-500/30 hover:border-cyan-500 transition hover:ease-in-out pl-4 pr-4 pt-3 pb-3 h-fit">
+                  {NATIVE_TOKEN} HOLDER
+                </span>
+              </div>
+              <div className="text-left">
+                <button className="pl-3 pr-3 italic code text-primary" onClick={toggleViewBadgeChallenges}>
+                  <span>View Challenges</span>
+                </button>
+              </div>
+              <Popup
+                isOpen={viewBadgeChallenges}
+                onClose={toggleViewBadgeChallenges}
+                className="min-w-96 min-h-64 max-w-full max-h-full"
+                title={
+                  <Popup.Title className="pl-3 pr-3 uppercase code">
+                    View Challenges - Complete these challenges and increase your business reputation
+                  </Popup.Title>
+                }
+              >
+                <ViewBadgeChallenges onClose={toggleViewBadgeChallenges} />{" "}
+              </Popup>
+            </div>
+            <div className=" w-full text-center border border-gray-400 rounded-md h-fit">
+              <div className="p-2 border border-transparent border-b-gray-400 mb-3">
+                <span className="code">REVIEWS OF YOU</span>
+              </div>
+
+              <div className=" justify-center gap-3 mb-3 pl-3 pr-3 h-fit">
+                <div className=" w-full text-left  rounded-md h-fit">
+                  <div className="gap-2 mt-4 ml-2">
+                    <span className="pl-3 font-semibold">Thomas Ocovos</span>
+                    <Link href={`view/${connectedAddress}`}>
+                      <span className="pl-3 pr-3">
+                        (<span className="code text-primary"> @ocovos </span>)
+                      </span>
+                    </Link>
+                    <Link href={`u/${connectedAddress}`}>
+                      <span className="pl-3 pr-3 code text-yellow-400">4 / 5 </span>
+                    </Link>
+                    <span className="pl-3 pr-3 text-gray-400 block">Austin Texas</span>
+                  </div>
+                  <p className="p-4 h-full bg-gray-400/10">
+                    Interesting review of Watson Lewis-Rodriguez and the fascinating things they&apos;ve done{" "}
+                  </p>
+                  <Link href={`u/${connectedAddress}/reviews`}>
+                    <p className="pl-3 pr-3 italic code text-primary">4 Total reviews</p>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-
           {/* NEEDS ATTENTION SECTION */}
           <div className="mt-16 pl-4 pr-4">
             <div className="border bg-white w-full text-center pt-3 pb-3 rounded-md ">
@@ -238,7 +316,6 @@ export default function Page() {
               )}
             </div>
           </div>
-
           {/* ABOUT YOU SECTION */}
           <div className="lg:grid lg:grid-cols-2 pt-24 md:pt-20 lg:pt-10  gap-4">
             <div className="h-fit border border-gray-500 dark:bg-gray-400/10 lg:rounded-md lg:cols-span-1 ml-2">
@@ -413,3 +490,19 @@ export default function Page() {
     </>
   );
 }
+
+//      <div className="lg:grid lg:grid-cols-4 pt-12 md:pt-8 lg:pt-4 gap-4">
+//   <div className="md:col-start-2 md:col-span-1 flex gap-4 justify-start">
+//     <Link href={`reviews/`}>
+//       <div className="border border-yellow-500 bg-yellow-500/20 pl-4 pr-4 pt-3 pb-3">12 REVIEWS</div>
+//     </Link>
+//     <Link href={`reviews/`}>
+//       <div className="border border-yellow-500 bg-yellow-500/20 pl-4 pr-4 pt-3 pb-3">4.5 STARS</div>
+//     </Link>
+//   </div>
+//   <div className="md:col-span-2 flex gap-3">
+//     <div className="border border-primary bg-primary/20 pl-4 pr-4 pt-3 pb-3">VERIFIED</div>
+//     <div className="border border-red-500 bg-red-500/20 pl-4 pr-4 pt-3 pb-3">EMAIL CONFIRMED</div>
+//     <div className="border border-green-500 bg-green/20 pl-4 pr-4 pt-3 pb-3">HIGHLY TRUSTED</div>
+//   </div>
+// </div>
